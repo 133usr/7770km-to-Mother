@@ -2,7 +2,7 @@
   "name": "fly_to_mother",
   "version": "1.0.0",
   "repository": {
-    "url": "git+https://github.com/133usr/ThreeJs_Fly_to_Mother.git"
+    "url": "git+https://github.com/133usr/Our-hearts-fly-to-New-jerusalem.git"
   },
   "scripts": {
     "build": "webpack --config ./bundler/webpack.prod.js",
@@ -15,12 +15,14 @@
     "@babel/preset-env": "^7.21.4",
     "@tweenjs/tween.js": "^20.0.3",
     "babel-loader": "^8.3.0",
+    "cesium": "^1.112.0",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^7.0.0",
     "css-loader": "^5.2.7",
     "dat.gui": "^0.7.9",
     "file-loader": "^6.2.0",
     "gsap": "^3.11.5",
+    "hammerjs": "^2.0.8",
     "html-loader": "^1.3.2",
     "html-webpack-plugin": "^5.5.1",
     "lil-gui": "^0.18.1",
@@ -28,6 +30,7 @@
     "portfinder-sync": "0.0.2",
     "raw-loader": "^4.0.2",
     "request": "^2.88.2",
+    "stream-http": "^3.2.0",
     "style-loader": "^2.0.0",
     "three": "^0.152.2",
     "three-text2d": "^0.6.0",
@@ -39,6 +42,7 @@
     "webpack-merge": "^5.8.0"
   },
   "devDependencies": {
-    "gh-pages": "^3.2.3"
+    "gh-pages": "^3.2.3",
+    "json-loader": "^0.5.7"
   }
 }
