@@ -200,7 +200,7 @@ import Hammer from 'hammerjs';
         
               const loadModels = async (tempsheetObject) => {
                   
-                  const objectFilename = './assets/glb/low-size/cartoon_Plane_pink.glb';
+                  const objectFilename = './models/glb/low-size/cartoon_Plane_pink.glb';
                   let modelId_asset;
                   var age_group = tempsheetObject.group;
                   switch (true) {
