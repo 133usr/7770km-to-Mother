@@ -246,7 +246,7 @@ import Hammer from 'hammerjs';
                       let airplaneEntity = viewer.entities.add({
                       
                         model: {
-                          uri: objectFilename,
+                          uri: resource,
                           scale: 50,
                           minimumPixelSize: 32,
                         },
