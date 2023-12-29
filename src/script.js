@@ -194,16 +194,19 @@ import Hammer from 'hammerjs';
         hideCesiuminfo();
 
 
+let path = loadSkyBox_bytime();
+
+const skyboxPaths = {
+  positiveX: './models/skybox/'+path+'/pos_x.png',
+  negativeX: './models/skybox/'+path+'/neg_x.png',
+  positiveY: './models/skybox/'+path+'/pos_y.png',
+  negativeY: './models/skybox/'+path+'/neg_y.png',
+  positiveZ: './models/skybox/'+path+'/pos_z.png',
+  negativeZ: './models/skybox/'+path+'/neg_z.png'
+};
 
         viewer.scene.skyBox = new Cesium.SkyBox({
-          sources: {
-              positiveX: './models/skybox/pos_x.png',
-              negativeX: './models/skybox/neg_x.png',
-              positiveY: './models/skybox/pos_y.png',
-              negativeY: './models/skybox/neg_y.png',
-              positiveZ: './models/skybox/pos_z.png',
-              negativeZ: './models/skybox/neg_z.png'
-          }
+          sources: skyboxPaths
       });
 
       let rotationAngle = 0; // Initial rotation angle
@@ -231,52 +234,16 @@ import Hammer from 'hammerjs';
       rotateGlobe();
       
 
-        
 
         const loadedModels = {};
         
               const loadModels = async (tempsheetObject) => {
                   
                   const objectFilename = './models/glb/low-size/cartoon_Plane_pink.glb';
-                  let modelId_asset;
                   var age_group = tempsheetObject.group;
-                  switch (true) {
-                    case age_group.includes('Isaac'):
-                          modelId_asset = '2408884';  
-                      break;
-                    
-                    case age_group.includes('Immanuel'):
-                          modelId_asset = '2408884';  
-                    break;
+                  let modelId_asset = choose_model_assetID(age_group);
 
-                    case age_group.includes('Ruth'):
-                          modelId_asset = '2408886';  
-                      break;
-                    
-                    case age_group.includes('Sarah'):
-                         modelId_asset = '2408886';  
-                    break;
-                    
-                    case age_group.includes('Esther'):
-                         modelId_asset = '2408886';  
-                      break;
-                    
-                    case age_group.includes('Y & St. Brother'):
-                         modelId_asset = '2408887';  
-                    break;
-
-                    case age_group.includes('Y & St. Sister'):
-                         modelId_asset = '2408885';  
-                      break;
-                    
-                    case age_group.includes('Pandesra'):
-                         modelId_asset = '2408887';  
-                    break;
-                  
-                    default:
-                      modelId_asset = '2408887';  
-                      break;
-                  }
+                  const label_style = color_style_box(tempsheetObject);
                   const resource = await Cesium.IonResource.fromAssetId(modelId_asset);
                     const loadModel = async () => {
                       // positionProperty =  ;
@@ -287,20 +254,7 @@ import Hammer from 'hammerjs';
                           scale: 50,
                           minimumPixelSize: 32,
                         },
-                        label: {
-                          text: tempsheetObject.Participant, // Replace with the text you want to display
-                          font: '12px sans-serif', // Specify the font and size
-                          fillColor: Cesium.Color.WHITE, // Set the text color
-                          outlineColor: Cesium.Color.BLACK, // Set the outline color
-                          outlineWidth: 2, // Set the outline width
-                          style: Cesium.LabelStyle.FILL_AND_OUTLINE, // Specify the label style
-                          pixelOffset: new Cesium.Cartesian2(0, -50), // Offset the label from the model
-                          showBackground: true,
-                          distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0,50000.0), //set the distance from the names can be seen
-                      }
-                                      
-                        // orientation: new Cesium.VelocityOrientationProperty(positionProperty),
-                        
+                        label: label_style
                       });
                   
                       var id = tempsheetObject.Id;
@@ -759,6 +713,206 @@ function scoreBox_CSS (tempsheetObject){ // NOT USING X AND Y
      
 }
 
+
+
+
+
+
+function color_style_box(tempsheetObject){
+  var age_group = tempsheetObject.group;
+  let color_scheme ={};
+  switch (true) {
+    case age_group.includes('Isaac'):
+          color_scheme = {
+            text: tempsheetObject.Participant + '\n' + tempsheetObject.Total + 'Km',
+            font: 'italic bold 16px Georgia',
+            fillColor: Cesium.Color.fromCssColorString('#FFD700'), // Olive font color
+            outlineColor: Cesium.Color.fromCssColorString('#000000'),
+            outlineWidth: 3,
+            style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+            pixelOffset: new Cesium.Cartesian2(0, -50),
+            showBackground: true,
+            backgroundColor: Cesium.Color.fromBytes(240, 128, 128).withAlpha(0.7), // Light coral background color with transparency
+            backgroundPadding: new Cesium.Cartesian2(10, 8),
+            distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 50000.0),
+          };                  
+      break;
+    
+    case age_group.includes('Immanuel'):
+          color_scheme = {
+            text: tempsheetObject.Participant+'\n'+tempsheetObject.Total+'Km',
+            font: 'italic bold 16px Georgia',
+            fillColor: Cesium.Color.fromCssColorString('#8B0000'), // Dark red font color
+            outlineColor: Cesium.Color.fromCssColorString('#000000'),
+            outlineWidth: 3,
+            style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+            pixelOffset: new Cesium.Cartesian2(0, -50),
+            showBackground: true,
+            backgroundColor: Cesium.Color.fromBytes(240, 128, 128).withAlpha(0.7), // Light coral background color with transparency
+            backgroundPadding: new Cesium.Cartesian2(10, 8),
+            distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 50000.0),
+          };  
+    break;
+
+    case age_group.includes('Ruth'):
+          color_scheme = {
+            text: tempsheetObject.Participant + '\n' + tempsheetObject.Total + 'Km',
+            font: 'italic bold 16px Georgia',
+            fillColor: Cesium.Color.fromCssColorString('#800000'), // Maroon font color
+            outlineColor: Cesium.Color.fromCssColorString('#000000'),
+            outlineWidth: 3,
+            style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+            pixelOffset: new Cesium.Cartesian2(0, -50),
+            showBackground: true,
+            backgroundColor: Cesium.Color.fromBytes(173, 255, 47).withAlpha(0.7), // Light green yellow background color with transparency
+            backgroundPadding: new Cesium.Cartesian2(10, 8),
+            distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 50000.0),
+          };                    
+      break;
+    
+    case age_group.includes('Sarah'):
+         color_scheme = {
+          text: tempsheetObject.Participant+'\n'+tempsheetObject.Total+'Km',
+          font: 'italic bold 16px Georgia',
+          fillColor: Cesium.Color.fromCssColorString('#800080'), // Purple font color
+          outlineColor: Cesium.Color.fromCssColorString('#000000'),
+          outlineWidth: 3,
+          style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+          pixelOffset: new Cesium.Cartesian2(0, -50),
+          showBackground: true,
+          backgroundColor: Cesium.Color.fromBytes(119, 136, 153).withAlpha(0.7), // Light slate gray background color with transparency
+          backgroundPadding: new Cesium.Cartesian2(10, 8),
+          distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 50000.0),
+        };  
+    break;
+    
+    case age_group.includes('Esther'):
+         color_scheme = {
+          text: tempsheetObject.Participant + '\n' + tempsheetObject.Total + 'Km',
+          font: 'italic bold 16px Georgia',
+          fillColor: Cesium.Color.fromCssColorString('#9400D3'), // Dark violet font color
+          outlineColor: Cesium.Color.fromCssColorString('#000000'),
+          outlineWidth: 3,
+          style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+          pixelOffset: new Cesium.Cartesian2(0, -50),
+          showBackground: true,
+          backgroundColor: Cesium.Color.fromBytes(173, 216, 230).withAlpha(0.7), // Light blue background color with transparency
+          backgroundPadding: new Cesium.Cartesian2(10, 8),
+          distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 50000.0),
+        };                  
+      break;
+    
+    case age_group.includes('Y & St. Brother'):
+         color_scheme = {
+          text: tempsheetObject.Participant+'\n'+tempsheetObject.Total+'Km',
+          font: 'italic bold 16px Georgia',
+          fillColor: Cesium.Color.fromCssColorString('#FFD700'), // Gold font color
+          outlineColor: Cesium.Color.fromCssColorString('#000000'),
+          outlineWidth: 3,
+          style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+          pixelOffset: new Cesium.Cartesian2(0, -50),
+          showBackground: true,
+          backgroundColor: Cesium.Color.fromBytes(216, 191, 216).withAlpha(0.7), // Light purple background color with transparency
+          backgroundPadding: new Cesium.Cartesian2(10, 8),
+          distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 50000.0),
+        };                  
+    break;
+
+    case age_group.includes('Y & St. Sister'):
+         color_scheme = {
+          text: tempsheetObject.Participant + '\n' + tempsheetObject.Total + 'Km',
+          font: 'italic bold 16px Georgia',
+          fillColor: Cesium.Color.fromCssColorString('#008080'), // Teal font color
+          outlineColor: Cesium.Color.fromCssColorString('#000000'),
+          outlineWidth: 3,
+          style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+          pixelOffset: new Cesium.Cartesian2(0, -50),
+          showBackground: true,
+          backgroundColor: Cesium.Color.fromBytes(255, 182, 193).withAlpha(0.7), // Light pink background color with transparency
+          backgroundPadding: new Cesium.Cartesian2(10, 8),
+          distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 50000.0),
+        };  
+      break;
+    
+    case age_group.includes('Pandesra'):
+         color_scheme = {
+          text: tempsheetObject.Participant + '\n' + tempsheetObject.Total + 'Km',
+          font: 'italic bold 16px Georgia',
+          fillColor: Cesium.Color.fromCssColorString('#000080'), // Navy font color
+          outlineColor: Cesium.Color.fromCssColorString('#000000'),
+          outlineWidth: 3,
+          style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+          pixelOffset: new Cesium.Cartesian2(0, -50),
+          showBackground: true,
+          backgroundColor: Cesium.Color.fromBytes(255, 255, 224).withAlpha(0.7), // Light yellow background color with transparency
+          backgroundPadding: new Cesium.Cartesian2(10, 8),
+          distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 50000.0),
+        };  
+    break;
+  
+    default:
+      color_scheme = {
+        text: tempsheetObject.Participant + '\n' + tempsheetObject.Total + 'Km',
+        font: 'italic bold 16px Georgia',
+        fillColor: Cesium.Color.fromCssColorString('#000080'), // Navy font color
+        outlineColor: Cesium.Color.fromCssColorString('#000000'),
+        outlineWidth: 3,
+        style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+        pixelOffset: new Cesium.Cartesian2(0, -50),
+        showBackground: true,
+        backgroundColor: Cesium.Color.fromBytes(255, 255, 224).withAlpha(0.7), // Light yellow background color with transparency
+        backgroundPadding: new Cesium.Cartesian2(10, 8),
+        distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 50000.0),
+      }; 
+      break;
+  }
+  return color_scheme;
+}
+function choose_model_assetID (ageGrp)
+{
+          switch (true) {
+            case ageGrp.includes('Isaac'):
+                  return '2408884';  
+             
+            case ageGrp.includes('Immanuel'):
+                 return '2408884';  
+            
+            case ageGrp.includes('Ruth'):
+                 return '2408886';  
+              
+            case ageGrp.includes('Sarah'):
+                return '2408886';  
+            
+            case ageGrp.includes('Esther'):
+                return '2408886';  
+              
+            case ageGrp.includes('Y & St. Brother'):
+                return '2408887';  
+
+            case ageGrp.includes('Y & St. Sister'):
+                return '2408885';  
+
+            case ageGrp.includes('Pandesra'):
+                return '2408887';  
+
+            default:
+             return '2408887';  
+              
+          }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Create an instance of Hammer and pass the Cesium viewer's container element
 const hammerHandler = new Hammer(viewer.canvas);
 
@@ -786,9 +940,58 @@ hammerHandler.on('doubletap', handleDoubleTap);
 
 
 
+  
+/**SET THE BACK GROUND   THAT IS THE SKYBOX */
+// change backgroundColor by time
+function loadSkyBox_bytime(){
+        const now = new Date();
+        const currentHour = now.getHours();
+        // Get the current day of the month (1-31)
+        const currentDay = now.getDate();
 
-
-
+        if(currentDay>=1 && currentDay <= 5){
+          if(currentHour<=18 && currentHour >= 6)
+          {
+            return 'day1'
+          }
+          else return 'night1'
+        }
+        else if(currentDay>=6 && currentDay <= 10){
+          if(currentHour<=18 && currentHour >= 6)
+          {
+            return 'day4'
+          }
+          else return 'night2'
+        }
+        else if(currentDay>=11 && currentDay <= 15){
+          if(currentHour<=18 && currentHour >= 6)
+          {
+            return 'day3'
+          }
+          else return 'night3'
+        }
+        else if(currentDay>=16 && currentDay <= 20){
+          if(currentHour<=18 && currentHour >= 6)
+          {
+            return 'day4'
+          }
+          else return 'night4'
+        }
+        else if(currentDay>=21 && currentDay <= 25){
+          if(currentHour<=18 && currentHour >= 6)
+          {
+            return 'day1'
+          }
+          else return 'night3'
+        }
+        else if(currentDay>=26 && currentDay <= 31){
+          if(currentHour<=18 && currentHour >= 6)
+          {
+            return 'day4'
+          }
+          else return 'night1'
+        }
+}
 
 
 
