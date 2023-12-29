@@ -1,136 +1,141 @@
+/* Base styles for various elements */
 body {
   font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  background-color: #cecece;
-  font-weight: 300; }
+  background-color: #f2f2f2;
+  font-weight: 300;
+}
 
 p {
-  color: rgba(255, 255, 255, 0.5);
-  font-weight: 300; }
+  color: rgba(0, 0, 0, 0.5);
+  font-weight: 300;
+}
 
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
-  font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; }
+  font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
 
 a {
   -webkit-transition: .3s all ease;
   -o-transition: .3s all ease;
-  transition: .3s all ease; }
-  a, a:hover {
-    text-decoration: none !important; }
+  transition: .3s all ease;
+}
+
+a, a:hover {
+  text-decoration: none !important;
+}
 
 .content {
-  padding: 3rem 0; }
+  padding: 3rem 0;
+}
 
 h2 {
   font-size: 20px;
-  color: #000000;
+  color: #000;
   animation: glowing-animation 2.5s ease-in-out infinite;
- }
+}
 
 .custom-table {
-  min-width: 400px; 
+  min-width: 400px;
   max-height: 600px;
   overflow: scroll;
+}
+
+.custom-table thead tr,
+.custom-table thead th {
+  padding-bottom: 30px;
+  border-top: none;
+  border-bottom: none !important;
+  color: #0e1018;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: .1rem;
+}
+
+.custom-table tbody th,
+.custom-table tbody td {
+  color: #000;
+  font-weight: 400;
+  padding-bottom: 20px;
+  padding-top: 20px;
+  font-weight: 300;
+  border: none;
+  -webkit-transition: .3s all ease;
+  -o-transition: .3s all ease;
+  transition: .3s all ease;
+}
+
+.custom-table tbody th small,
+.custom-table tbody td small {
+  color: rgba(0, 0, 0, 0.3);
+  font-weight: 300;
+}
+
+.custom-table tbody th a,
+.custom-table tbody td a {
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.custom-table tbody th .more,
+.custom-table tbody td .more {
+  color: rgba(0, 0, 0, 0.3);
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: .2rem;
+}
+
+.custom-table tbody tr {
+  -webkit-transition: .3s all ease;
+  -o-transition: .3s all ease;
+  transition: .3s all ease;
+}
+
+.custom-table tbody tr:hover td,
+.custom-table tbody tr:focus td {
+  animation: glowing-animation 2.5s ease-in-out infinite;
+  color: #ff4500; /* Changed glowing color to orange-red */
+}
+
+.custom-table tbody tr:hover td a,
+.custom-table tbody tr:focus td a {
+  animation: glowing-animation 1.5s ease-in-out infinite;
+  color: #ff4500; /* Changed glowing color to orange-red */
+}
+
+.custom-table tbody tr:hover td .more,
+.custom-table tbody tr:focus td .more {
+  animation: glowing-animation 1.5s ease-in-out infinite;
+  color: #ff4500; /* Changed glowing color to orange-red */
+}
+
+.sticky-col {
+  background-color: rgba(211, 211, 211, 0.5);
+  font-weight: bold;
+  position: sticky;
+  width: 100px;
+  left: 0;
+  z-index: 10;
+}
+
+@keyframes glowing-animation {
+  0% {
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #ffb300, 0 0 20px #ffb300, 0 0 25px #ffb300, 0 0 30px #ffb300, 0 0 35px #ffb300;
   }
-  .custom-table thead tr, .custom-table thead th {
-    padding-bottom: 30px;
-    border-top: none;
-    border-bottom: none !important;
-    color: #1d3fff;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: .1rem; }
-    
-  .custom-table tbody th, .custom-table tbody td {
-    color: #000000;
-    font-weight: 400;
-    padding-bottom: 20px;
-    padding-top: 20px;
-    font-weight: 300;
-    border: none;
-    -webkit-transition: .3s all ease;
-    -o-transition: .3s all ease;
-    transition: .3s all ease; }
-
-    .custom-table tbody th small, .custom-table tbody td small {
-      color: rgba(255, 255, 255, 0.3);
-      font-weight: 300; }
-
-    .custom-table tbody th a, .custom-table tbody td a {
-      color: rgba(255, 255, 255, 0.3); }
-
-    .custom-table tbody th .more, .custom-table tbody td .more {
-      color: rgba(255, 255, 255, 0.3);
-      font-size: 11px;
-      font-weight: 900;
-      text-transform: uppercase;
-      letter-spacing: .2rem; }
-
-  .custom-table tbody tr {
-    -webkit-transition: .3s all ease;
-    -o-transition: .3s all ease;
-    transition: .3s all ease; }
-
-    .custom-table tbody tr:hover td, .custom-table tbody tr:focus td {
-      animation: glowing-animation 2.5s ease-in-out infinite;
-      color: #fd1414; }
-      
-      .custom-table tbody tr:hover td a, .custom-table tbody tr:focus td a {
-        animation: glowing-animation 1.5s ease-in-out infinite;
-        color: #fd1414; }
-      .custom-table tbody tr:hover td .more, .custom-table tbody tr:focus td .more {
-        animation: glowing-animation 1.5s ease-in-out infinite;
-        color: #fd1414; }
-  .custom-table .td-box-wrap {
-    padding: 0; }
-
-  /* .custom-table .box {
-    background: #fff;
-    border-radius: 4px;
-    margin-top: 15px;
-    margin-bottom: 15px; }
-
-     */
-    .custom-table .box td, .custom-table .box th {
-      border: none !important; }
+  50% {
+    text-shadow: none;
+  }
+  100% {
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #ffb300, 0 0 20px #ffb300, 0 0 25px #ffb300, 0 0 30px #ffb300, 0 0 35px #ffb300;
+  }
+}
 
 
 
-      .sticky-col  {
-        position: sticky;
-        width: 100px;
-        left: 0;
-        z-index: 10;
-       
-      }
-
-     
-/* 
-       .headRow thead  {
-        position: sticky;
-        width: 100px;
-        left: 0;
-        z-index: 10;
-       
-      } */
-    
-
-
-      @keyframes glowing-animation {
-        0% {
-          text-shadow: 0 0 5px #fff, 0 0 10px
-           #fff, 0 0 20px #fff, 0 0 30px
-            #ff00de, 0 0 40px #ff00de,
-             0 0 50px #ff00de, 0 0 60px #ff00de;
-        }
-        50% {
-          text-shadow: none;
-        }
-        100% {
-          text-shadow: 0 0 5px #fff, 0 0 10px #fff, 
-          0 0 20px #fff, 0 0 30px #ff00de, 0 0 40px #ff00de,
-           0 0 50px #ff00de, 0 0 60px #ff00de;
-        }
-        
-      }
-     
+.center-top {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding-top: 20px; /* Adjust the top padding as needed */
+}

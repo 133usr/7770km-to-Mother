@@ -23,7 +23,9 @@
     </div> -->
     
     <div id="scoreButton">
-      <button class="custom-btn btn-10" onclick = "window.location.href = '../index.html';">New Jerusalem</button>
+      <div><br></div>
+      <button class="btn btn-primary custom-btn" onclick="window.history.back();">7770km to Mother</button>
+
     </div>
 
     <div class="content" >
@@ -34,13 +36,18 @@
         <thead>
         <tr class="headRow">
         
-        <th class="sticky-col" scope="col">Name</th>
-        <th scope="col">Total<br>(Billion Km)</th>
-        <th scope="col">Fruits</th>
-        <th scope="col">S+M<br>Preach</th>
-        <th scope="col">Sign</th>
-        <th scope="col">Chapter<br>Complete</th>
-        <th scope="col">Bonus</th>
+        <th class="sticky-col" scope="col">नाम<br> <br><br></th>
+        <th scope="col">टोटल</th>
+        <th scope="col">सरल प्रचार</th>
+        <th scope="col">फल</th>
+        <th scope="col">अपॉइनमेंट<br>विजिटिंग</th>
+        <th scope="col">साइन</th>
+        <th scope="col">इवैल्यूएशन</th>
+        <th scope="col">EDULMS</th>
+        <th scope="col">मीटिंग</th>
+        <th scope="col">Pray<br>Daily</th>
+        <th scope="col">बाइबिल<br>उपदेश</th>
+        
         </tr>
         </thead>
         <tbody>
@@ -62,27 +69,59 @@
 
 
 
-  function onComplete(allData){ // When the code completes, do this
-                
-                allData = allData.replace(/[""]+/g,'"'); //dont' know why data has extra ""  so remove them
-                allData = allData.replace('"[{','[{'); //dont' know why data has extra ["  so remove them
-                allData = allData.replace('}]"','}]');     
-                // console.log(allData);    
-                var sheet_arrayObject = JSON.parse(allData);
+/**************************************************************
+ *                                                           *
+ *                   MAIN FUNCTION                            *
+ *                                                           *
+ **************************************************************/
+/**************************************************************
+ *                                                           *
+ *      tempsheetObject can be available throught sheet       *
+ *          all you need to do is to iterate it 
+ *                                                            *
+ **************************************************************/
 
-                // console.log(sheet_arrayObject);
 
+ async function main() {
+      
+      let allData = await fetchData();
+            
+      allData = allData.replace(/[""]+/g,'"'); //dont' know why data has extra ""  so remove them
+      allData = allData.replace('"[{','[{'); //dont' know why data has extra ["  so remove them
+      allData = allData.replace('}]"','}]');     
+      // console.log(allData);  
+      var sheet_arrayObject = JSON.parse(allData);  
+      var participants = Object.keys(sheet_arrayObject).length;
+     
+                             
                                 
                 $(function() {
                     $.each(sheet_arrayObject, function(i, item) {
+                      if (item.Total==0)
+                      { return;} //show only those who are participating
+                           var total = (item.Total).toFixed(2);
+                           var fruit = (item.totalFruits).toFixed(2);
+                           var preach = (item.totalPreach).toFixed(2);
+                           var sign = (item.totalSign).toFixed(2);        
+                           var evaluat = (item.chap_complete).toFixed(2);
+                           var edulms = (item.edulms).toFixed(2); 
+                           var meeting = (item.meeting).toFixed(2); 
+                           var pray_daily = (item.prayDaily).toFixed(2); 
+                           var visit = (item.totalApp_visit).toFixed(2); 
+                           var b_study = (item.b_study).toFixed(2); 
+
                         var $tr = $('<tr>').append(
                             $('<td class="sticky-col">').text(item.Participant),
-                            $('<td>').text(item.Total),
-                            $('<td>').text(item.totalFruits),
-                            $('<td>').text(item.totalPreach+item.totalPreach_m),
-                            $('<td>').text(item.totalSign),        
-                            $('<td>').text(item.chap_complete),
-                            $('<td>').text(item.bonus)    
+                            $('<td>').text(total),
+                            $('<td>').text(preach),
+                            $('<td>').text(fruit),
+                            $('<td>').text(visit),
+                            $('<td>').text(sign),        
+                            $('<td>').text(evaluat),
+                            $('<td>').text(edulms),  
+                            $('<td>').text(meeting), 
+                            $('<td>').text(pray_daily),
+                            $('<td>').text(b_study),   
                             ).appendTo('#score-table');
                         // console.log($tr.wrap('<p>').html());
                     });
@@ -90,19 +129,27 @@
   
             }
 
-loadData()
-function loadData (){
-    let result;
-    // alert('executing')
-    // ========================================================================================================================================================================================
-    let url ="https://docs.google.com/spreadsheets/d/e/2PACX-1vQygso5FFlHd_AyPzZwc0EWkMgrYrpLM5nWVdPyfYoKEx1PhoMZMk0hmTlp6s6K47Q5DRVxK7A5Jk2Q/pub?gid=1246387545&single=true&output=csv&range=C3"          
-                  fetch(url) 
-                  .then(response => response.text())
-                  .then(text => { //what to do with result?
-                   result = text; 
-                   onComplete(result);
-                }); 
-                }
+            async function fetchData() {
+  try {
+    let url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ7Zx1Vnsdizp-ee3wroRGSME9hyu8bUvXWBQWiWf0zNWMJ7z5Wtj0lN52ibU_jg8PEsEWG53VFZ8ee/pub?gid=1246387545&single=true&output=csv&range=C3";
+    const response = await fetch(url);
+    
+    if (!response.ok) {
+      throw new Error('Network response was not ok.');
+    }
+
+    const text = await response.text();
+    return text; // This is the fetched data
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    throw error;
+  }
+}
+ 
+
+//CALL MAIN
+main();
+
 
 </script>
 
