@@ -23,7 +23,15 @@ import scoreData from './scoredata.json';
 import Hammer from 'hammerjs'; 
 // Use scoreData in your code
 
+function showSpinner() {
+  document.querySelector('.spinner-container').style.display = 'flex';
+}
 
+// Function to hide the spinner
+function hideSpinner() {
+  document.getElementById('spinner').style.display = 'none';
+  
+}
 /**************************************************************
  *                                                           *
  *                   MAIN FUNCTION                            *
@@ -507,7 +515,7 @@ function flyToModelWhile_Moving(entity) {
 // Function to animate the model along flight data using Tween.js
 function animateModel(modelEntity,totalScoreOfModel,height_by_group) {
   let currentIndex = 0;
-  const duration = 2000; // Assuming a fixed duration of 2000 milliseconds for each transition
+  const duration = 10000; // Assuming a fixed duration of 2000 milliseconds for each transition
   let flightData_of_thisModel = [];
   let totalScore_minus_5=totalScoreOfModel-5;
   if(totalScoreOfModel<5) {
@@ -525,7 +533,11 @@ function animateModel(modelEntity,totalScoreOfModel,height_by_group) {
 
       // Calculate the direction vector from start to end position
       const direction = Cesium.Cartesian3.subtract(endPosition, startPosition, new Cesium.Cartesian3());
+      
+      if(direction.x !=0)
       Cesium.Cartesian3.normalize(direction, direction);
+      else
+      console.log(direction+'  '+currentIndex);
 
       new TWEEN.Tween({ x: startPosition.x, y: startPosition.y, z: startPosition.z })
         .to({
@@ -730,7 +742,7 @@ function color_style_box(tempsheetObject){
             outlineColor: Cesium.Color.fromCssColorString('#000000'),
             outlineWidth: 3,
             style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-            pixelOffset: new Cesium.Cartesian2(0, -50),
+            pixelOffset: new Cesium.Cartesian2(0, -70),
             showBackground: true,
             backgroundColor: Cesium.Color.fromBytes(240, 128, 128).withAlpha(0.7), // Light coral background color with transparency
             backgroundPadding: new Cesium.Cartesian2(10, 8),
@@ -746,7 +758,7 @@ function color_style_box(tempsheetObject){
             outlineColor: Cesium.Color.fromCssColorString('#000000'),
             outlineWidth: 3,
             style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-            pixelOffset: new Cesium.Cartesian2(0, -50),
+            pixelOffset: new Cesium.Cartesian2(0, -70),
             showBackground: true,
             backgroundColor: Cesium.Color.fromBytes(240, 128, 128).withAlpha(0.7), // Light coral background color with transparency
             backgroundPadding: new Cesium.Cartesian2(10, 8),
@@ -762,7 +774,7 @@ function color_style_box(tempsheetObject){
             outlineColor: Cesium.Color.fromCssColorString('#000000'),
             outlineWidth: 3,
             style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-            pixelOffset: new Cesium.Cartesian2(0, -50),
+            pixelOffset: new Cesium.Cartesian2(0, -70),
             showBackground: true,
             backgroundColor: Cesium.Color.fromBytes(173, 255, 47).withAlpha(0.7), // Light green yellow background color with transparency
             backgroundPadding: new Cesium.Cartesian2(10, 8),
@@ -778,7 +790,7 @@ function color_style_box(tempsheetObject){
           outlineColor: Cesium.Color.fromCssColorString('#000000'),
           outlineWidth: 3,
           style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-          pixelOffset: new Cesium.Cartesian2(0, -50),
+          pixelOffset: new Cesium.Cartesian2(0, -70),
           showBackground: true,
           backgroundColor: Cesium.Color.fromBytes(119, 136, 153).withAlpha(0.7), // Light slate gray background color with transparency
           backgroundPadding: new Cesium.Cartesian2(10, 8),
@@ -794,7 +806,7 @@ function color_style_box(tempsheetObject){
           outlineColor: Cesium.Color.fromCssColorString('#000000'),
           outlineWidth: 3,
           style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-          pixelOffset: new Cesium.Cartesian2(0, -50),
+          pixelOffset: new Cesium.Cartesian2(0, -70),
           showBackground: true,
           backgroundColor: Cesium.Color.fromBytes(173, 216, 230).withAlpha(0.7), // Light blue background color with transparency
           backgroundPadding: new Cesium.Cartesian2(10, 8),
@@ -810,7 +822,7 @@ function color_style_box(tempsheetObject){
           outlineColor: Cesium.Color.fromCssColorString('#000000'),
           outlineWidth: 3,
           style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-          pixelOffset: new Cesium.Cartesian2(0, -50),
+          pixelOffset: new Cesium.Cartesian2(0, -70),
           showBackground: true,
           backgroundColor: Cesium.Color.fromBytes(216, 191, 216).withAlpha(0.7), // Light purple background color with transparency
           backgroundPadding: new Cesium.Cartesian2(10, 8),
@@ -826,7 +838,7 @@ function color_style_box(tempsheetObject){
           outlineColor: Cesium.Color.fromCssColorString('#000000'),
           outlineWidth: 3,
           style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-          pixelOffset: new Cesium.Cartesian2(0, -50),
+          pixelOffset: new Cesium.Cartesian2(0, -70),
           showBackground: true,
           backgroundColor: Cesium.Color.fromBytes(255, 182, 193).withAlpha(0.7), // Light pink background color with transparency
           backgroundPadding: new Cesium.Cartesian2(10, 8),
@@ -842,7 +854,7 @@ function color_style_box(tempsheetObject){
           outlineColor: Cesium.Color.fromCssColorString('#000000'),
           outlineWidth: 3,
           style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-          pixelOffset: new Cesium.Cartesian2(0, -50),
+          pixelOffset: new Cesium.Cartesian2(0, -70),
           showBackground: true,
           backgroundColor: Cesium.Color.fromBytes(255, 255, 224).withAlpha(0.7), // Light yellow background color with transparency
           backgroundPadding: new Cesium.Cartesian2(10, 8),
@@ -858,7 +870,7 @@ function color_style_box(tempsheetObject){
         outlineColor: Cesium.Color.fromCssColorString('#000000'),
         outlineWidth: 3,
         style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-        pixelOffset: new Cesium.Cartesian2(0, -50),
+        pixelOffset: new Cesium.Cartesian2(0, -70),
         showBackground: true,
         backgroundColor: Cesium.Color.fromBytes(255, 255, 224).withAlpha(0.7), // Light yellow background color with transparency
         backgroundPadding: new Cesium.Cartesian2(10, 8),
@@ -935,7 +947,7 @@ hammerHandler.on('doubletap', handleDoubleTap);
      *                                                           *
      **************************************************************/
 
-        
+    hideSpinner(); //laoding complete    
 }
 
 
@@ -1017,7 +1029,11 @@ async function fetchData() {
  
 
 //CALL MAIN
-main();
+function startLoading() {
+  showSpinner();
+  main();
+}
+startLoading();
 
 
 
