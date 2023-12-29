@@ -156,6 +156,7 @@ import Hammer from 'hammerjs';
 
         const layerCheckbox = gui.add({ visibility: isLayerVisible }, 'visibility').name('नक्शे का नाम');
         function toggleBaseLayerVisibility() {
+          document.querySelectorAll(".title")[0].click()  // toggle the lil-gui on every click
             if (!baseLayer) {
                 // Create the Cesium Imagery Layer for the base layer
                 baseLayer = 
@@ -194,7 +195,43 @@ import Hammer from 'hammerjs';
 
 
 
-        // Initialize camerOnClick object
+        viewer.scene.skyBox = new Cesium.SkyBox({
+          sources: {
+              positiveX: './models/skybox/pos_x.png',
+              negativeX: './models/skybox/neg_x.png',
+              positiveY: './models/skybox/pos_y.png',
+              negativeY: './models/skybox/neg_y.png',
+              positiveZ: './models/skybox/pos_z.png',
+              negativeZ: './models/skybox/neg_z.png'
+          }
+      });
+
+      let rotationAngle = 0; // Initial rotation angle
+
+      function rotateGlobe() {
+          rotationAngle += Cesium.Math.toRadians(0.1); // Adjust the rotation speed by changing the angle increment
+      
+          // Get the current globe transform
+          const transform = Cesium.Transforms.eastNorthUpToFixedFrame(Cesium.Cartesian3.fromDegrees(0, 0));
+      
+          // Create a rotation matrix using the current angle around the Z-axis
+          const rotation = Cesium.Matrix3.fromRotationZ(rotationAngle);
+      
+          // Apply the rotation to the transform matrix
+          const rotatedTransform = Cesium.Matrix3.multiply(rotation, transform, new Cesium.Matrix3());
+      
+          // Set the globe's new orientation
+          viewer.scene.globe.orientTransform = rotatedTransform;
+      
+          // Request animation frame for smooth rotation
+          requestAnimationFrame(rotateGlobe);
+      }
+      
+      // Start the rotation effect
+      rotateGlobe();
+      
+
+        
 
         const loadedModels = {};
         
