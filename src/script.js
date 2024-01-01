@@ -4,20 +4,15 @@ import { AnimationPlayer, AnimationSet, AnimationParser, LOOP_TYPE } from './ces
 // // The URL on your server where CesiumJS's static files are hosted.
 window.CESIUM_BASE_URL = '/';
 import * as Cesium from 'cesium';
-import { Cartesian3, IonImageryProvider, Ion, Math as CesiumMath, Terrain, Viewer } from 'cesium';
+
 import "cesium/Build/Cesium/Widgets/widgets.css";
 
 import '../src/style.css'
-import * as THREE from 'three'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js'
-import gsap from 'gsap'
-// import * as dat from 'dat.gui'
-import { Object3D } from 'three'
+
 import TWEEN from '@tweenjs/tween.js'
-import { InteractionManager } from 'three.interactive';
+
 import GUI from 'lil-gui';
-import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
+
 
 import scoreData from './scoredata.json';
 import Hammer from 'hammerjs'; 
@@ -69,9 +64,12 @@ function hideSpinner() {
                   let groupType = sheet_arrayObject[index].group;
                   
                   if (groupType != "Group")
-                  //  await myPromise(tempsheetObject);     //****************very important Uncomment this to run */
+                 
+               
                    { if(tempsheetObject.Total>0) // only load model and list the names ******* if the score is not 0
-                   {loadModels(tempsheetObject);}
+                   { console.log(" "+tempsheetObject.Total);  
+                    loadModels(tempsheetObject);
+                  }
                   }
                   
                    if (groupType == "Group")
@@ -107,7 +105,7 @@ function hideSpinner() {
         var y_br_folder = gui.addFolder('युवा और छात्र भाई');
         var y_sis_folder = gui.addFolder('युवा और छात्र बहन');
         var pandesra_group = gui.addFolder('पांडेसरा');
-        var group_folder = gui.addFolder('विवाहित बहन');
+       
 
         var a_br_folder_group1 = a_br_folder.addFolder('इसहाक');
         var a_br_folder_group2 = a_br_folder.addFolder('इम्मानुएल');
@@ -195,8 +193,11 @@ function hideSpinner() {
 
         function hideCesiuminfo(){
           //hide the unwanted additional layers here
-          document.querySelector(".cesium-timeline-bar").hidden = true;
-          document.querySelector(".cesium-viewer-bottom").hidden = true;
+          document.querySelector(".cesium-timeline-bar").remove()
+          document.querySelector(".cesium-viewer-bottom").remove()
+          document.querySelector(".cesium-viewer-timelineContainer").remove()
+          
+
 
         }
         hideCesiuminfo();
@@ -259,7 +260,7 @@ const skyboxPaths = {
                       
                         model: {
                           uri: resource,
-                          scale: 50,
+                          scale: 40,
                           minimumPixelSize: 32,
                         },
                         label: label_style
@@ -290,11 +291,7 @@ const skyboxPaths = {
                   var name_participant = tempsheetObject.Participant;
                   
       
-                      
-                    // Define a function inside the object
-                  // const camerOnClick = {
-                  //   [name_participant]: function() {   console.log("Complete")         }
-                  // }
+                  
                   const camerOnClick = {
                     [name_participant]: function () {
                       const entity = loadedModels[tempsheetObject.Id];
@@ -302,17 +299,12 @@ const skyboxPaths = {
                       if (entity) {
                         scoreBox_CSS(tempsheetObject);
                         document.querySelectorAll(".title")[0].click()  // toggle the lil-gui
-                        if (timeElapsed()>1)
-                            {   viewer.trackedEntity = undefined;
-                              flyToModel(entity).then(() => {// using promise to call this function twice by itself 
-                                flyToModel(entity).then(() => {// using promise to call this function twice by itself 
-                                  viewer.trackedEntity = entity;
-                                }).catch((error) => {console.error('Error:', error.message);});
-                              }).catch((error) => {console.error('Error:', error.message);});
-                            }
-                        else 
-                            flyToModelWhile_Moving(entity);
-                        
+                        viewer.trackedEntity = undefined;
+                        flyToModel(entity).then(() => {// using promise to call this function twice by itself 
+                          flyToModel(entity).then(() => {// using promise to call this function twice by itself 
+                            viewer.trackedEntity = entity;
+                          }).catch((error) => {console.error('Error:', error.message);});
+                        }).catch((error) => {console.error('Error:', error.message);});
                         console.log(`Camera focused on model with ID: ${tempsheetObject.Id}`);
                       } else {
                         console.log(`Model with ID ${tempsheetObject.Id} not found.`);
@@ -357,15 +349,9 @@ const skyboxPaths = {
      viewer.selectedEntityChanged.addEventListener(function () {
       const selectedEntity = viewer.selectedEntity;
       if (selectedEntity) {
-        // Call the function to handle the model click event
-        // handleModelClick(selectedEntity.id); // Pass the ID of the clicked model
         console.log(" "+selectedEntity.id);
       }
     });
-
-    // Smoothly transition the camera to focus on the model's position
-// Assuming entity is your Cesium Entity representing the model you want to focus on
-
 
 // Function to smoothly transition the camera to focus on a specific model
 function flyToModel2(entity) {
@@ -517,11 +503,15 @@ function animateModel(modelEntity,totalScoreOfModel,height_by_group) {
   let currentIndex = 0;
   const duration = 10000; // Assuming a fixed duration of 2000 milliseconds for each transition
   let flightData_of_thisModel = [];
-  let totalScore_minus_5=totalScoreOfModel-5;
+  let totalScore_minus_5=5;
   if(totalScoreOfModel<5) {
         totalScore_minus_5 = 1;
-        
+        }else{
+          totalScore_minus_5=totalScoreOfModel-5;
         }
+        if(totalScoreOfModel<2)
+          totalScoreOfModel = 2;
+
   flightData_of_thisModel = generateFlightData(totalScore_minus_5,totalScoreOfModel);
   function tweenNext() {
     if (currentIndex < flightData_of_thisModel.length - 1) {
@@ -563,7 +553,9 @@ function animateModel(modelEntity,totalScoreOfModel,height_by_group) {
           // upDownYOYO(modelEntity);
         })
         .start();
-    }else{upDownYOYO(modelEntity);}
+    }else{
+      // upDownYOYO(modelEntity);
+    }
   }
 
   // Start animation
@@ -647,11 +639,16 @@ animate();
 // Function to generate flightData based on a specific range (1 to 5 in this case)
 function generateFlightData(startIndex, endIndex) {
   const flightData5 = [];
+  let rand_lat = (Math.random() * (0.0050 - 0.0010)) + 0.0100; // add some random lat and longs
+  let rand_long = (Math.random() * (0.0050 - 0.0010)) + 0.0100;
+  rand_lat   =  parseFloat(rand_lat.toFixed(4));
+  rand_long  =  parseFloat(rand_long.toFixed(4))
+
   for (let i = startIndex; i <= endIndex; i++) {
     if (scoreData["SCOREbyLOCATION"][i]) {
       flightData5.push({
-        latitude: scoreData["SCOREbyLOCATION"][i].latitude,
-        longitude: scoreData["SCOREbyLOCATION"][i].longitude
+        latitude: scoreData["SCOREbyLOCATION"][i].latitude + rand_lat,
+        longitude: scoreData["SCOREbyLOCATION"][i].longitude + rand_long
       });
     }
   }
@@ -661,15 +658,6 @@ function generateFlightData(startIndex, endIndex) {
 
 
 
-// Get the initial time when the page loads
-const initialTime = performance.now();
-
-// Function to calculate time elapsed since page load
-function timeElapsed() {
-  const currentTime = performance.now();
-  const elapsedTimeInSeconds = (currentTime - initialTime) / 1000; // Convert milliseconds to seconds
-  return elapsedTimeInSeconds;
-}
 
 
 
@@ -736,146 +724,146 @@ function color_style_box(tempsheetObject){
   switch (true) {
     case age_group.includes('Isaac'):
           color_scheme = {
-            text: tempsheetObject.Participant + '\n' + tempsheetObject.Total + 'Km',
-            font: 'italic bold 16px Georgia',
-            fillColor: Cesium.Color.fromCssColorString('#FFD700'), // Olive font color
-            outlineColor: Cesium.Color.fromCssColorString('#000000'),
-            outlineWidth: 3,
+            text: tempsheetObject.Participant + '\n' + tempsheetObject.Total + 'Km', // Text with multiple lines
+            font: 'italic bold 16px Georgia', // Italic, bold, and larger font with a serif typeface
+            fillColor: Cesium.Color.fromBytes(128, 128, 0), // Olive green text color
+            outlineColor: Cesium.Color.WHITE, // White outline color
+            outlineWidth: 2, // Moderate outline width
             style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-            pixelOffset: new Cesium.Cartesian2(0, -70),
+            pixelOffset: new Cesium.Cartesian2(0, -50),
             showBackground: true,
-            backgroundColor: Cesium.Color.fromBytes(240, 128, 128).withAlpha(0.7), // Light coral background color with transparency
-            backgroundPadding: new Cesium.Cartesian2(10, 8),
+            backgroundColor: Cesium.Color.fromBytes(240, 240, 240).withAlpha(0.7), // Light grayish background color with some transparency
+            backgroundPadding: new Cesium.Cartesian2(15, 12), // Padding around the text inside the background
             distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 50000.0),
-          };                  
+          };               
       break;
     
     case age_group.includes('Immanuel'):
           color_scheme = {
-            text: tempsheetObject.Participant+'\n'+tempsheetObject.Total+'Km',
-            font: 'italic bold 16px Georgia',
-            fillColor: Cesium.Color.fromCssColorString('#8B0000'), // Dark red font color
-            outlineColor: Cesium.Color.fromCssColorString('#000000'),
-            outlineWidth: 3,
+            text: tempsheetObject.Participant + '\n' + tempsheetObject.Total + 'Km', // Text with multiple lines
+            font: 'italic bold 16px Georgia', // Italic, bold, and larger font with a serif typeface
+            fillColor: Cesium.Color.fromBytes(0, 0, 128), // Navy blue text color
+            outlineColor: Cesium.Color.WHITE, // White outline color
+            outlineWidth: 2, // Moderate outline width
             style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-            pixelOffset: new Cesium.Cartesian2(0, -70),
+            pixelOffset: new Cesium.Cartesian2(0, -50),
             showBackground: true,
-            backgroundColor: Cesium.Color.fromBytes(240, 128, 128).withAlpha(0.7), // Light coral background color with transparency
-            backgroundPadding: new Cesium.Cartesian2(10, 8),
+            backgroundColor: Cesium.Color.fromBytes(240, 240, 240).withAlpha(0.7), // Light grayish background color with some transparency
+            backgroundPadding: new Cesium.Cartesian2(15, 12), // Padding around the text inside the background
             distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 50000.0),
-          };  
+          };              
     break;
 
     case age_group.includes('Ruth'):
           color_scheme = {
-            text: tempsheetObject.Participant + '\n' + tempsheetObject.Total + 'Km',
-            font: 'italic bold 16px Georgia',
-            fillColor: Cesium.Color.fromCssColorString('#800000'), // Maroon font color
-            outlineColor: Cesium.Color.fromCssColorString('#000000'),
-            outlineWidth: 3,
+            text: tempsheetObject.Participant + '\n' + tempsheetObject.Total + 'Km', // Text with multiple lines
+            font: 'italic bold 16px Georgia', // Italic, bold, and larger font with a serif typeface
+            fillColor: Cesium.Color.fromBytes(64, 79, 107), // Dark blue text color
+            outlineColor: Cesium.Color.WHITE, // White outline color
+            outlineWidth: 2, // Moderate outline width
             style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-            pixelOffset: new Cesium.Cartesian2(0, -70),
+            pixelOffset: new Cesium.Cartesian2(0, -50),
             showBackground: true,
-            backgroundColor: Cesium.Color.fromBytes(173, 255, 47).withAlpha(0.7), // Light green yellow background color with transparency
-            backgroundPadding: new Cesium.Cartesian2(10, 8),
+            backgroundColor: Cesium.Color.fromBytes(240, 240, 240).withAlpha(0.7), // Light grayish background color with some transparency
+            backgroundPadding: new Cesium.Cartesian2(15, 12), // Padding around the text inside the background
             distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 50000.0),
-          };                    
+          };                      
       break;
     
     case age_group.includes('Sarah'):
          color_scheme = {
-          text: tempsheetObject.Participant+'\n'+tempsheetObject.Total+'Km',
-          font: 'italic bold 16px Georgia',
-          fillColor: Cesium.Color.fromCssColorString('#800080'), // Purple font color
-          outlineColor: Cesium.Color.fromCssColorString('#000000'),
-          outlineWidth: 3,
+          text: tempsheetObject.Participant + '\n' + tempsheetObject.Total + 'Km', // Text with multiple lines
+          font: 'italic bold 16px Georgia', // Italic, bold, and larger font with a serif typeface
+          fillColor: Cesium.Color.fromBytes(139, 0, 0), // Deep red text color
+          outlineColor: Cesium.Color.WHITE, // White outline color
+          outlineWidth: 2, // Moderate outline width
           style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-          pixelOffset: new Cesium.Cartesian2(0, -70),
+          pixelOffset: new Cesium.Cartesian2(0, -50),
           showBackground: true,
-          backgroundColor: Cesium.Color.fromBytes(119, 136, 153).withAlpha(0.7), // Light slate gray background color with transparency
-          backgroundPadding: new Cesium.Cartesian2(10, 8),
+          backgroundColor: Cesium.Color.fromBytes(240, 240, 240).withAlpha(0.7), // Light grayish background color with some transparency
+          backgroundPadding: new Cesium.Cartesian2(15, 12), // Padding around the text inside the background
           distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 50000.0),
         };  
     break;
     
     case age_group.includes('Esther'):
-         color_scheme = {
-          text: tempsheetObject.Participant + '\n' + tempsheetObject.Total + 'Km',
-          font: 'italic bold 16px Georgia',
-          fillColor: Cesium.Color.fromCssColorString('#9400D3'), // Dark violet font color
-          outlineColor: Cesium.Color.fromCssColorString('#000000'),
-          outlineWidth: 3,
-          style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-          pixelOffset: new Cesium.Cartesian2(0, -70),
-          showBackground: true,
-          backgroundColor: Cesium.Color.fromBytes(173, 216, 230).withAlpha(0.7), // Light blue background color with transparency
-          backgroundPadding: new Cesium.Cartesian2(10, 8),
-          distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 50000.0),
-        };                  
+          color_scheme = {
+            text: tempsheetObject.Participant + '\n' + tempsheetObject.Total + 'Km', // Text with multiple lines
+            font: 'italic bold 16px Georgia', // Italic, bold, and larger font with a serif typeface
+            fillColor: Cesium.Color.fromBytes(0, 128, 128), // Dark teal text color
+            outlineColor: Cesium.Color.WHITE, // White outline color
+            outlineWidth: 2, // Moderate outline width
+            style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+            pixelOffset: new Cesium.Cartesian2(0, -50),
+            showBackground: true,
+            backgroundColor: Cesium.Color.fromBytes(240, 240, 240).withAlpha(0.7), // Light grayish background color with some transparency
+            backgroundPadding: new Cesium.Cartesian2(15, 12), // Padding around the text inside the background
+            distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 50000.0),
+          };                   
       break;
     
     case age_group.includes('Y & St. Brother'):
-         color_scheme = {
-          text: tempsheetObject.Participant+'\n'+tempsheetObject.Total+'Km',
-          font: 'italic bold 16px Georgia',
-          fillColor: Cesium.Color.fromCssColorString('#FFD700'), // Gold font color
-          outlineColor: Cesium.Color.fromCssColorString('#000000'),
-          outlineWidth: 3,
-          style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-          pixelOffset: new Cesium.Cartesian2(0, -70),
-          showBackground: true,
-          backgroundColor: Cesium.Color.fromBytes(216, 191, 216).withAlpha(0.7), // Light purple background color with transparency
-          backgroundPadding: new Cesium.Cartesian2(10, 8),
-          distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 50000.0),
-        };                  
+          color_scheme = {
+            text: tempsheetObject.Participant + '\n' + tempsheetObject.Total + 'Km', // Text with multiple lines
+            font: 'italic bold 16px Georgia', // Italic, bold, and larger font with a serif typeface
+            fillColor: Cesium.Color.fromBytes(64, 79, 107), // Dark blue text color
+            outlineColor: Cesium.Color.WHITE, // White outline color
+            outlineWidth: 2, // Moderate outline width
+            style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+            pixelOffset: new Cesium.Cartesian2(0, -50),
+            showBackground: true,
+            backgroundColor: Cesium.Color.fromBytes(240, 240, 240).withAlpha(0.7), // Light grayish background color with some transparency
+            backgroundPadding: new Cesium.Cartesian2(15, 12), // Padding around the text inside the background
+            distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 50000.0),
+          };                         
     break;
 
     case age_group.includes('Y & St. Sister'):
-         color_scheme = {
-          text: tempsheetObject.Participant + '\n' + tempsheetObject.Total + 'Km',
-          font: 'italic bold 16px Georgia',
-          fillColor: Cesium.Color.fromCssColorString('#008080'), // Teal font color
-          outlineColor: Cesium.Color.fromCssColorString('#000000'),
-          outlineWidth: 3,
-          style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-          pixelOffset: new Cesium.Cartesian2(0, -70),
-          showBackground: true,
-          backgroundColor: Cesium.Color.fromBytes(255, 182, 193).withAlpha(0.7), // Light pink background color with transparency
-          backgroundPadding: new Cesium.Cartesian2(10, 8),
-          distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 50000.0),
-        };  
+          color_scheme = {
+            text: tempsheetObject.Participant + '\n' + tempsheetObject.Total + 'Km', // Text with multiple lines
+            font: 'italic bold 16px Georgia', // Italic, bold, and larger font with a serif typeface
+            fillColor: Cesium.Color.fromBytes(128, 0, 128), // Dark purple text color
+            outlineColor: Cesium.Color.WHITE, // White outline color
+            outlineWidth: 2, // Moderate outline width
+            style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+            pixelOffset: new Cesium.Cartesian2(0, -50),
+            showBackground: true,
+            backgroundColor: Cesium.Color.fromBytes(240, 240, 240).withAlpha(0.7), // Light grayish background color with some transparency
+            backgroundPadding: new Cesium.Cartesian2(15, 12), // Padding around the text inside the background
+            distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 50000.0),
+          };              
       break;
     
     case age_group.includes('Pandesra'):
-         color_scheme = {
-          text: tempsheetObject.Participant + '\n' + tempsheetObject.Total + 'Km',
-          font: 'italic bold 16px Georgia',
-          fillColor: Cesium.Color.fromCssColorString('#000080'), // Navy font color
-          outlineColor: Cesium.Color.fromCssColorString('#000000'),
-          outlineWidth: 3,
-          style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-          pixelOffset: new Cesium.Cartesian2(0, -70),
-          showBackground: true,
-          backgroundColor: Cesium.Color.fromBytes(255, 255, 224).withAlpha(0.7), // Light yellow background color with transparency
-          backgroundPadding: new Cesium.Cartesian2(10, 8),
-          distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 50000.0),
-        };  
+          color_scheme = {
+            text: tempsheetObject.Participant + '\n' + tempsheetObject.Total + 'Km', // Text with multiple lines
+            font: 'italic bold 16px Georgia', // Italic, bold, and larger font with a serif typeface
+            fillColor: Cesium.Color.fromBytes(64, 79, 107), // Dark blue text color
+            outlineColor: Cesium.Color.WHITE, // White outline color
+            outlineWidth: 2, // Moderate outline width
+            style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+            pixelOffset: new Cesium.Cartesian2(0, -50),
+            showBackground: true,
+            backgroundColor: Cesium.Color.fromBytes(240, 240, 240).withAlpha(0.7), // Light grayish background color with some transparency
+            backgroundPadding: new Cesium.Cartesian2(15, 12), // Padding around the text inside the background
+            distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 50000.0),
+          };              
     break;
   
     default:
-      color_scheme = {
-        text: tempsheetObject.Participant + '\n' + tempsheetObject.Total + 'Km',
-        font: 'italic bold 16px Georgia',
-        fillColor: Cesium.Color.fromCssColorString('#000080'), // Navy font color
-        outlineColor: Cesium.Color.fromCssColorString('#000000'),
-        outlineWidth: 3,
-        style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-        pixelOffset: new Cesium.Cartesian2(0, -70),
-        showBackground: true,
-        backgroundColor: Cesium.Color.fromBytes(255, 255, 224).withAlpha(0.7), // Light yellow background color with transparency
-        backgroundPadding: new Cesium.Cartesian2(10, 8),
-        distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 50000.0),
-      }; 
+          color_scheme = {
+            text: tempsheetObject.Participant + '\n' + tempsheetObject.Total + 'Km', // Text with multiple lines
+            font: 'italic bold 16px Georgia', // Italic, bold, and larger font with a serif typeface
+            fillColor: Cesium.Color.fromBytes(64, 79, 107), // Dark blue text color
+            outlineColor: Cesium.Color.WHITE, // White outline color
+            outlineWidth: 2, // Moderate outline width
+            style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+            pixelOffset: new Cesium.Cartesian2(0, -50),
+            showBackground: true,
+            backgroundColor: Cesium.Color.fromBytes(240, 240, 240).withAlpha(0.7), // Light grayish background color with some transparency
+            backgroundPadding: new Cesium.Cartesian2(15, 12), // Padding around the text inside the background
+            distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 50000.0),
+          };              
       break;
   }
   return color_scheme;
