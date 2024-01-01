@@ -337,7 +337,7 @@ const skyboxPaths = {
                   y_sis_folder.add(camerOnClick, name_participant);
 
                   else if(age_group==='Pandesra')
-                  a_br_folder_group2.add(camerOnClick, name_participant);
+                  pandesra_group.add(camerOnClick, name_participant);
                   
                 
               };
