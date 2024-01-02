@@ -67,7 +67,7 @@ function hideSpinner() {
                  
                
                    { if(tempsheetObject.Total>0) // only load model and list the names ******* if the score is not 0
-                   { console.log(" "+tempsheetObject.Total);  
+                   { 
                     loadModels(tempsheetObject);
                   }
                   }
@@ -270,7 +270,16 @@ const skyboxPaths = {
                       //let's calculate height by age group
                       let height_by_group = calculate_height_by_group(tempsheetObject.group,tempsheetObject.Total);
                       //animate the model
-                      animateModel(airplaneEntity,tempsheetObject.Total,height_by_group);
+                      animateModel(airplaneEntity,tempsheetObject.Total,height_by_group)
+                      .then(() => {
+                        // Code to execute after the animation has completed
+                        console.log('Animation completed!');
+                        upDownYOYO(airplaneEntity);
+                      })
+                      .catch((error) => {
+                        // Handle any errors during animation
+                        console.error('Animation error:', error);
+                      });
                     // Assign an ID to the loaded model entity
                     loadedModels[id] = airplaneEntity;
                 
@@ -353,37 +362,7 @@ const skyboxPaths = {
       }
     });
 
-// Function to smoothly transition the camera to focus on a specific model
-function flyToModel2(entity) {
-  const modelPosition = entity.position.getValue(Cesium.JulianDate.now()); // Get the position of the model
 
-  if (Cesium.defined(modelPosition)) {
-    const flightDuration = 3.0; // Duration of the flight animation in seconds
-
-    // Get the current camera position and orientation
-    const startPosition = viewer.camera.positionWC.clone();
-    const startOrientation = viewer.camera.directionWC.clone();
-
-    // Calculate the end position of the camera focusing on the model
-    const endPosition = Cesium.Cartesian3.add(modelPosition, new Cesium.Cartesian3(0, 0, 500), new Cesium.Cartesian3()); // Adjust the height as needed
-    const endOrientation = Cesium.Cartesian3.subtract(modelPosition, startPosition, new Cesium.Cartesian3());
-    Cesium.Cartesian3.normalize(endOrientation, endOrientation);
-
-    // Start the camera flight animation
-    viewer.camera.flyTo({
-      destination: endPosition,
-      orientation: {
-        direction: endOrientation,
-        up: viewer.camera.up,
-      },
-      duration: flightDuration,
-      complete: function () {
-        // Optionally, you can perform actions once the flight animation is complete
-        console.log('Camera flight animation complete!');
-      },
-    });
-  }
-}
 
 
 
@@ -429,77 +408,11 @@ function flyToModel(entity) {
 
 
 
-// Function to smoothly transition the camera to focus on a specific model and track its movement
-function flyToModelWhile_Moving(entity) {
-  const modelPosition = entity.position.getValue(Cesium.JulianDate.now()); // Get the initial position of the model
-
-  if (Cesium.defined(modelPosition)) {
-    const flightDuration = 3.0; // Duration of the flight animation in seconds
-
-    // Calculate the end position of the camera focusing on the model
-    const endPosition = Cesium.Cartesian3.add(modelPosition, new Cesium.Cartesian3(100, 0, 1000), new Cesium.Cartesian3()); // Adjust the height as needed
-
-    // Start the camera flight animation
-    viewer.camera.flyTo({
-      destination: endPosition,
-      duration: flightDuration,
-      complete: function () {
-        // Optionally, you can perform actions once the flight animation is complete
-        console.log('Camera flight animation complete!');
-
-        // Remove the onTick event listener to restore camera control
-        viewer.clock.onTick.removeEventListener(trackModel);
-        if (viewer.camera.controller) {
-          viewer.camera.controller.lookEventTypes = {
-            mouse: Cesium.CameraEventType.LEFT_DOWN,
-            touch: Cesium.CameraEventType.PINCH
-          };
-          viewer.camera.controller.lookResetEventTypes = {
-            mouse: Cesium.CameraEventType.RIGHT_UP,
-            touch: Cesium.CameraEventType.PINCH_END
-          };
-        viewer.camera.controller.enableRotate = true;
-        viewer.camera.controller.enableTilt = true;
-        viewer.camera.controller.enableTranslate = true;
-        viewer.camera.controller.enableZoom = true;
-        }
-      },
-    });
-
-    // Update the camera position to track the model continuously
-    function trackModel() {
-      const currentModelPosition = entity.position.getValue(Cesium.JulianDate.now()); // Get the current position of the model
-
-     
-
-      if (Cesium.defined(currentModelPosition)) {
-        // Update the camera position to track the model
-        const newPosition = Cesium.Cartesian3.add(currentModelPosition, new Cesium.Cartesian3(0, 0, 1000), new Cesium.Cartesian3()); // Adjust the height as needed
-        // Calculate the position slightly behind the model
-        const behindPosition = Cesium.Cartesian3.subtract(currentModelPosition, new Cesium.Cartesian3(0, 0, -50), new Cesium.Cartesian3()); // Adjust the distance as needed
-
-      
-        viewer.camera.setView({
-          destination: behindPosition,
-          orientation: {
-            heading: viewer.camera.heading,
-            pitch:  Cesium.Math.toRadians(-20),
-            roll: viewer.camera.roll
-          }
-        });
-      }
-    }
-
-    // Update the camera position to track the model continuously
-    viewer.clock.onTick.addEventListener(trackModel);
-  }
-}
-
-
 
 
 // Function to animate the model along flight data using Tween.js
 function animateModel(modelEntity,totalScoreOfModel,height_by_group) {
+  return new Promise((resolve, reject) => {
   let currentIndex = 0;
   const duration = 10000; // Assuming a fixed duration of 2000 milliseconds for each transition
   let flightData_of_thisModel = [];
@@ -555,11 +468,13 @@ function animateModel(modelEntity,totalScoreOfModel,height_by_group) {
         .start();
     }else{
       // upDownYOYO(modelEntity);
+      resolve();
     }
   }
 
   // Start animation
   tweenNext();
+});
 }
 
 
@@ -569,9 +484,9 @@ function calculate_height_by_group(ageGroup,totalScore){
           
           totalScore = parseFloat(totalScore);
           if (ageGroup === 'Isaac') 
-              { minim = 110; max = 120;}
+              { minim = 130; max = 140;}
           else if(ageGroup==='Immanuel')
-              { minim = 100; max = 110;}
+              { minim = 130; max = 140;}
 
           else if(ageGroup==='Ruth')
               { minim = 90; max = 100;}
@@ -583,13 +498,13 @@ function calculate_height_by_group(ageGroup,totalScore){
               { minim = 70; max = 80;}
 
           else if(ageGroup==='Y & St. Brother')
-              { minim = 60; max = 70;}
+              { minim = 130; max = 140;}
           
           else if(ageGroup==='Y & St. Sister')
-              { minim = 50; max = 60;}
+              { minim = 30; max = 20;}
 
           else if(ageGroup==='Pandesra')
-              { minim = 80; max = 70;}
+              { minim = 80; max =70;}
 
               minim = parseFloat(minim);
               max = parseFloat(max);
@@ -602,11 +517,11 @@ function calculate_height_by_group(ageGroup,totalScore){
 // up and donw for animation
 function upDownYOYO(modelEntity) {
   var startPosition = modelEntity.position.getValue(Cesium.JulianDate.now());
-  var endPosition = Cesium.Cartesian3.add(startPosition, new Cesium.Cartesian3(0, 10, 10), new Cesium.Cartesian3()); // Move up by 100 units
-
+  var endPosition = Cesium.Cartesian3.add(startPosition, new Cesium.Cartesian3(10, 20, 20), new Cesium.Cartesian3()); // Move up by 100 units
+  let randomTime = (Math.random() * (13000 - 8000)) + 8000; // add some rand time
   // Use Tween.js to animate the position
   new TWEEN.Tween(startPosition)
-      .to(endPosition, 10000) // Animation duration: 2000 milliseconds
+      .to(endPosition, randomTime) // Animation duration: 2000 milliseconds
       .easing(TWEEN.Easing.Quadratic.InOut) // Use a specific easing function if needed
       .onUpdate(function() {
           modelEntity.position.setValue(startPosition);
