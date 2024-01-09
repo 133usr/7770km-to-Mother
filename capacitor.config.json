@@ -1,0 +1,8 @@
+{
+  "appId": "seraph.GJLeague.scoreBoard",
+  "appName": "7770km-to-Mother",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  }
+}
