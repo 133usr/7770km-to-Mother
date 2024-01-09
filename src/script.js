@@ -62,19 +62,20 @@ function hideSpinner() {
                  for (let index = 0; index < participants; index++) {
                   var tempsheetObject = sheet_arrayObject[index]
                   let groupType = sheet_arrayObject[index].group;
-                  
+           
                   if (groupType != "Group")
                  
                
                    { if(tempsheetObject.Total>0) // only load model and list the names ******* if the score is not 0
                    { 
-                    loadModels(tempsheetObject);
+                    loadmemberModels(tempsheetObject);
                   }
                   }
                   
                    if (groupType == "Group")
                    {//only run for Group score
-                      // await myPromise2(tempsheetObject);  //****************very important Uncomment this to run */
+                    loadGroupModels(tempsheetObject);  //****************very important Uncomment this to run */
+            
                     }
                   
                   }
@@ -105,6 +106,7 @@ function hideSpinner() {
         var y_br_folder = gui.addFolder('युवा और छात्र भाई');
         var y_sis_folder = gui.addFolder('युवा और छात्र बहन');
         var pandesra_group = gui.addFolder('पांडेसरा');
+        var by_group = gui.addFolder('ग्रुप अनुसार');
        
 
         var a_br_folder_group1 = a_br_folder.addFolder('इसहाक');
@@ -246,7 +248,7 @@ const skyboxPaths = {
 
         const loadedModels = {};
         
-              const loadModels = async (tempsheetObject) => {
+              const loadmemberModels = async (tempsheetObject) => {
                   
                   const objectFilename = './models/glb/low-size/cartoon_Plane_pink.glb';
                   var age_group = tempsheetObject.group;
@@ -325,7 +327,7 @@ const skyboxPaths = {
                   // Add the camerOnClick function to a_br_folder_group1 in the GUI
                   if (age_group === 'Isaac') {
                     a_br_folder_group1.add(camerOnClick, name_participant);
-                    console.log(age_group);
+                   
                   }
                   else if(age_group==='Immanuel')
                   a_br_folder_group2.add(camerOnClick, name_participant );
@@ -351,6 +353,130 @@ const skyboxPaths = {
                 
               };
             
+
+//now for the Group models
+
+
+const loadedModelsGrp = {};
+        
+              const loadGroupModels = async (tempsheetObject) => {
+                  
+                  const objectFilename = './models/glb/low-size/cartoon_Plane_pink.glb';
+                  var age_group_participant = tempsheetObject.Participant;
+                  let modelId_asset = choose_model_assetID_Group(age_group_participant);
+
+                  const label_style = color_style_box(tempsheetObject);
+                  const resource = await Cesium.IonResource.fromAssetId(modelId_asset);
+                    const loadModelGroup = async () => {
+                      // positionProperty =  ;
+                      let airplaneEntity = viewer.entities.add({
+                      
+                        model: {
+                          uri: resource,
+                          scale: 40,
+                          minimumPixelSize: 52,
+                        },
+                        label: label_style
+                      });
+                  
+                      var id = tempsheetObject.Id;
+                      //let's calculate height by age group
+                     
+                      let height_by_group = calculate_height_forGroupModels(tempsheetObject.Participant,tempsheetObject.Total);
+                      //animate the model
+                      
+                      animateModel(airplaneEntity,tempsheetObject.Total,height_by_group)
+                      .then(() => {
+                        // Code to execute after the animation has completed
+                        console.log('Animation completed!');
+                        upDownYOYO(airplaneEntity);
+                      })
+                      .catch((error) => {
+                        // Handle any errors during animation
+                        console.error('Animation error:', error);
+                      });
+                    // Assign an ID to the loaded model entity
+                    loadedModelsGrp[id] = airplaneEntity;
+                
+                      // Fetch and parse animation data
+                      // const response = await fetch(resource);
+                      // const blob = await response.blob();
+                      // const animationSet = await AnimationParser.parseAnimationSetFromFile(blob);
+                      // const animationPlayer = new AnimationPlayer(animationSet, airplaneEntity, 30);
+                      // animationPlayer.loop_type = LOOP_TYPE.LOOP;
+                      // animationPlayer.play();
+                      // animationPlayer.speed = 2.0;
+                    };
+                                                  
+                                                      
+                    // Load the model
+                  await loadModelGroup();
+                 
+                  var name_participant = tempsheetObject.Participant;
+                  
+      
+                  
+                  const camerOnClickGroup = {
+                    [name_participant]: function () {
+                      const entity = loadedModelsGrp[tempsheetObject.Id];
+                     
+                      if (entity) {
+                        scoreBox_CSS(tempsheetObject);
+                        document.querySelectorAll(".title")[0].click()  // toggle the lil-gui
+                        viewer.trackedEntity = undefined;
+                        flyToModel(entity).then(() => {// using promise to call this function twice by itself 
+                          flyToModel(entity).then(() => {// using promise to call this function twice by itself 
+                            viewer.trackedEntity = entity;
+                          }).catch((error) => {console.error('Error:', error.message);});
+                        }).catch((error) => {console.error('Error:', error.message);});
+                        console.log(`Camera focused on model with ID: ${tempsheetObject.Id}`);
+                      } else {
+                        console.log(`Model with ID ${tempsheetObject.Id} not found.`);
+                      }
+                    }
+                  };
+
+
+                  // Add the camerOnClick function to a_br_folder_group1 in the GUI
+                 
+                  if (age_group_participant === 'ग्रुप: इसहाक ') {
+                    by_group.add(camerOnClickGroup, age_group_participant);
+                    console.log(age_group_participant);
+                  }
+                  else if(age_group_participant==='ग्रुप: इम्मानुएल ')
+                  by_group.add(camerOnClickGroup, age_group_participant );
+
+                  else if(age_group_participant==='ग्रुप: रूत ')
+                  by_group.add(camerOnClickGroup, age_group_participant);
+
+                  else if(age_group_participant==='ग्रुप: सराह ')
+                  by_group.add(camerOnClickGroup, age_group_participant);
+
+                  else if(age_group_participant==='ग्रुप: एस्तेर ')
+                  by_group.add(camerOnClickGroup, age_group_participant);
+
+                  else if(age_group_participant==='ग्रुप: युवा/छात्र भाई ')
+                  by_group.add(camerOnClickGroup, age_group_participant);
+                  
+                  else if(age_group_participant==='ग्रुप: युवा/छात्र बहन ')
+                  by_group.add(camerOnClickGroup, age_group_participant);
+
+                  else if(age_group_participant==='ग्रुप: पांडेसरा ')
+                  by_group.add(camerOnClickGroup, age_group_participant);
+                  
+                
+              };
+
+
+
+
+
+
+
+
+
+
+
 
     onComplete(sheet_arrayObject);
 
@@ -512,6 +638,47 @@ function calculate_height_by_group(ageGroup,totalScore){
               max =  totalScore * max;  
   return Math.floor(Math.random() * (max - minim + 1)) + minim;
 }
+
+
+
+function calculate_height_forGroupModels(ageGroup,totalScore){
+
+          let minim,max;
+          
+          totalScore = parseFloat(totalScore);
+          if (ageGroup === 'ग्रुप: इसहाक ') 
+              { minim = 11000; max = 12000;}
+          else if(ageGroup==='ग्रुप: इम्मानुएल ')
+              { minim = 11000; max = 12000;}
+
+          else if(ageGroup==='ग्रुप: रूत ')
+              { minim = 9000; max = 11000;}
+
+          else if(ageGroup==='ग्रुप: सराह ')
+              { minim = 9000; max = 11000;}
+
+          else if(ageGroup==='ग्रुप: एस्तेर ')
+              { minim = 9000; max = 11000;}
+
+          else if(ageGroup==='ग्रुप: युवा/छात्र भाई ')
+              { minim = 11000; max = 12000;}
+          
+          else if(ageGroup==='ग्रुप: युवा/छात्र बहन ')
+              { minim = 8000; max = 9000;}
+
+          else if(ageGroup==='ग्रुप: पांडेसरा ')
+              { minim = 9000; max =12000;}
+
+              minim = parseFloat(minim);
+              max = parseFloat(max);
+             
+        return Math.floor(Math.random() * (max - minim + 1)) + minim;
+}
+
+
+
+
+
 
 
 // up and donw for animation
@@ -817,6 +984,40 @@ function choose_model_assetID (ageGrp)
 }
 
 
+
+function choose_model_assetID_Group (ageGrp)
+{   console.log("entered chooose model by group ");
+          switch (true) {
+            case ageGrp.includes('ग्रुप: रूत'):
+                  console.log("chosed ruth ");
+                  return '2414145';  
+             
+            case ageGrp.includes('ग्रुप: सराह'):
+                 return '2414147';  
+            
+            case ageGrp.includes('ग्रुप: एस्तेर'):
+                 return '2414144';  
+              
+            case ageGrp.includes('ग्रुप: इसहाक'):
+                return '2414143';  
+            
+            case ageGrp.includes('ग्रुप: इम्मानुएल'):
+                return '2414148';  
+              
+            case ageGrp.includes('ग्रुप: युवा/छात्र भाई'):
+                return '2414069';  
+
+            case ageGrp.includes('ग्रुप: युवा/छात्र बहन'):
+                return '2414072';  
+
+            case ageGrp.includes('ग्रुप: पांडेसरा'):
+                return '2414150';  
+
+            default:
+             return '2414150';  
+              
+          }
+}
 
 
 
