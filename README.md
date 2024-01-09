@@ -22,8 +22,15 @@ convert the kml to csv https://anyconv.com/kml-to-csv-converter/
 
 
 ## deployed on github
+## deployed on Android using capacitor
+to do this 
+`npm install -g @capacitor/cli`
+`npx cap init [app name] [app id]`
+`npx cap add android`
 
-## THINGS TO DO
+For syncing changes from your web app to the native project:
+` npx cap copy android`
+
 ##### Rules
 # LOGIC IS 7770km to Heavenly Mother
 # from surat korea I have 2700 markers
