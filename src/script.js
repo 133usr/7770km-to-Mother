@@ -88,7 +88,7 @@ function hideSpinner() {
     
 
 
-
+    hideSpinner(); //laoding complete 
 
 
         //   migrate from dat ui to https://lil-gui.georgealways.com/#Guide#Installation
@@ -250,12 +250,18 @@ const skyboxPaths = {
         
               const loadmemberModels = async (tempsheetObject) => {
                   
-                  const objectFilename = './models/glb/low-size/cartoon_Plane_pink.glb';
+                  let objectFilename;
                   var age_group = tempsheetObject.group;
                   let modelId_asset = choose_model_assetID(age_group);
 
                   const label_style = color_style_box(tempsheetObject);
-                  const resource = await Cesium.IonResource.fromAssetId(modelId_asset);
+
+                  let resource;
+                    if(true) // I wanna use local files instead of fetching it from cesium or "false" if you wanna fetch from cesium ion
+                    {
+                      resource = choose_model_filename(age_group);
+                    }else{resource = await Cesium.IonResource.fromAssetId(modelId_asset);}
+
                     const loadModel = async () => {
                       // positionProperty =  ;
                       let airplaneEntity = viewer.entities.add({
@@ -366,7 +372,12 @@ const loadedModelsGrp = {};
                   let modelId_asset = choose_model_assetID_Group(age_group_participant);
 
                   const label_style = color_style_box(tempsheetObject);
-                  const resource = await Cesium.IonResource.fromAssetId(modelId_asset);
+                  let resource;
+                    if(true) // I wanna use local files instead of fetching it from cesium or "false" if you wanna fetch from cesium ion
+                    {
+                      resource = choose_model_filename_Group(age_group_participant);
+                    }else{resource = await Cesium.IonResource.fromAssetId(modelId_asset);}
+
                     const loadModelGroup = async () => {
                       // positionProperty =  ;
                       let airplaneEntity = viewer.entities.add({
@@ -982,14 +993,79 @@ function choose_model_assetID (ageGrp)
               
           }
 }
+function choose_model_filename (ageGrp)
+{
+          switch (true) {
+            case ageGrp.includes('Isaac'):
+                  return './models/glb/low-size/cartoon_plane_adult_br.glb';  
+             
+            case ageGrp.includes('Immanuel'):
+              return './models/glb/low-size/cartoon_plane_adult_br.glb'; 
+            
+            case ageGrp.includes('Ruth'):
+              return './models/glb/low-size/cartoon_Plane_white_ad_sis.glb'; 
+              
+            case ageGrp.includes('Sarah'):
+              return './models/glb/low-size/cartoon_Plane_white_ad_sis.glb'; 
+            
+            case ageGrp.includes('Esther'):
+              return './models/glb/low-size/cartoon_Plane_white_ad_sis.glb'; 
+              
+            case ageGrp.includes('Y & St. Brother'):
+              return './models/glb/low-size/cartoon_plane_youthbrs.glb'; 
 
+            case ageGrp.includes('Y & St. Sister'):
+              return './models/glb/low-size/cartoon_plane_pink_ytsis.glb'; 
+
+            case ageGrp.includes('Pandesra'):
+              return './models/glb/low-size/cartoon_plane_adult_br.glb'; 
+
+            default:
+              return './models/glb/low-size/cartoon_plane_adult_br.glb'; 
+              
+          }
+}
+
+
+function  choose_model_filename_Group (ageGrp)
+{
+          switch (true) {
+            case ageGrp.includes('ग्रुप: रूत'):
+              return './models/glb/low-size/group_Plane_ruth.glb';   
+             
+            case ageGrp.includes('ग्रुप: सराह'):
+              return './models/glb/low-size/group_Plane_sarah.glb';   
+            
+            case ageGrp.includes('ग्रुप: एस्तेर'):
+              return './models/glb/low-size/group_Plane_Esther.glb';   
+              
+            case ageGrp.includes('ग्रुप: इसहाक'):
+              return './models/glb/low-size/group_Plane_isaac.glb';   
+            
+            case ageGrp.includes('ग्रुप: इम्मानुएल'):
+              return './models/glb/low-size/group_Plane_immanuel.glb';   
+              
+            case ageGrp.includes('ग्रुप: युवा/छात्र भाई'):
+              return './models/glb/low-size/group_Plane_youthbrs.glb';   
+
+            case ageGrp.includes('ग्रुप: युवा/छात्र बहन'):
+              return './models/glb/low-size/group_Plane_pink_ytsis.glb';     
+
+            case ageGrp.includes('ग्रुप: पांडेसरा'):
+              return './models/glb/low-size/group_Plane_pandes.glb';   
+
+            default:
+              return './models/glb/low-size/group_Plane_ruth.glb';   
+              
+          }
+}
 
 
 function choose_model_assetID_Group (ageGrp)
-{   console.log("entered chooose model by group ");
+{   
           switch (true) {
             case ageGrp.includes('ग्रुप: रूत'):
-                  console.log("chosed ruth ");
+                  
                   return '2414145';  
              
             case ageGrp.includes('ग्रुप: सराह'):
@@ -1028,7 +1104,6 @@ function choose_model_assetID_Group (ageGrp)
 
 
 
-
 // Create an instance of Hammer and pass the Cesium viewer's container element
 const hammerHandler = new Hammer(viewer.canvas);
 
@@ -1051,7 +1126,7 @@ hammerHandler.on('doubletap', handleDoubleTap);
      *                                                           *
      **************************************************************/
 
-    hideSpinner(); //laoding complete    
+       
 }
 
 
