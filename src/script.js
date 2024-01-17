@@ -158,6 +158,12 @@ function hideSpinner() {
           viewer.scene.globe.terrainExaggeration = 9.0;
           viewer.scene.globe.enableLighting = true;
           
+          /***
+           * SOME SETTING FOR LOW END PHONES
+           */
+          // Cesium.MaximumMemoryUsage = 256;
+          Cesium.MaximumScreenSpaceError = 32;
+
                     
         let isLayerVisible = false;
         let baseLayer;

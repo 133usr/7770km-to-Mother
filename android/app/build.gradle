@@ -7,7 +7,7 @@ android {
         applicationId "seraph.GJLeague.scoreBoard"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 9
+        versionCode 10
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
@@ -16,6 +16,7 @@ android {
             ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
+
     buildTypes {
         release {
             minifyEnabled true
@@ -41,6 +42,8 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
     implementation 'com.google.android.play:core:1.10.3'
     implementation project(':capacitor-cordova-android-plugins')
+    implementation 'com.andrognito.patternlockview:patternlockview:1.0.0'  //pattern lock view
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.23'
 }
 
 apply from: 'capacitor.build.gradle'

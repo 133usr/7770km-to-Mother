@@ -6,6 +6,7 @@ import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -46,7 +47,16 @@ public class MainActivity extends BridgeActivity {
                 }
             }
         });
+        // Set an OnKeyListener to capture the back key press
+        findViewById(android.R.id.content).setOnKeyListener((v, keyCode, event) -> {
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                finishAffinity();
+                return true; // Consume the event
+            }
+            return false; // Let the system handle other key events
+        });
     }
+
 
 
     // must update or don't use my app
