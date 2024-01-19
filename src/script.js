@@ -43,20 +43,47 @@ function hideSpinner() {
  **************************************************************/
 var testingCommunication;
 
-window.addEventListener('MyPushEvent', function (event) {
-  // const variableName = event.detail.variableName;
-  // const variableValue = event.detail.variableValue;
-  alert('Window Push Event: '+event.type );
-  // Now you can use variableName and variableValue in your Cesium project
-  // console.log(`Received variable ${variableName} with value ${variableValue}`);
-  // testingCommunication =  variableValue;
-  startLoading();
+window.addEventListener('Church_name', function (event) {
+  
+
+        alert("Your church: "+event.value)
+        var church = event.value;
+        // if (church.equals("adajan")) {
+          
+        //   startMain();
+        //   }
+        //   else if (church.equals("jashoda")) {
+              
+        //       startMain();
+        //   }
+        //   else if (church.equals("dindoli")) {
+              
+        //       startMain();
+        //   }
+        //   else  if (church.equals("vyara")) {
+             
+        //       startMain();
+        //   }
+        //   else  if (church.equals("vadodara")) {
+             
+        //       startMain();
+        //   }
+        //   else  if (church.equals("rajkot")) {
+             
+        //       startMain();
+        //   }
+        //   else if (church.equals("naroda")) {
+              
+        //       startMain();
+        //   }
+        
+        startLoading(church);
   
 });
-
-    async function main() {
+startLoading("jashoda");
+    async function main(church) {
       
-        let allData = await fetchData();
+        let allData = await fetchData(church);
               
         allData = allData.replace(/[""]+/g,'"'); //dont' know why data has extra ""  so remove them
         allData = allData.replace('"[{','[{'); //dont' know why data has extra ["  so remove them
@@ -79,17 +106,18 @@ window.addEventListener('MyPushEvent', function (event) {
            
                   if (groupType != "Group")
                  
-               
                    { if(tempsheetObject.Total>0) // only load model and list the names ******* if the score is not 0
-                   { 
-                    loadmemberModels(tempsheetObject);
-                  }
+                      { 
+                        loadmemberModels(tempsheetObject);
+                      }
                   }
                   
                    if (groupType == "Group")
                    {//only run for Group score
+                    if(tempsheetObject.Total>0) // only load model and list the names ******* if the score is not 0
+                      { 
                     loadGroupModels(tempsheetObject);  //****************very important Uncomment this to run */
-            
+                      }
                     }
                   
                   }
@@ -113,21 +141,69 @@ window.addEventListener('MyPushEvent', function (event) {
           
 
         }); 
-        
-
-        var a_br_folder = gui.addFolder('विवाहित भाई');
-        var a_sis_folder = gui.addFolder('विवाहित बहन');
-        var y_br_folder = gui.addFolder('युवा और छात्र भाई');
-        var y_sis_folder = gui.addFolder('युवा और छात्र बहन');
-        var pandesra_group = gui.addFolder('पांडेसरा');
-        var by_group = gui.addFolder('ग्रुप अनुसार');
+        var a_br_folder;
+        var a_sis_folder;
+        var y_br_folder;
+        var y_sis_folder ;
+        var pandesra_group ;
+        var branch_group;
+        var by_group ;
        
 
-        var a_br_folder_group1 = a_br_folder.addFolder('इसहाक');
-        var a_br_folder_group2 = a_br_folder.addFolder('इम्मानुएल');
-        var a_sis_folder_group1 = a_sis_folder.addFolder('रूत');
-        var a_sis_folder_group2 = a_sis_folder.addFolder('सराह');
-        var a_sis_folder_group3 = a_sis_folder.addFolder('एस्तेर');
+        var a_br_folder_group1;
+        var a_br_folder_group2, a_br_folder_group3;
+        var a_sis_folder_group1;
+        var a_sis_folder_group2;
+        var a_sis_folder_group3, a_sis_folder_group4, a_sis_folder_group5;
+        if(church.includes('adajan'))
+                  {
+                    a_br_folder = gui.addFolder('विवाहित भाई');
+                    a_sis_folder = gui.addFolder('विवाहित बहन');
+                    y_br_folder = gui.addFolder('युवा और छात्र भाई');
+                    y_sis_folder = gui.addFolder('युवा और छात्र बहन');
+                    pandesra_group = gui.addFolder('पांडेसरा');
+                    by_group = gui.addFolder('ग्रुप अनुसार');
+        
+                    a_br_folder_group1 = a_br_folder.addFolder('इसहाक');
+                    a_br_folder_group2 = a_br_folder.addFolder('इम्मानुएल');
+                    a_sis_folder_group1 = a_sis_folder.addFolder('रूत');
+                    a_sis_folder_group2 = a_sis_folder.addFolder('सराह');
+                    a_sis_folder_group3 = a_sis_folder.addFolder('एस्तेर');
+                  }
+                  else if (church.includes('jashoda'))
+                  {
+                            a_br_folder = gui.addFolder('विवाहित भाई');
+                            a_sis_folder = gui.addFolder('विवाहित बहन');
+                            y_br_folder = gui.addFolder('युवा और छात्र भाई');
+                            y_sis_folder = gui.addFolder('युवा और छात्र बहन');
+                            branch_group = gui.addFolder('ब्रांच');
+                            by_group = gui.addFolder('ग्रुप अनुसार');
+        
+                            a_br_folder_group1 = a_br_folder.addFolder('ग्रुप 1');
+                            a_br_folder_group2 = a_br_folder.addFolder('ग्रुप 2');
+                            a_br_folder_group3 = a_br_folder.addFolder('ग्रुप 3');
+                            a_sis_folder_group1 = a_sis_folder.addFolder('ग्रुप 1');
+                            a_sis_folder_group2 = a_sis_folder.addFolder('ग्रुप 2');
+                            a_sis_folder_group3 = a_sis_folder.addFolder('ग्रुप 3');
+                            a_sis_folder_group4 = a_sis_folder.addFolder('ग्रुप 4');
+                            a_sis_folder_group5 = a_sis_folder.addFolder('ग्रुप 5');
+                  }
+                  else
+                  {
+                            a_br_folder = gui.addFolder('विवाहित भाई');
+                            a_sis_folder = gui.addFolder('विवाहित बहन');
+                            y_br_folder = gui.addFolder('युवा और छात्र भाई');
+                            y_sis_folder = gui.addFolder('युवा और छात्र बहन');
+                            branch_group = gui.addFolder('ब्रांच');
+                            by_group = gui.addFolder('ग्रुप अनुसार');
+
+                            a_br_folder_group1 = a_br_folder.addFolder('ग्रुप 1');
+                            a_br_folder_group2 = a_br_folder.addFolder('ग्रुप 2');
+                            a_sis_folder_group1 = a_sis_folder.addFolder('ग्रुप 1');
+                            a_sis_folder_group2 = a_sis_folder.addFolder('ग्रुप 2');
+                            a_sis_folder_group3 = a_sis_folder.addFolder('ग्रुप 3');
+                            a_sis_folder_group4 = a_sis_folder.addFolder('ग्रुप 4');
+                  }
         //   var y_br_folder_group2 = a_br_folder.addFolder('Group2');
 
         const scoreBoard = {
@@ -137,17 +213,7 @@ window.addEventListener('MyPushEvent', function (event) {
             gui.add(scoreBoard,'स्कोरबोर्ड');
 
 
-
-
-
-
-
-
-
-
-            // const flightData = JSON.parse(
-            //   '[{"longitude":-122.39053,"latitude":37.61779,"height":-27.32},{"longitude":-122.39035,"latitude":37.61803,"height":-27.32},{"longitude":-122.39019,"latitude":37.61826,"height":-27.32},{"longitude":-122.39006,"latitude":37.6185,"height":-27.32},{"longitude":-122.38985,"latitude":37.61864,"height":-27.32},{"longitude":-122.39005,"latitude":37.61874,"height":-27.32},{"longitude":-122.39027,"latitude":37.61884,"height":-27.32},{"longitude":-122.39057,"latitude":37.61898,"height":-27.32},{"longitude":-122.39091,"latitude":37.61912,"height":-27.32},{"longitude":-122.39053,"latitude":37.61779,"height":-27.32}]');
-
+ 
 
         let airplaneEntity;
         Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3MjAyYjg4NC02NzM0LTQxOGMtOGNhOC0wZDYxN2Q4ZTA2YmEiLCJpZCI6MTgzODk5LCJpYXQiOjE3MDIzNTg1ODd9.ti2Hyf1LxJL3UPbXCUwuIz8So9DCU3Uwovqm-FN0gxI';
@@ -349,34 +415,71 @@ const skyboxPaths = {
                     }
                   };
 
+                  
+                  if(church.includes('adajan'))
+                  {
+                            // Add the camerOnClick function to a_br_folder_group1 in the GUI
+                            if (age_group === 'Isaac') {
+                              a_br_folder_group1.add(camerOnClick, name_participant);
+                            
+                            }
+                            else if(age_group==='Immanuel')
+                            a_br_folder_group2.add(camerOnClick, name_participant );
 
-                  // Add the camerOnClick function to a_br_folder_group1 in the GUI
-                  if (age_group === 'Isaac') {
-                    a_br_folder_group1.add(camerOnClick, name_participant);
-                   
+                            else if(age_group==='Ruth')
+                            a_sis_folder_group1.add(camerOnClick, name_participant);
+
+                            else if(age_group==='Sarah')
+                            a_sis_folder_group2.add(camerOnClick, name_participant);
+
+                            else if(age_group==='Esther')
+                            a_sis_folder_group3.add(camerOnClick, name_participant);
+
+                            else if(age_group==='Y & St. Brother')
+                            y_br_folder.add(camerOnClick, name_participant);
+                            
+                            else if(age_group==='Y & St. Sister')
+                            y_sis_folder.add(camerOnClick, name_participant);
+
+                            else if(age_group==='Pandesra')
+                            pandesra_group.add(camerOnClick, name_participant);
+                  } 
+                  else 
+                  {
+                            if (age_group === 'Adult Brothers G1') 
+                            a_br_folder_group1.add(camerOnClick, name_participant);
+                  
+                            else if(age_group==='Adult Brothers G2')
+                            a_br_folder_group2.add(camerOnClick, name_participant );
+                          
+                            else if(age_group==='Adult Brothers G3')
+                            a_br_folder_group3.add(camerOnClick, name_participant);
+
+                            else if(age_group==='Adult Sisters G1')
+                            a_sis_folder_group1.add(camerOnClick, name_participant);
+
+                            else if(age_group==='Adult Sisters G2')
+                            a_sis_folder_group2.add(camerOnClick, name_participant);
+
+                            else if(age_group==='Adult Sisters G3')
+                            a_sis_folder_group3.add(camerOnClick, name_participant);
+
+                            else if(age_group==='Adult Sisters G4')
+                            a_sis_folder_group4.add(camerOnClick, name_participant);
+
+                            else if(age_group==='Adult Sisters G5')
+                            a_sis_folder_group5.add(camerOnClick, name_participant);
+
+                            else if(age_group==='Youth Brothers G1')
+                            y_br_folder.add(camerOnClick, name_participant);
+                            
+                            else if(age_group==='Youth Sisters G1')
+                            y_sis_folder.add(camerOnClick, name_participant);
+
+                            else if(age_group==='Branch')
+                            pandesra_group.add(camerOnClick, name_participant);
                   }
-                  else if(age_group==='Immanuel')
-                  a_br_folder_group2.add(camerOnClick, name_participant );
-
-                  else if(age_group==='Ruth')
-                  a_sis_folder_group1.add(camerOnClick, name_participant);
-
-                  else if(age_group==='Sarah')
-                  a_sis_folder_group2.add(camerOnClick, name_participant);
-
-                  else if(age_group==='Esther')
-                  a_sis_folder_group3.add(camerOnClick, name_participant);
-
-                  else if(age_group==='Y & St. Brother')
-                  y_br_folder.add(camerOnClick, name_participant);
-                  
-                  else if(age_group==='Y & St. Sister')
-                  y_sis_folder.add(camerOnClick, name_participant);
-
-                  else if(age_group==='Pandesra')
-                  pandesra_group.add(camerOnClick, name_participant);
-                  
-                
+                          
               };
             
 
@@ -389,14 +492,16 @@ const loadedModelsGrp = {};
                   
                   const objectFilename = './models/glb/low-size/cartoon_Plane_pink.glb';
                   var age_group_participant = tempsheetObject.Participant;
-                  let modelId_asset = choose_model_assetID_Group(age_group_participant);
+                  // let modelId_asset = choose_model_assetID_Group(age_group_participant);
 
                   const label_style = color_style_box(tempsheetObject);
                   let resource;
                     if(true) // I wanna use local files instead of fetching it from cesium or "false" if you wanna fetch from cesium ion
                     {
                       resource = choose_model_filename_Group(age_group_participant);
-                    }else{resource = await Cesium.IonResource.fromAssetId(modelId_asset);}
+                    }
+                    // else
+                    // {resource = await Cesium.IonResource.fromAssetId(modelId_asset);}
 
                     const loadModelGroup = async () => {
                       // positionProperty =  ;
@@ -469,32 +574,66 @@ const loadedModelsGrp = {};
 
 
                   // Add the camerOnClick function to a_br_folder_group1 in the GUI
-                 
-                  if (age_group_participant === 'ग्रुप: इसहाक ') {
-                    by_group.add(camerOnClickGroup, age_group_participant);
-                    console.log(age_group_participant);
+                  if(church.includes('adajan'))
+                  {
+                        if (age_group_participant === 'ग्रुप: इसहाक ') 
+                          by_group.add(camerOnClickGroup, age_group_participant);
+                        
+                        else if(age_group_participant==='ग्रुप: इम्मानुएल ')
+                        by_group.add(camerOnClickGroup, age_group_participant );
+
+                        else if(age_group_participant==='ग्रुप: रूत ')
+                        by_group.add(camerOnClickGroup, age_group_participant);
+
+                        else if(age_group_participant==='ग्रुप: सराह ')
+                        by_group.add(camerOnClickGroup, age_group_participant);
+
+                        else if(age_group_participant==='ग्रुप: एस्तेर ')
+                        by_group.add(camerOnClickGroup, age_group_participant);
+
+                        else if(age_group_participant==='ग्रुप: युवा/छात्र भाई ')
+                        by_group.add(camerOnClickGroup, age_group_participant);
+                        
+                        else if(age_group_participant==='ग्रुप: युवा/छात्र बहन ')
+                        by_group.add(camerOnClickGroup, age_group_participant);
+
+                        else if(age_group_participant==='ग्रुप: पांडेसरा ')
+                        by_group.add(camerOnClickGroup, age_group_participant);
                   }
-                  else if(age_group_participant==='ग्रुप: इम्मानुएल ')
-                  by_group.add(camerOnClickGroup, age_group_participant );
+                  else{
+                        if (age_group_participant === 'ग्रुप: वि.भाई 1') 
+                        by_group.add(camerOnClickGroup, age_group_participant);
+                        
+                        else if(age_group_participant==='ग्रुप: वि.भाई 2')
+                        by_group.add(camerOnClickGroup, age_group_participant );
 
-                  else if(age_group_participant==='ग्रुप: रूत ')
-                  by_group.add(camerOnClickGroup, age_group_participant);
+                        else if(age_group_participant==='ग्रुप: वि.भाई 3')
+                        by_group.add(camerOnClickGroup, age_group_participant);
 
-                  else if(age_group_participant==='ग्रुप: सराह ')
-                  by_group.add(camerOnClickGroup, age_group_participant);
+                        else if(age_group_participant==='ग्रुप: वि.बहन 1')
+                        by_group.add(camerOnClickGroup, age_group_participant);
 
-                  else if(age_group_participant==='ग्रुप: एस्तेर ')
-                  by_group.add(camerOnClickGroup, age_group_participant);
+                        else if(age_group_participant==='ग्रुप: वि.बहन 2')
+                        by_group.add(camerOnClickGroup, age_group_participant);
 
-                  else if(age_group_participant==='ग्रुप: युवा/छात्र भाई ')
-                  by_group.add(camerOnClickGroup, age_group_participant);
-                  
-                  else if(age_group_participant==='ग्रुप: युवा/छात्र बहन ')
-                  by_group.add(camerOnClickGroup, age_group_participant);
+                        else if(age_group_participant==='ग्रुप: वि.बहन 3')
+                        by_group.add(camerOnClickGroup, age_group_participant);
+                        
+                        else if(age_group_participant==='ग्रुप: वि.बहन 4')
+                        by_group.add(camerOnClickGroup, age_group_participant);
 
-                  else if(age_group_participant==='ग्रुप: पांडेसरा ')
-                  by_group.add(camerOnClickGroup, age_group_participant);
-                  
+                        else if(age_group_participant==='ग्रुप: वि.बहन 5')
+                        by_group.add(camerOnClickGroup, age_group_participant);
+
+                        else if(age_group_participant==='ग्रुप: युवा भाई & छात्र')
+                        by_group.add(camerOnClickGroup, age_group_participant);
+
+                        else if(age_group_participant==='ग्रुप: युवा & छात्र बहन')
+                        by_group.add(camerOnClickGroup, age_group_participant);
+
+                        else if(age_group_participant==='ग्रुप: ब्रांच')
+                        by_group.add(camerOnClickGroup, age_group_participant);
+                  }
                 
               };
 
@@ -640,28 +779,58 @@ function calculate_height_by_group(ageGroup,totalScore){
           let minim,max;
           
           totalScore = parseFloat(totalScore);
-          if (ageGroup === 'Isaac') 
-              { minim = 130; max = 140;}
-          else if(ageGroup==='Immanuel')
-              { minim = 130; max = 140;}
 
-          else if(ageGroup==='Ruth')
-              { minim = 90; max = 100;}
+          if(church.includes('adajan')){
+                    if (ageGroup === 'Isaac') 
+                        { minim = 130; max = 140;}
+                    else if(ageGroup==='Immanuel')
+                        { minim = 130; max = 140;}
 
-          else if(ageGroup==='Sarah')
-              { minim = 80; max = 90;}
+                    else if(ageGroup==='Ruth')
+                        { minim = 90; max = 100;}
 
-          else if(ageGroup==='Esther')
-              { minim = 70; max = 80;}
+                    else if(ageGroup==='Sarah')
+                        { minim = 80; max = 90;}
 
-          else if(ageGroup==='Y & St. Brother')
-              { minim = 130; max = 140;}
-          
-          else if(ageGroup==='Y & St. Sister')
-              { minim = 30; max = 20;}
+                    else if(ageGroup==='Esther')
+                        { minim = 70; max = 80;}
 
-          else if(ageGroup==='Pandesra')
-              { minim = 80; max =70;}
+                    else if(ageGroup==='Y & St. Brother')
+                        { minim = 130; max = 140;}
+                    
+                    else if(ageGroup==='Y & St. Sister')
+                        { minim = 30; max = 20;}
+
+                    else if(ageGroup==='Pandesra')
+                        { minim = 80; max =70;}
+          }else{
+                      if (ageGroup === 'Adult Brothers G1')
+                          { minim = 130; max = 140;}
+                      else if(ageGroup === 'Adult Brothers G2')
+                          { minim = 130; max = 140;}
+                      else if(ageGroup === 'Adult Brothers G3')
+                          { minim = 130; max = 140;}
+                      else if(ageGroup === 'Adult Sisters G1')
+                          { minim = 90; max = 100;}
+                      else if(ageGroup === 'Adult Sisters G2')
+                          { minim = 90; max = 100;}
+                      else if(ageGroup === 'Adult Sisters G3')
+                          { minim = 80; max = 90;}
+                      else if(ageGroup === 'Adult Sisters G4')
+                          { minim = 70; max = 80;}
+                      else if(ageGroup === 'Adult Sisters G5')
+                          { minim = 70; max = 80;}
+                      else if(ageGroup === 'Youth Brothers G1')
+                          { minim = 130; max = 140;}
+                      else if(ageGroup === 'Youth Sisters G1')
+                          { minim = 30; max = 20;}
+                      else if(ageGroup === 'Branch')
+                          { minim = 130; max = 140;}
+
+          }
+
+
+
 
               minim = parseFloat(minim);
               max = parseFloat(max);
@@ -677,28 +846,57 @@ function calculate_height_forGroupModels(ageGroup,totalScore){
           let minim,max;
           
           totalScore = parseFloat(totalScore);
-          if (ageGroup === 'ग्रुप: इसहाक ') 
-              { minim = 11000; max = 12000;}
-          else if(ageGroup==='ग्रुप: इम्मानुएल ')
-              { minim = 11000; max = 12000;}
+          if(church.includes('adajan')){          
+                  if (ageGroup === 'ग्रुप: इसहाक ') 
+                      { minim = 11000; max = 12000;}
+                  else if(ageGroup==='ग्रुप: इम्मानुएल ')
+                      { minim = 11000; max = 12000;}
 
-          else if(ageGroup==='ग्रुप: रूत ')
-              { minim = 9000; max = 11000;}
+                  else if(ageGroup==='ग्रुप: रूत ')
+                      { minim = 9000; max = 11000;}
 
-          else if(ageGroup==='ग्रुप: सराह ')
-              { minim = 9000; max = 11000;}
+                  else if(ageGroup==='ग्रुप: सराह ')
+                      { minim = 9000; max = 11000;}
 
-          else if(ageGroup==='ग्रुप: एस्तेर ')
-              { minim = 9000; max = 11000;}
+                  else if(ageGroup==='ग्रुप: एस्तेर ')
+                      { minim = 9000; max = 11000;}
 
-          else if(ageGroup==='ग्रुप: युवा/छात्र भाई ')
-              { minim = 11000; max = 12000;}
-          
-          else if(ageGroup==='ग्रुप: युवा/छात्र बहन ')
-              { minim = 8000; max = 9000;}
+                  else if(ageGroup==='ग्रुप: युवा/छात्र भाई ')
+                      { minim = 11000; max = 12000;}
+                  
+                  else if(ageGroup==='ग्रुप: युवा/छात्र बहन ')
+                      { minim = 8000; max = 9000;}
 
-          else if(ageGroup==='ग्रुप: पांडेसरा ')
-              { minim = 9000; max =12000;}
+                  else if(ageGroup==='ग्रुप: पांडेसरा ')
+                      { minim = 9000; max =12000;}
+          }else{
+                  if (ageGroup === 'ग्रुप: वि.भाई 1')
+                      { minim = 11000; max = 12000;}
+                  else if (ageGroup === 'ग्रुप: वि.भाई 2')
+                      { minim = 11000; max = 12000;}
+                  else if (ageGroup === 'ग्रुप: वि.भाई 3')
+                      { minim = 11000; max = 12000;}
+                  else if (ageGroup === 'ग्रुप: वि.बहन 1')
+                      { minim = 9000; max = 11000;}
+                  else if (ageGroup === 'ग्रुप: वि.बहन 2')
+                      { minim = 9000; max = 11000;}
+                  else if (ageGroup === 'ग्रुप: वि.बहन 3')
+                    { minim = 9000; max = 11000;}
+                  else if (ageGroup === 'ग्रुप: वि.बहन 4')
+                      { minim = 9000; max = 11000;}
+                  else if (ageGroup === 'ग्रुप: वि.बहन 5')
+                      { minim = 9000; max = 11000;}
+                  else if (ageGroup === 'ग्रुप: युवा भाई & छात्र')
+                      { minim = 11000; max = 12000;}
+                  else if (ageGroup === 'ग्रुप: युवा & छात्र बहन')
+                    { minim = 8000; max = 9000;}
+                  else if (ageGroup === 'ग्रुप: ब्रांच')
+                      { minim = 11000; max = 12000;}
+
+          }
+
+
+
 
               minim = parseFloat(minim);
               max = parseFloat(max);
@@ -982,47 +1180,87 @@ function color_style_box(tempsheetObject){
   return color_scheme;
 }
 function choose_model_assetID (ageGrp)
-{
-          switch (true) {
-            case ageGrp.includes('Isaac'):
-                  return '2408884';  
-             
-            case ageGrp.includes('Immanuel'):
-                 return '2408884';  
-            
-            case ageGrp.includes('Ruth'):
-                 return '2408886';  
-              
-            case ageGrp.includes('Sarah'):
-                return '2408886';  
-            
-            case ageGrp.includes('Esther'):
-                return '2408886';  
-              
-            case ageGrp.includes('Y & St. Brother'):
+{       if(church.includes('adajan')){
+              switch (true) {
+                case ageGrp.includes('Isaac'):
+                      return '2408884';  
+                
+                case ageGrp.includes('Immanuel'):
+                    return '2408884';  
+                
+                case ageGrp.includes('Ruth'):
+                    return '2408886';  
+                  
+                case ageGrp.includes('Sarah'):
+                    return '2408886';  
+                
+                case ageGrp.includes('Esther'):
+                    return '2408886';  
+                  
+                case ageGrp.includes('Y & St. Brother'):
+                    return '2408887';  
+
+                case ageGrp.includes('Y & St. Sister'):
+                    return '2408885';  
+
+                case ageGrp.includes('Pandesra'):
+                    return '2408887';  
+
+                default:
                 return '2408887';  
+                  
+              }
+        }else{
+                switch (true) {
+                  case ageGrp.includes('Adult Brothers G1'):
+                        return '2408884';  
 
-            case ageGrp.includes('Y & St. Sister'):
-                return '2408885';  
+                  case ageGrp.includes('Adult Brothers G2'):
+                    return '2408884';                          
+                  
+                  case ageGrp.includes('Adult Brothers G3'):
+                      return '2408884';  
+                  
+                  case ageGrp.includes('Adult Sisters G1'):
+                      return '2408886';  
+                    
+                  case ageGrp.includes('Adult Sisters G2'):
+                      return '2408886';  
+                  
+                  case ageGrp.includes('Adult Sisters G3'):
+                      return '2408886';  
+                  
+                  case ageGrp.includes('Adult Sisters G4'):
+                      return '2408886';  
+                  
+                  case ageGrp.includes('Adult Sisters G5'):
+                      return '2408886';  
 
-            case ageGrp.includes('Pandesra'):
-                return '2408887';  
+                  case ageGrp.includes('Youth Brothers G1'):
+                      return '2408887';  
 
-            default:
-             return '2408887';  
-              
-          }
+                  case ageGrp.includes('Youth Sisters G1'):
+                      return '2408885';  
+
+                  case ageGrp.includes('Branch'):
+                      return '2408887';  
+
+                  default:
+                  return '2408887';  
+                    
+                }
+        }
 }
 function choose_model_filename (ageGrp)
 {
           switch (true) {
-            case ageGrp.includes('Isaac'):
+            case ageGrp.includes('Isaac')||ageGrp.includes('Adult Brothers G1')||ageGrp.includes('Adult Brothers G2')||ageGrp.includes('Adult Brothers G3'):
                   return './models/glb/low-size/cartoon_plane_adult_br.glb';  
              
             case ageGrp.includes('Immanuel'):
               return './models/glb/low-size/cartoon_plane_adult_br.glb'; 
             
-            case ageGrp.includes('Ruth'):
+            case ageGrp.includes('Ruth')||ageGrp.includes('Adult Sisters G1')||ageGrp.includes('Adult Sisters G2')||ageGrp.includes('Adult Sisters G3')||ageGrp.includes('Adult Sisters G4')||ageGrp.includes('Adult Sisters G5'):
               return './models/glb/low-size/cartoon_Plane_white_ad_sis.glb'; 
               
             case ageGrp.includes('Sarah'):
@@ -1031,13 +1269,13 @@ function choose_model_filename (ageGrp)
             case ageGrp.includes('Esther'):
               return './models/glb/low-size/cartoon_Plane_white_ad_sis.glb'; 
               
-            case ageGrp.includes('Y & St. Brother'):
+            case ageGrp.includes('Y & St. Brother')||ageGrp.includes('Youth Brothers G1'):
               return './models/glb/low-size/cartoon_plane_youthbrs.glb'; 
 
-            case ageGrp.includes('Y & St. Sister'):
+            case ageGrp.includes('Y & St. Sister')||ageGrp.includes('Youth Sisters G1'):
               return './models/glb/low-size/cartoon_plane_pink_ytsis.glb'; 
 
-            case ageGrp.includes('Pandesra'):
+            case ageGrp.includes('Pandesra')||ageGrp.includes('Branch'):
               return './models/glb/low-size/cartoon_plane_adult_br.glb'; 
 
             default:
@@ -1050,28 +1288,28 @@ function choose_model_filename (ageGrp)
 function  choose_model_filename_Group (ageGrp)
 {
           switch (true) {
-            case ageGrp.includes('ग्रुप: रूत'):
+            case ageGrp.includes('ग्रुप: रूत')||ageGrp.includes('Adult Sisters G1')||ageGrp.includes('Adult Sisters G3'):
               return './models/glb/low-size/group_Plane_ruth.glb';   
              
-            case ageGrp.includes('ग्रुप: सराह'):
+            case ageGrp.includes('ग्रुप: सराह')||ageGrp.includes('Adult Sisters G4')||ageGrp.includes('Adult Sisters G5'):
               return './models/glb/low-size/group_Plane_sarah.glb';   
             
-            case ageGrp.includes('ग्रुप: एस्तेर'):
+            case ageGrp.includes('ग्रुप: एस्तेर')||ageGrp.includes('Adult Sisters G2'):
               return './models/glb/low-size/group_Plane_Esther.glb';   
               
-            case ageGrp.includes('ग्रुप: इसहाक'):
+            case ageGrp.includes('ग्रुप: इसहाक')||ageGrp.includes('Adult Brothers G1'):
               return './models/glb/low-size/group_Plane_isaac.glb';   
             
-            case ageGrp.includes('ग्रुप: इम्मानुएल'):
+            case ageGrp.includes('ग्रुप: इम्मानुएल')||ageGrp.includes('Adult Brothers G2')||ageGrp.includes('Adult Brothers G3'):
               return './models/glb/low-size/group_Plane_immanuel.glb';   
               
-            case ageGrp.includes('ग्रुप: युवा/छात्र भाई'):
+            case ageGrp.includes('ग्रुप: युवा/छात्र भाई')||ageGrp.includes('Youth Brothers G1'):
               return './models/glb/low-size/group_Plane_youthbrs.glb';   
 
-            case ageGrp.includes('ग्रुप: युवा/छात्र बहन'):
+            case ageGrp.includes('ग्रुप: युवा/छात्र बहन')||ageGrp.includes('Youth Sisters G1'):
               return './models/glb/low-size/group_Plane_pink_ytsis.glb';     
 
-            case ageGrp.includes('ग्रुप: पांडेसरा'):
+            case ageGrp.includes('ग्रुप: पांडेसरा')||ageGrp.includes('Branch'):
               return './models/glb/low-size/group_Plane_pandes.glb';   
 
             default:
@@ -1085,7 +1323,6 @@ function choose_model_assetID_Group (ageGrp)
 {   
           switch (true) {
             case ageGrp.includes('ग्रुप: रूत'):
-                  
                   return '2414145';  
              
             case ageGrp.includes('ग्रुप: सराह'):
@@ -1209,9 +1446,39 @@ function loadSkyBox_bytime(){
 
 
 
-async function fetchData() {
+async function fetchData(church) {
   try {
-    let url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ7Zx1Vnsdizp-ee3wroRGSME9hyu8bUvXWBQWiWf0zNWMJ7z5Wtj0lN52ibU_jg8PEsEWG53VFZ8ee/pub?gid=1246387545&single=true&output=csv&range=C3";
+    let url;
+    switch (church) {
+      case "adajan":
+         url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ7Zx1Vnsdizp-ee3wroRGSME9hyu8bUvXWBQWiWf0zNWMJ7z5Wtj0lN52ibU_jg8PEsEWG53VFZ8ee/pub?gid=1246387545&single=true&output=csv&range=C3";
+         break;
+      case "jashoda":
+        url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQN8pyniC_ydY8FZ1IsV-1kj4BjQ0tzJHFuVZLj1FtwhWkRWEqPENJUE9GPa8oJr5ZVpKl9_h1-pVhE/pub?gid=1246387545&single=true&output=csv&range=C3";
+        break;
+      case "dindoli":
+        url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQN8pyniC_ydY8FZ1IsV-1kj4BjQ0tzJHFuVZLj1FtwhWkRWEqPENJUE9GPa8oJr5ZVpKl9_h1-pVhE/pub?gid=1246387545&single=true&output=csv&range=C5";
+        break;
+      case "vyara":
+        url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQN8pyniC_ydY8FZ1IsV-1kj4BjQ0tzJHFuVZLj1FtwhWkRWEqPENJUE9GPa8oJr5ZVpKl9_h1-pVhE/pub?gid=1246387545&single=true&output=csv&range=C11";
+        break;
+      case "vadodara":
+        url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQN8pyniC_ydY8FZ1IsV-1kj4BjQ0tzJHFuVZLj1FtwhWkRWEqPENJUE9GPa8oJr5ZVpKl9_h1-pVhE/pub?gid=1246387545&single=true&output=csv&range=C13";
+        break;
+      case "rajkot":
+        url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQN8pyniC_ydY8FZ1IsV-1kj4BjQ0tzJHFuVZLj1FtwhWkRWEqPENJUE9GPa8oJr5ZVpKl9_h1-pVhE/pub?gid=1246387545&single=true&output=csv&range=C15";
+        break;
+      case "naroda":
+        url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQN8pyniC_ydY8FZ1IsV-1kj4BjQ0tzJHFuVZLj1FtwhWkRWEqPENJUE9GPa8oJr5ZVpKl9_h1-pVhE/pub?gid=1246387545&single=true&output=csv&range=C7";
+
+          
+          break;
+      default:
+        url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQN8pyniC_ydY8FZ1IsV-1kj4BjQ0tzJHFuVZLj1FtwhWkRWEqPENJUE9GPa8oJr5ZVpKl9_h1-pVhE/pub?gid=1246387545&single=true&output=csv&range=C3";
+          break;
+  }
+  
+     
     const response = await fetch(url);
     
     if (!response.ok) {
@@ -1228,9 +1495,9 @@ async function fetchData() {
  
 
 //CALL MAIN
-function startLoading() {
+function startLoading(church) {
   showSpinner();
-  main();
+  main(church);
 }
 
 

@@ -28,6 +28,8 @@ import com.google.android.play.core.tasks.Task;
 
 import java.util.ArrayList;
 
+import io.paperdb.Paper;
+
 public class MainActivity extends BridgeActivity {
     private AppUpdateManager mAppUpdateManager;
     private static final int RC_APP_UPDATE=100;
@@ -35,17 +37,17 @@ public class MainActivity extends BridgeActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
+        Paper.init(getApplicationContext());
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                bridge.triggerWindowJSEvent("MyPushEvent", "{\"test1\":\"test2\"}");
+                String churchName = Paper.book().read("church");
+                bridge.triggerWindowJSEvent("Church_name", "{\"value\":\""+churchName+"\"}");
             }
         }, 3000);
 
 
-        sendMessageToWebView();
 
         //Update setttings
         mAppUpdateManager = AppUpdateManagerFactory.create(this);
@@ -98,18 +100,5 @@ public class MainActivity extends BridgeActivity {
     }
 
 
-    private void sendMessageToWebView() {
-        Bridge bridge = this.getBridge();
 
-        if (bridge != null) {
-            JSObject message = new JSObject();
-            message.put("variableName", "someVariable");
-            message.put("variableValue", "someValue");
-
-            // Send the message to the WebView by executing JavaScript code
-            bridge.triggerWindowJSEvent("MyPushEvent", "{\"test1\":\"test2\"}");
-            bridge.triggerDocumentJSEvent("MyPushEvent");
-            bridge.eval("window.dispatchEvent(new CustomEvent('message', { detail: " + message.toString() + " }))", null);
-        }
-    }
 }

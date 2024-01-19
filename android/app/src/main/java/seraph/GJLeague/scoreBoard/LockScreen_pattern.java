@@ -18,6 +18,8 @@ import com.andrognito.patternlockview.utils.PatternLockUtils;
 
 import java.util.List;
 
+import io.paperdb.Paper;
+
 public class LockScreen_pattern extends AppCompatActivity {
     private ImageView profileimage;
     private PatternLockView mPatternLockView;
@@ -67,12 +69,40 @@ public class LockScreen_pattern extends AppCompatActivity {
 
             // Convert the pattern to a string for comparison
             String patternString = PatternLockUtils.patternToString(mPatternLockView, pattern);
+            Paper.init(getApplicationContext());
 
             if (patternString.equals("3642")) {
-                Intent openMainActivity = new Intent(getApplicationContext(), MainActivity.class);
-                openMainActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(openMainActivity);
-            }else {
+                Paper.book().write("church","adajan");
+                startMain();
+            }
+            else if (patternString.equals("3642")) {
+                Paper.book().write("church","jashoda");
+                startMain();
+            }
+            else if (patternString.equals("3642")) {
+                Paper.book().write("church","dindoli");
+                startMain();
+            }
+            else if (patternString.equals("3642")) {
+                Paper.book().write("church","vyara");
+                startMain();
+            }
+            else if (patternString.equals("3642")) {
+                Paper.book().write("church","vadodara");
+                startMain();
+            }
+            else if (patternString.equals("3642")) {
+                Paper.book().write("church","rajkot");
+                startMain();
+            }
+            else if (patternString.equals("3642")) {
+                Paper.book().write("church","naroda");
+                startMain();
+            }
+
+
+
+            else {
                 Vibrator vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
                 // Vibrate pattern: { delay, vibrate, pause, vibrate, pause, vibrate }
@@ -91,6 +121,11 @@ public class LockScreen_pattern extends AppCompatActivity {
             mPatternLockView.clearPattern();
         }
 
+        public void startMain(){
+            Intent openMainActivity = new Intent(getApplicationContext(), MainActivity.class);
+            openMainActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(openMainActivity);
+        }
 
         @Override
         public void onCleared() {
