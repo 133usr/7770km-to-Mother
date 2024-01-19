@@ -57,6 +57,10 @@ I am going to access those numbers for example like if someone has score of 500 
 if the number is 7 then I get from 2 to 7 and the plane will fly from the longitude and latitude of the number 2 to the longitude and latitude of the number 7 
 
 
+## Now this project became on state level
+
+So with different churches we need different scripts.js 
+so it should interact with android and figure out with script.js to load..
 
 
 
