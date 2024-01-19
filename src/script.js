@@ -27,6 +27,9 @@ function hideSpinner() {
   document.getElementById('spinner').style.display = 'none';
   
 }
+
+
+
 /**************************************************************
  *                                                           *
  *                   MAIN FUNCTION                            *
@@ -38,7 +41,18 @@ function hideSpinner() {
  *          all you need to do is to iterate it 
  *                                                            *
  **************************************************************/
+var testingCommunication;
 
+window.addEventListener('MyPushEvent', function (event) {
+  // const variableName = event.detail.variableName;
+  // const variableValue = event.detail.variableValue;
+  alert('Window Push Event: '+event.type );
+  // Now you can use variableName and variableValue in your Cesium project
+  // console.log(`Received variable ${variableName} with value ${variableValue}`);
+  // testingCommunication =  variableValue;
+  startLoading();
+  
+});
 
     async function main() {
       
@@ -1218,7 +1232,7 @@ function startLoading() {
   showSpinner();
   main();
 }
-startLoading();
+
 
 
 

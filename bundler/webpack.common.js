@@ -6,7 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin')
 const path = require('path')
 const webpack = require('webpack');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+// const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
     entry: {main : path.resolve(__dirname, '../src/script.js'),
@@ -113,20 +113,20 @@ module.exports = {
         ]
     },
 //for progaurd or code obusfucation 
-    optimization: {
-        minimizer: [
-          new UglifyJsPlugin({
-            uglifyOptions: {
-              // your UglifyJS options here
-              compress: {
-                drop_console: true, // Remove console.log statements
-              },
-              output: {
-                beautify: false,
-                comments: false,
-              },
-            },
-          }),
-        ],
-      },
+    // optimization: {
+    //     minimizer: [
+    //       new UglifyJsPlugin({
+    //         uglifyOptions: {
+    //           // your UglifyJS options here
+    //           compress: {
+    //             drop_console: true, // Remove console.log statements
+    //           },
+    //           output: {
+    //             beautify: false,
+    //             comments: false,
+    //           },
+    //         },
+    //       }),
+    //     ],
+    //   },
 }

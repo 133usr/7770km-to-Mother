@@ -6,12 +6,18 @@ import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.KeyEvent;
+import android.webkit.JavascriptInterface;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.getcapacitor.Bridge;
 import com.getcapacitor.BridgeActivity;
+import com.getcapacitor.JSObject;
+import com.getcapacitor.Plugin;
 import com.google.android.play.core.appupdate.AppUpdateInfo;
 import com.google.android.play.core.appupdate.AppUpdateManager;
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
@@ -20,12 +26,26 @@ import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.android.play.core.tasks.OnSuccessListener;
 import com.google.android.play.core.tasks.Task;
 
+import java.util.ArrayList;
+
 public class MainActivity extends BridgeActivity {
     private AppUpdateManager mAppUpdateManager;
     private static final int RC_APP_UPDATE=100;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                bridge.triggerWindowJSEvent("MyPushEvent", "{\"test1\":\"test2\"}");
+            }
+        }, 3000);
+
+
+        sendMessageToWebView();
 
         //Update setttings
         mAppUpdateManager = AppUpdateManagerFactory.create(this);
@@ -78,5 +98,18 @@ public class MainActivity extends BridgeActivity {
     }
 
 
-    
+    private void sendMessageToWebView() {
+        Bridge bridge = this.getBridge();
+
+        if (bridge != null) {
+            JSObject message = new JSObject();
+            message.put("variableName", "someVariable");
+            message.put("variableValue", "someValue");
+
+            // Send the message to the WebView by executing JavaScript code
+            bridge.triggerWindowJSEvent("MyPushEvent", "{\"test1\":\"test2\"}");
+            bridge.triggerDocumentJSEvent("MyPushEvent");
+            bridge.eval("window.dispatchEvent(new CustomEvent('message', { detail: " + message.toString() + " }))", null);
+        }
+    }
 }
