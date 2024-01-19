@@ -71,27 +71,27 @@ public class LockScreen_pattern extends AppCompatActivity {
             String patternString = PatternLockUtils.patternToString(mPatternLockView, pattern);
             Paper.init(getApplicationContext());
 
-            if (patternString.equals("3642")) {
+            if (patternString.equals("1475")) {
                 Paper.book().write("church","adajan");
                 startMain();
             }
-            else if (patternString.equals("3642")) {
+            else if (patternString.equals("1478")) {
                 Paper.book().write("church","jashoda");
                 startMain();
             }
-            else if (patternString.equals("3642")) {
+            else if (patternString.equals("2467")) {
                 Paper.book().write("church","dindoli");
                 startMain();
             }
-            else if (patternString.equals("3642")) {
+            else if (patternString.equals("5436")) {
                 Paper.book().write("church","vyara");
                 startMain();
             }
-            else if (patternString.equals("3642")) {
+            else if (patternString.equals("43678")) {
                 Paper.book().write("church","vadodara");
                 startMain();
             }
-            else if (patternString.equals("3642")) {
+            else if (patternString.equals("2147")) {
                 Paper.book().write("church","rajkot");
                 startMain();
             }

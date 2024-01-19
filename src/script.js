@@ -48,39 +48,10 @@ window.addEventListener('Church_name', function (event) {
 
         alert("Your church: "+event.value)
         var church = event.value;
-        // if (church.equals("adajan")) {
-          
-        //   startMain();
-        //   }
-        //   else if (church.equals("jashoda")) {
-              
-        //       startMain();
-        //   }
-        //   else if (church.equals("dindoli")) {
-              
-        //       startMain();
-        //   }
-        //   else  if (church.equals("vyara")) {
-             
-        //       startMain();
-        //   }
-        //   else  if (church.equals("vadodara")) {
-             
-        //       startMain();
-        //   }
-        //   else  if (church.equals("rajkot")) {
-             
-        //       startMain();
-        //   }
-        //   else if (church.equals("naroda")) {
-              
-        //       startMain();
-        //   }
-        
         startLoading(church);
   
 });
-startLoading("jashoda");
+
     async function main(church) {
       
         let allData = await fetchData(church);
