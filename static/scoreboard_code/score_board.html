@@ -82,10 +82,25 @@
  *                                                            *
  **************************************************************/
 
+ // Function to get the value of a query parameter from the URL
+ function getQueryParam(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
 
- async function main() {
+        // Get the value of the "data" parameter
+        const receivedData = getQueryParam('data');
+        if (receivedData!=null)
+            {main(receivedData);
+             
+            }
+
+        // Use the received data as needed
+        console.log('Received data:', receivedData);
+
+ async function main(church) {
       
-      let allData = await fetchData();
+      let allData = await fetchData(church);
             
       allData = allData.replace(/[""]+/g,'"'); //dont' know why data has extra ""  so remove them
       allData = allData.replace('"[{','[{'); //dont' know why data has extra ["  so remove them
@@ -125,22 +140,14 @@
                             $('<td>').text(b_study),   
                             ).appendTo('#score-table');
                         // console.log($tr.wrap('<p>').html());
+                           if (i === 0) {
+                            $tr.addClass('sticky-row');
+                        }
                     });
                 });
   
             }
 
- // Function to get the value of a query parameter from the URL
-        function getQueryParam(name) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(name);
-        }
-
-        // Get the value of the "data" parameter
-        const receivedData = getQueryParam('data');
-
-        // Use the received data as needed
-        console.log('Received data:', receivedData);
 
 
 
@@ -192,8 +199,7 @@
 }
  
 
-//CALL MAIN
-main();
+
 
 
 </script>

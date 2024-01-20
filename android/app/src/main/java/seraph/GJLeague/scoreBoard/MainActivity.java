@@ -47,6 +47,14 @@ public class MainActivity extends BridgeActivity {
             }
         }, 1000);
 
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(MainActivity.this, "Please wait...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Loading...", Toast.LENGTH_LONG).show();
+            }
+        }, 2000);
+
 
 
         //Update setttings

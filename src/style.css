@@ -136,6 +136,12 @@ body
   }
 
   
+  .sticky-row {
+    position: sticky;
+    top: 0;
+    background-color: #292a2e; /* Adjust the background color as needed */
+    z-index: 1;
+}
 
 
 

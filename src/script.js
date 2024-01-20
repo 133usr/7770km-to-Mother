@@ -49,7 +49,7 @@ window.addEventListener('Church_name', function (event) {
         startLoading(church);
   
 });
-startLoading("jashoda");
+// startLoading("adajan");
     async function main(church) {
       
         let allData = await fetchData(church);
@@ -181,9 +181,9 @@ startLoading("jashoda");
         // }
 
         const scoreBoard = {
-          स्कोरबोर्ड: function(church) {
+          स्कोरबोर्ड: function() {
             // String to send
-            const stringToSend = "church";
+            const stringToSend = church;
         
             // Append the string to the URL
             const urlWithQuery = `./scoreboard_code/score_board.html?data=${encodeURIComponent(stringToSend)}`;
