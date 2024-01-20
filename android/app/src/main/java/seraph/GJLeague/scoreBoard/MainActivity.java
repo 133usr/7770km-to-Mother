@@ -45,7 +45,7 @@ public class MainActivity extends BridgeActivity {
                 String churchName = Paper.book().read("church");
                 bridge.triggerWindowJSEvent("Church_name", "{\"value\":\""+churchName+"\"}");
             }
-        }, 3000);
+        }, 1000);
 
 
 

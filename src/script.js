@@ -45,13 +45,11 @@ var testingCommunication;
 
 window.addEventListener('Church_name', function (event) {
   
-
-        alert("Your church: "+event.value)
         var church = event.value;
         startLoading(church);
   
 });
-
+startLoading("jashoda");
     async function main(church) {
       
         let allData = await fetchData(church);
@@ -177,10 +175,23 @@ window.addEventListener('Church_name', function (event) {
                   }
         //   var y_br_folder_group2 = a_br_folder.addFolder('Group2');
 
-        const scoreBoard = {
+        // const scoreBoard = {
             
-          स्कोरबोर्ड: function() { window.location.href = './scoreboard_code/score_board.html' }
-        }
+        //   स्कोरबोर्ड: function() { window.location.href = './scoreboard_code/score_board.html' }
+        // }
+
+        const scoreBoard = {
+          स्कोरबोर्ड: function(church) {
+            // String to send
+            const stringToSend = "church";
+        
+            // Append the string to the URL
+            const urlWithQuery = `./scoreboard_code/score_board.html?data=${encodeURIComponent(stringToSend)}`;
+        
+            // Redirect to the scoreboard page with data
+            window.location.href = urlWithQuery;
+          }
+        };
             gui.add(scoreBoard,'स्कोरबोर्ड');
 
 
