@@ -103,7 +103,7 @@
     
     <div id="scoreButton">
       <div><br></div>
-      <button class="btn btn-primary custom-btn" id ="customButton" onclick="alert('Please restart the app');">7770km to Mother</button>
+      <button class="btn btn-primary custom-btn" id ="customButton" >7770km to Mother</button>
 
 
     </div>
@@ -148,10 +148,28 @@
 <script>
 
 
+ // Function to get the value of a query parameter from the URL
+ function getQueryParam(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // Get the value of the "data" parameter
+        const receivedData = getQueryParam('data');
+        if (receivedData!=null)
+            {main(receivedData);
+                         
+            }
+            function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+        // Use the received data as needed
+        console.log('Received data:', receivedData);
+
 function getBaseUrl() {
             var base = window.location.protocol + "//" + window.location.hostname;
             if (window.location.port) {
-                base += ":" + window.location.port;
+                base += ":" + window.location.port+"?data="+receivedData;
             }
             return base;
         }
@@ -180,25 +198,6 @@ function getBaseUrl() {
  *          all you need to do is to iterate it 
  *                                                            *
  **************************************************************/
-
- // Function to get the value of a query parameter from the URL
- function getQueryParam(name) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(name);
-        }
-
-        // Get the value of the "data" parameter
-        const receivedData = getQueryParam('data');
-        if (receivedData!=null)
-            {main(receivedData);
-             
-             
-            }
-            function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-        // Use the received data as needed
-        console.log('Received data:', receivedData);
 
  async function main(church) {
       

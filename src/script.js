@@ -42,7 +42,18 @@ function hideSpinner() {
  *                                                            *
  **************************************************************/
 var testingCommunication;
+ // Function to get the value of a query parameter from the URL
+ function getQueryParam(name) {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(name);
+}
 
+// Get the value of the "data" parameter
+const receivedData = getQueryParam('data');
+if (receivedData!=null)
+  {startLoading(receivedData);     
+    // alert('recieve')       
+  }
 window.addEventListener('Church_name', function (event) {
   
         var church = event.value;
