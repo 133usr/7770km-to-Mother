@@ -28,6 +28,8 @@
     "html-webpack-plugin": "^5.5.1",
     "lil-gui": "^0.18.1",
     "mini-css-extract-plugin": "^1.6.2",
+    "pattern-lock-js": "^1.0.1",
+    "patternlock": "^2.0.2",
     "portfinder-sync": "0.0.2",
     "raw-loader": "^4.0.2",
     "request": "^2.88.2",

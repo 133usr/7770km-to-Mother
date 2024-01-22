@@ -12,11 +12,64 @@ import '../src/style.css'
 import TWEEN from '@tweenjs/tween.js'
 
 import GUI from 'lil-gui';
-
+import PatternLock from 'pattern-lock-js';
 
 import scoreData from './scoredata.json';
 import Hammer from 'hammerjs'; 
 // Use scoreData in your code
+var jashoda = 2589;
+var adajan = 2586;
+var dindoli = 4563;
+var vadodara = 32569;
+var vyara = 1456;
+var ahwa = 3214;
+
+
+var lock = new PatternLock("#lock", {
+  onPattern: function(pattern) {
+    // Context is the pattern lock instance
+
+    switch (pattern) {
+      case jashoda:
+        startLoading("jashoda");
+        hideLock();
+        break;
+    
+      case adajan:
+        startLoading("adajan");
+        hideLock();
+        break;
+          
+      case dindoli:
+        startLoading("dindoli");
+        hideLock();
+        break;
+        
+      case vadodara:
+        startLoading("vadodara");
+        hideLock();
+        break;
+        
+      case vyara:
+        startLoading("vyara");
+        hideLock();
+        break;
+        
+      case ahwa:
+        startLoading("ahwa");
+        hideLock();
+        break;
+
+      default:
+        lock.clear();
+        alert("Wrong Pattern");
+        break;
+    }
+   
+  
+   }
+});
+
 
 function showSpinner() {
   document.querySelector('.spinner-container').style.display = 'flex';
@@ -25,11 +78,11 @@ function showSpinner() {
 // Function to hide the spinner
 function hideSpinner() {
   document.getElementById('spinner').style.display = 'none';
-  
 }
-
-
-
+function hideLock() {
+  document.querySelector('body').style.backgroundColor = 'black';
+  document.getElementById('lock').style.display = 'none';
+}
 /**************************************************************
  *                                                           *
  *                   MAIN FUNCTION                            *
@@ -51,8 +104,10 @@ var testingCommunication;
 // Get the value of the "data" parameter
 const receivedData = getQueryParam('data');
 if (receivedData!=null)
-  {startLoading(receivedData);     
-    // alert('recieve')       
+
+  {   hideLock();
+      startLoading(receivedData);  
+   // alert('recieve')       
   }
 window.addEventListener('Church_name', function (event) {
   
@@ -1492,7 +1547,6 @@ function startLoading(church) {
   showSpinner();
   main(church);
 }
-
 
 
 

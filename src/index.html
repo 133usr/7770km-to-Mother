@@ -16,9 +16,76 @@
           padding: 0;
           overflow: hidden;
       }
+
+
+      svg.patternlock g.lock-lines line {
+    stroke-width: 1.5;
+    stroke: black;
+    opacity: 0.5;
+}
+
+svg.patternlock g.lock-dots circle {
+    stroke: transparent;
+    fill: black;
+    stroke-width: 13.5;
+}
+
+svg.patternlock g.lock-actives circle {
+    fill: black;
+    opacity: .2;
+    animation: lock-activate-dot .15s 0s ease 1;
+    transform-origin: center;
+}
+
+svg.patternlock g.lock-lines line {
+    stroke-width: 1.5;
+    stroke-linecap: round;
+}
+
+svg.patternlock.success g.lock-actives circle {
+    fill: green;
+}
+
+svg.patternlock.error g.lock-actives circle {
+    fill: red;
+}
+
+@keyframes lock-activate-dot {
+    0% {
+        transform: scale(0);
+    }
+    75% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1.0);
+    }
+}
+
+
   </style>
+  
+<svg class="patternlock" id="lock" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <g class="lock-actives"></g>
+  <g class="lock-lines"></g>
+  <g class="lock-dots">
+      <circle cx="20" cy="20" r="2"/>
+      <circle cx="50" cy="20" r="2"/>
+      <circle cx="80" cy="20" r="2"/>
+
+      <circle cx="20" cy="50" r="2"/>
+      <circle cx="50" cy="50" r="2"/>
+      <circle cx="80" cy="50" r="2"/>
+
+      <circle cx="20" cy="80" r="2"/>
+      <circle cx="50" cy="80" r="2"/>
+      <circle cx="80" cy="80" r="2"/>
+  </g>
+</svg>
+  
+
 </head>
-<body >
+<body style="background-color: white;">
   <div id = "spinner" class="spinner-container">
     <div class="lds-ring">
       <div></div>
@@ -28,43 +95,10 @@
     </div>
   </div>
     <div id="cesiumContainer"></div>
-    <!-- <canvas class="webgl"></canvas>
-
-    <div id="container"></div>
-    <div id="hidecredit"></div>
-
-
-<div id="ThreeContainer"></div>
-  <div id="cover">
-    <div id="loadingIndicator" class="loadingIndicator"></div>
-  </div>
-     -->
-
-
-
-
-
-
-
-
-
-
-
-
-
     
 </body>
 
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r126/three.min.js" integrity="sha512-n8IpKWzDnBOcBhRlHirMZOUvEq2bLRMuJGjuVqbzUJwtTsgwOgK5aS0c1JA647XWYfqvXve8k3PtZdzpipFjgg==" crossorigin="anonymous"></script> -->
-<!-- <script src="https://unpkg.com/three@0.126.0/examples/js/loaders/GLTFLoader.js"></script> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js"></script>
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r16/Stats.min.js"></script> -->
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5/dat.gui.min.js"></script> -->
-<!-- <script src="https://cdn.rawgit.com/vasturiano/three-text2d/gh-pages/build/three.text2d.min.js"></script> -->
-
-<!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
-
 
 </html>

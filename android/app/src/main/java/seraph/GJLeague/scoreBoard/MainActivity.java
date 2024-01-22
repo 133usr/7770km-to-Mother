@@ -39,13 +39,13 @@ public class MainActivity extends BridgeActivity {
 
         Paper.init(getApplicationContext());
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                String churchName = Paper.book().read("church");
-                bridge.triggerWindowJSEvent("Church_name", "{\"value\":\""+churchName+"\"}");
-            }
-        }, 1000);
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                String churchName = Paper.book().read("church");
+//                bridge.triggerWindowJSEvent("Church_name", "{\"value\":\""+churchName+"\"}");
+//            }
+//        }, 1000);
 
         new Handler().postDelayed(new Runnable() {
             @Override
