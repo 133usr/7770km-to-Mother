@@ -62,10 +62,24 @@ svg.patternlock.error g.lock-actives circle {
     }
 }
 
+/* for pattern lock */
+.patternlock {
+            /* Add any other styles you need for the SVG container */
+            display: block; /* Ensures that the SVG is treated as a block-level element */
+            margin: 0 auto; /* Centers the SVG horizontally */
+        }
 
+        /* Additional styles for mobile view */
+        @media (max-width: 767px) {
+            .patternlock {
+                margin-top: 100px; /* Adjust the top margin as needed */
+            }
+        }
+  
   </style>
   
 <svg class="patternlock" id="lock" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+
   <g class="lock-actives"></g>
   <g class="lock-lines"></g>
   <g class="lock-dots">

@@ -19,9 +19,9 @@ import Hammer from 'hammerjs';
 // Use scoreData in your code
 var jashoda = 2589;
 var adajan = 2586;
-var dindoli = 4563;
+var dindoli = 3578;
 var vadodara = 32569;
-var vyara = 1456;
+var vyara = 6547;
 var ahwa = 3214;
 
 
