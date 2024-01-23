@@ -70,7 +70,14 @@ public class LockScreen_pattern extends AppCompatActivity {
             // Convert the pattern to a string for comparison
             String patternString = PatternLockUtils.patternToString(mPatternLockView, pattern);
             Paper.init(getApplicationContext());
-
+//                                                                                                                    var jashoda = 2589;
+//                                                                                                                    var adajan = 2586;
+//                                                                                                                    var dindoli = 3578;
+//                                                                                                                    var vadodara = 32569;
+//                                                                                                                    var vyara = 6547;
+//                                                                                                                    var ahwa = 3214;
+//                                                                                                                    var naranpura = 35789;
+//                                                                                                                    var rajkot = 1258;
             if (patternString.equals("1475")) {
                 Paper.book().write("church","adajan");
                 startMain();
@@ -91,12 +98,21 @@ public class LockScreen_pattern extends AppCompatActivity {
                 Paper.book().write("church","vadodara");
                 startMain();
             }
-            else if (patternString.equals("2147")) {
+            else if (patternString.equals("0147")) {
                 Paper.book().write("church","rajkot");
                 startMain();
             }
-            else if (patternString.equals("3642")) {
-                Paper.book().write("church","naroda");
+//            else if (patternString.equals("3642")) {
+//                Paper.book().write("church","naroda");
+//                startMain();
+//            }
+
+            else if (patternString.equals("2103")) {
+                Paper.book().write("church","ahwa");
+                startMain();
+            }
+            else if (patternString.equals("24678")) {
+                Paper.book().write("church","naranpura");
                 startMain();
             }
 

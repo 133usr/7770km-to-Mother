@@ -23,53 +23,87 @@ var dindoli = 3578;
 var vadodara = 32569;
 var vyara = 6547;
 var ahwa = 3214;
-
-
-var lock = new PatternLock("#lock", {
-  onPattern: function(pattern) {
-    // Context is the pattern lock instance
-
-    switch (pattern) {
-      case jashoda:
-        startLoading("jashoda");
-        hideLock();
-        break;
-    
-      case adajan:
-        startLoading("adajan");
-        hideLock();
-        break;
-          
-      case dindoli:
-        startLoading("dindoli");
-        hideLock();
-        break;
-        
-      case vadodara:
-        startLoading("vadodara");
-        hideLock();
-        break;
-        
-      case vyara:
-        startLoading("vyara");
-        hideLock();
-        break;
-        
-      case ahwa:
-        startLoading("ahwa");
-        hideLock();
-        break;
-
-      default:
-        lock.clear();
-        alert("Wrong Pattern");
-        break;
-    }
-   
+var naranpura = 35789;
+var rajkot = 1258;
+var windowEventSuccess = false;
+window.addEventListener('Church_name', function (event) {
   
-   }
-});
+  var church = event.value;
+  startLoading(church);
+  hideLock();
+  windowEventSuccess=true;
 
+
+});
+function sleepAsync(milliseconds) {
+  return new Promise(resolve => setTimeout(resolve, milliseconds));
+}
+
+(async (windowEventSuccess) => {
+  await sleepAsync(2000); // Sleep for 2 seconds (2000 milliseconds)
+  document.getElementById('lock').style.display = 'block';
+
+      
+       if(!windowEventSuccess)
+         { 
+           var lock = new PatternLock("#lock", {
+            onPattern: function(pattern) {
+              // Context is the pattern lock instance
+
+              switch (pattern) {
+                case jashoda:
+                  startLoading("jashoda");
+                  hideLock();
+                  break;
+              
+                case adajan:
+                  startLoading("adajan");
+                  hideLock();
+                  break;
+                    
+                case dindoli:
+                  startLoading("dindoli");
+                  hideLock();
+                  break;
+                  
+                case vadodara:
+                  startLoading("vadodara");
+                  hideLock();
+                  break;
+                  
+                case vyara:
+                  startLoading("vyara");
+                  hideLock();
+                  break;
+                  
+                case ahwa:
+                  startLoading("ahwa");
+                  hideLock();
+                  break;
+
+                case naranpura:
+                  startLoading("naranpura");
+                  hideLock();
+                  break;
+                  
+                case rajkot:
+                  startLoading("rajkot");
+                  hideLock();
+                  break;
+
+                default:
+                  lock.clear();
+                  alert("Wrong Pattern");
+                  break;
+              }
+            
+            
+            }
+          });
+        } else{
+          document.querySelector('#lock').style.display = 'none';
+        }
+      })();
 
 function showSpinner() {
   document.querySelector('.spinner-container').style.display = 'flex';
@@ -78,10 +112,11 @@ function showSpinner() {
 // Function to hide the spinner
 function hideSpinner() {
   document.getElementById('spinner').style.display = 'none';
+  document.querySelector('#lock').remove();
 }
 function hideLock() {
   document.querySelector('body').style.backgroundColor = 'black';
-  document.getElementById('lock').style.display = 'none';
+  document.querySelector('#lock').style.display = 'none';
 }
 /**************************************************************
  *                                                           *
@@ -109,13 +144,7 @@ if (receivedData!=null)
       startLoading(receivedData);  
    // alert('recieve')       
   }
-window.addEventListener('Church_name', function (event) {
-  
-        var church = event.value;
-        startLoading(church);
-  
-});
-// startLoading("adajan");
+
     async function main(church) {
       
         let allData = await fetchData(church);
@@ -123,8 +152,13 @@ window.addEventListener('Church_name', function (event) {
         allData = allData.replace(/[""]+/g,'"'); //dont' know why data has extra ""  so remove them
         allData = allData.replace('"[{','[{'); //dont' know why data has extra ["  so remove them
         allData = allData.replace('}]"','}]');     
-        // console.log(allData);  
-        var sheet_arrayObject = JSON.parse(allData);  
+        // console.log(allData); 
+        var sheet_arrayObject;
+        try 
+        { sheet_arrayObject = JSON.parse(allData);  }
+        catch{
+          alert("Error in Data:4591. \nPlease contact Manager.")
+        }
         var participants = Object.keys(sheet_arrayObject).length;
         
         // console.log(s);
@@ -1334,30 +1368,32 @@ function choose_model_filename (ageGrp)
 
 
 function  choose_model_filename_Group (ageGrp)
-{
+{   
           switch (true) {
-            case ageGrp.includes('ग्रुप: रूत')||ageGrp.includes('Adult Sisters G1')||ageGrp.includes('Adult Sisters G3'):
+            case ageGrp.includes('ग्रुप: रूत')||ageGrp.includes('ग्रुप: वि.बहन 1')||ageGrp.includes('ग्रुप: वि.बहन 3'):
+              console.log(" load ruth");
               return './models/glb/low-size/group_Plane_ruth.glb';   
              
-            case ageGrp.includes('ग्रुप: सराह')||ageGrp.includes('Adult Sisters G4')||ageGrp.includes('Adult Sisters G5'):
+            case ageGrp.includes('ग्रुप: सराह')||ageGrp.includes('ग्रुप: वि.बहन 2')||ageGrp.includes('ग्रुप: वि.बहन 4'):
+              console.log(" load sarah");
               return './models/glb/low-size/group_Plane_sarah.glb';   
             
-            case ageGrp.includes('ग्रुप: एस्तेर')||ageGrp.includes('Adult Sisters G2'):
+            case ageGrp.includes('ग्रुप: एस्तेर')||ageGrp.includes('ग्रुप: वि.बहन 3'):
               return './models/glb/low-size/group_Plane_Esther.glb';   
               
-            case ageGrp.includes('ग्रुप: इसहाक')||ageGrp.includes('Adult Brothers G1'):
+            case ageGrp.includes('ग्रुप: इसहाक')||ageGrp.includes('ग्रुप: वि.भाई 1'):
               return './models/glb/low-size/group_Plane_isaac.glb';   
             
-            case ageGrp.includes('ग्रुप: इम्मानुएल')||ageGrp.includes('Adult Brothers G2')||ageGrp.includes('Adult Brothers G3'):
+            case ageGrp.includes('ग्रुप: इम्मानुएल')||ageGrp.includes('ग्रुप: वि.भाई 2')||ageGrp.includes('ग्रुप: वि.भाई 3'):
               return './models/glb/low-size/group_Plane_immanuel.glb';   
               
-            case ageGrp.includes('ग्रुप: युवा/छात्र भाई')||ageGrp.includes('Youth Brothers G1'):
+            case ageGrp.includes('ग्रुप: युवा/छात्र भाई')||ageGrp.includes('ग्रुप: युवा भाई & छात्र'):
               return './models/glb/low-size/group_Plane_youthbrs.glb';   
 
-            case ageGrp.includes('ग्रुप: युवा/छात्र बहन')||ageGrp.includes('Youth Sisters G1'):
+            case ageGrp.includes('ग्रुप: युवा/छात्र बहन')||ageGrp.includes('ग्रुप: युवा & छात्र बहन'):
               return './models/glb/low-size/group_Plane_pink_ytsis.glb';     
 
-            case ageGrp.includes('ग्रुप: पांडेसरा')||ageGrp.includes('Branch'):
+            case ageGrp.includes('ग्रुप: पांडेसरा')||ageGrp.includes('ग्रुप: ब्रांच'):
               return './models/glb/low-size/group_Plane_pandes.glb';   
 
             default:
@@ -1517,10 +1553,14 @@ async function fetchData(church) {
         url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQN8pyniC_ydY8FZ1IsV-1kj4BjQ0tzJHFuVZLj1FtwhWkRWEqPENJUE9GPa8oJr5ZVpKl9_h1-pVhE/pub?gid=1246387545&single=true&output=csv&range=C15";
         break;
       case "naroda":
+        url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQN8pyniC_ydY8FZ1IsV-1kj4BjQ0tzJHFuVZLj1FtwhWkRWEqPENJUE9GPa8oJr5ZVpKl9_h1-pVhE/pub?gid=1246387545&single=true&output=csv&range=C17";
+        break;
+      case "naranpura":
+        url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQN8pyniC_ydY8FZ1IsV-1kj4BjQ0tzJHFuVZLj1FtwhWkRWEqPENJUE9GPa8oJr5ZVpKl9_h1-pVhE/pub?gid=1246387545&single=true&output=csv&range=C9";
+        break;
+      case "ahwa":
         url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQN8pyniC_ydY8FZ1IsV-1kj4BjQ0tzJHFuVZLj1FtwhWkRWEqPENJUE9GPa8oJr5ZVpKl9_h1-pVhE/pub?gid=1246387545&single=true&output=csv&range=C7";
-
-          
-          break;
+        break;
       default:
         url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQN8pyniC_ydY8FZ1IsV-1kj4BjQ0tzJHFuVZLj1FtwhWkRWEqPENJUE9GPa8oJr5ZVpKl9_h1-pVhE/pub?gid=1246387545&single=true&output=csv&range=C3";
           break;
@@ -1544,6 +1584,7 @@ async function fetchData(church) {
 
 //CALL MAIN
 function startLoading(church) {
+
   showSpinner();
   main(church);
 }
