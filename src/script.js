@@ -26,6 +26,11 @@ var ahwa = 3214;
 var naranpura = 35789;
 var rajkot = 1258;
 var windowEventSuccess = false;
+
+const cesiumContainer = document.getElementById('cesiumContainer');
+cesiumContainer.width = window.innerWidth;
+
+cesiumContainer.height = window.innerHeight;
 window.addEventListener('Church_name', function (event) {
   
   var church = event.value;
@@ -215,8 +220,8 @@ if (receivedData!=null)
         var y_br_folder;
         var y_sis_folder ;
         var pandesra_group ;
-        var branch_group;
-        var by_group ;
+        var branch_folder;
+        var by_group , branch_group;
        
 
         var a_br_folder_group1;
@@ -224,6 +229,7 @@ if (receivedData!=null)
         var a_sis_folder_group1;
         var a_sis_folder_group2;
         var a_sis_folder_group3, a_sis_folder_group4, a_sis_folder_group5;
+        var branch1,branch2,branch3,branch4;
         if(church.includes('adajan'))
                   {
                     a_br_folder = gui.addFolder('विवाहित भाई');
@@ -245,8 +251,10 @@ if (receivedData!=null)
                             a_sis_folder = gui.addFolder('विवाहित बहन');
                             y_br_folder = gui.addFolder('युवा और छात्र भाई');
                             y_sis_folder = gui.addFolder('युवा और छात्र बहन');
-                            branch_group = gui.addFolder('ब्रांच');
                             by_group = gui.addFolder('ग्रुप अनुसार');
+                            branch_folder = gui.addFolder('ब्रांच');
+                            
+                            
         
                             a_br_folder_group1 = a_br_folder.addFolder('ग्रुप 1');
                             a_br_folder_group2 = a_br_folder.addFolder('ग्रुप 2');
@@ -256,6 +264,8 @@ if (receivedData!=null)
                             a_sis_folder_group3 = a_sis_folder.addFolder('ग्रुप 3');
                             a_sis_folder_group4 = a_sis_folder.addFolder('ग्रुप 4');
                             a_sis_folder_group5 = a_sis_folder.addFolder('ग्रुप 5');
+                         
+                            branch_group        = branch_folder.addFolder('ब्रांच ग्रुप अनुसार');
                   }
                   else
                   {
@@ -263,8 +273,9 @@ if (receivedData!=null)
                             a_sis_folder = gui.addFolder('विवाहित बहन');
                             y_br_folder = gui.addFolder('युवा और छात्र भाई');
                             y_sis_folder = gui.addFolder('युवा और छात्र बहन');
-                            branch_group = gui.addFolder('ब्रांच');
                             by_group = gui.addFolder('ग्रुप अनुसार');
+                            branch_folder = gui.addFolder('ब्रांच');
+                            
 
                             a_br_folder_group1 = a_br_folder.addFolder('ग्रुप 1');
                             a_br_folder_group2 = a_br_folder.addFolder('ग्रुप 2');
@@ -272,6 +283,8 @@ if (receivedData!=null)
                             a_sis_folder_group2 = a_sis_folder.addFolder('ग्रुप 2');
                             a_sis_folder_group3 = a_sis_folder.addFolder('ग्रुप 3');
                             a_sis_folder_group4 = a_sis_folder.addFolder('ग्रुप 4');
+                            branch_group        = branch_folder.addFolder('ब्रांच ग्रुप अनुसार');
+                           
                   }
         //   var y_br_folder_group2 = a_br_folder.addFolder('Group2');
 
@@ -325,7 +338,14 @@ if (receivedData!=null)
            */
           // Cesium.MaximumMemoryUsage = 256;
           Cesium.MaximumScreenSpaceError = 32;
-
+          viewer.scene.canvas.addEventListener('webglcontextlost', function (event) {
+            alert('Please contact Manager: ', event);
+          }, false);
+          
+          viewer.scene.canvas.addEventListener('webglcontextrestored', function (event) {
+            // alert('WebGL context restored', event);
+            // Reinitialize or recover as needed
+          }, false);
                     
         let isLayerVisible = false;
         let baseLayer;
@@ -558,8 +578,10 @@ const skyboxPaths = {
                             else if(age_group==='Youth Sisters G1')
                             y_sis_folder.add(camerOnClick, name_participant);
 
-                            else if(age_group==='Branch')
-                            pandesra_group.add(camerOnClick, name_participant);
+                            else if(age_group.includes('Branch'))
+                            branch_folder.add(camerOnClick, name_participant);
+
+                            
                   }
                           
               };
@@ -713,8 +735,8 @@ const loadedModelsGrp = {};
                         else if(age_group_participant==='ग्रुप: युवा & छात्र बहन')
                         by_group.add(camerOnClickGroup, age_group_participant);
 
-                        else if(age_group_participant==='ग्रुप: ब्रांच')
-                        by_group.add(camerOnClickGroup, age_group_participant);
+                        else if(age_group_participant.includes('Branch'))
+                        branch_group.add(camerOnClickGroup, age_group_participant);
                   }
                 
               };
@@ -972,7 +994,7 @@ function calculate_height_forGroupModels(ageGroup,totalScore){
                       { minim = 11000; max = 12000;}
                   else if (ageGroup === 'ग्रुप: युवा & छात्र बहन')
                     { minim = 8000; max = 9000;}
-                  else if (ageGroup === 'ग्रुप: ब्रांच')
+                  else if (ageGroup.includes('Branch'))
                       { minim = 11000; max = 12000;}
 
           }
@@ -1115,7 +1137,7 @@ function color_style_box(tempsheetObject){
   var age_group = tempsheetObject.group;
   let color_scheme ={};
   switch (true) {
-    case age_group.includes('Isaac'):
+    case age_group.includes('Isaac')||age_group.includes('Adult Brothers G1')||age_group.includes('Adult Brothers G3'):
           color_scheme = {
             text: tempsheetObject.Participant + '\n' + tempsheetObject.Total + 'Km', // Text with multiple lines
             font: 'italic bold 16px Georgia', // Italic, bold, and larger font with a serif typeface
@@ -1131,7 +1153,7 @@ function color_style_box(tempsheetObject){
           };               
       break;
     
-    case age_group.includes('Immanuel'):
+    case age_group.includes('Immanuel')||age_group.includes('Adult Brothers G2')||age_group.includes('Adult Brothers G4'):
           color_scheme = {
             text: tempsheetObject.Participant + '\n' + tempsheetObject.Total + 'Km', // Text with multiple lines
             font: 'italic bold 16px Georgia', // Italic, bold, and larger font with a serif typeface
@@ -1147,7 +1169,7 @@ function color_style_box(tempsheetObject){
           };              
     break;
 
-    case age_group.includes('Ruth'):
+    case age_group.includes('Ruth')||age_group.includes('Adult Sisters G1')||age_group.includes('Adult Sisters G4'):
           color_scheme = {
             text: tempsheetObject.Participant + '\n' + tempsheetObject.Total + 'Km', // Text with multiple lines
             font: 'italic bold 16px Georgia', // Italic, bold, and larger font with a serif typeface
@@ -1163,7 +1185,7 @@ function color_style_box(tempsheetObject){
           };                      
       break;
     
-    case age_group.includes('Sarah'):
+    case age_group.includes('Sarah')||age_group.includes('Adult Sisters G2'):
          color_scheme = {
           text: tempsheetObject.Participant + '\n' + tempsheetObject.Total + 'Km', // Text with multiple lines
           font: 'italic bold 16px Georgia', // Italic, bold, and larger font with a serif typeface
@@ -1179,7 +1201,7 @@ function color_style_box(tempsheetObject){
         };  
     break;
     
-    case age_group.includes('Esther'):
+    case age_group.includes('Esther')||age_group.includes('Adult Sisters G3'):
           color_scheme = {
             text: tempsheetObject.Participant + '\n' + tempsheetObject.Total + 'Km', // Text with multiple lines
             font: 'italic bold 16px Georgia', // Italic, bold, and larger font with a serif typeface
@@ -1195,7 +1217,7 @@ function color_style_box(tempsheetObject){
           };                   
       break;
     
-    case age_group.includes('Y & St. Brother'):
+    case age_group.includes('Y & St. Brother')||age_group.includes('Youth Brothers G1'):
           color_scheme = {
             text: tempsheetObject.Participant + '\n' + tempsheetObject.Total + 'Km', // Text with multiple lines
             font: 'italic bold 16px Georgia', // Italic, bold, and larger font with a serif typeface
@@ -1211,7 +1233,7 @@ function color_style_box(tempsheetObject){
           };                         
     break;
 
-    case age_group.includes('Y & St. Sister'):
+    case age_group.includes('Y & St. Sister')||age_group.includes('Youth Sisters G1'):
           color_scheme = {
             text: tempsheetObject.Participant + '\n' + tempsheetObject.Total + 'Km', // Text with multiple lines
             font: 'italic bold 16px Georgia', // Italic, bold, and larger font with a serif typeface
@@ -1227,7 +1249,7 @@ function color_style_box(tempsheetObject){
           };              
       break;
     
-    case age_group.includes('Pandesra'):
+    case age_group.includes('Pandesra')||age_group.includes('Branch'):
           color_scheme = {
             text: tempsheetObject.Participant + '\n' + tempsheetObject.Total + 'Km', // Text with multiple lines
             font: 'italic bold 16px Georgia', // Italic, bold, and larger font with a serif typeface
@@ -1381,7 +1403,7 @@ function  choose_model_filename_Group (ageGrp)
             case ageGrp.includes('ग्रुप: एस्तेर')||ageGrp.includes('ग्रुप: वि.बहन 3'):
               return './models/glb/low-size/group_Plane_Esther.glb';   
               
-            case ageGrp.includes('ग्रुप: इसहाक')||ageGrp.includes('ग्रुप: वि.भाई 1'):
+            case ageGrp.includes('ग्रुप: इसहाक')||ageGrp.includes('ग्रुप: वि.भाई 1')||ageGrp.includes('ग्रुप: पांडेसरा')||ageGrp.includes('ग्रुप: ब्रांच'):
               return './models/glb/low-size/group_Plane_isaac.glb';   
             
             case ageGrp.includes('ग्रुप: इम्मानुएल')||ageGrp.includes('ग्रुप: वि.भाई 2')||ageGrp.includes('ग्रुप: वि.भाई 3'):
@@ -1392,9 +1414,6 @@ function  choose_model_filename_Group (ageGrp)
 
             case ageGrp.includes('ग्रुप: युवा/छात्र बहन')||ageGrp.includes('ग्रुप: युवा & छात्र बहन'):
               return './models/glb/low-size/group_Plane_pink_ytsis.glb';     
-
-            case ageGrp.includes('ग्रुप: पांडेसरा')||ageGrp.includes('ग्रुप: ब्रांच'):
-              return './models/glb/low-size/group_Plane_pandes.glb';   
 
             default:
               return './models/glb/low-size/group_Plane_ruth.glb';   
@@ -1581,6 +1600,7 @@ async function fetchData(church) {
   }
 }
  
+
 
 //CALL MAIN
 function startLoading(church) {
