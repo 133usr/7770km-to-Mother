@@ -206,42 +206,79 @@ function getBaseUrl() {
       allData = allData.replace(/[""]+/g,'"'); //dont' know why data has extra ""  so remove them
       allData = allData.replace('"[{','[{'); //dont' know why data has extra ["  so remove them
       allData = allData.replace('}]"','}]');     
-      // console.log(allData);  
+      console.log(allData);  
       var sheet_arrayObject = JSON.parse(allData);  
       var participants = Object.keys(sheet_arrayObject).length;
      
                              
                                 
+                // $(function() {
+                //     $.each(sheet_arrayObject, function(i, item) {
+                //       if (item.Total==0)
+                //       { return;} //show only those who are participating
+                //            var total = (item.Total).toFixed(2);
+                //            var fruit = (item.totalFruits).toFixed(2);
+                //            var preach = (item.totalPreach).toFixed(2);
+                //            var sign = (item.totalSign).toFixed(2);        
+                //            var evaluat = (item.chap_complete).toFixed(2);
+                //            var edulms = (item.edulms).toFixed(2); 
+                //            var meeting = (item.meeting).toFixed(2); 
+                //            var pray_daily = (item.prayDaily).toFixed(2); 
+                //            var visit = (item.totalApp_visit).toFixed(2); 
+                //            var b_study = (item.b_study).toFixed(2); 
+  
+                //         var $tr = $('<tr>').append(
+                //             $('<td class="sticky-col">').text(item.Participant),
+                //             $('<td>').text(total),
+                //             $('<td>').text(preach),
+                //             $('<td>').text(fruit),
+                //             $('<td>').text(visit),
+                //             $('<td>').text(sign),        
+                //             $('<td>').text(evaluat),
+                //             $('<td>').text(edulms),  
+                //             $('<td>').text(meeting), 
+                //             $('<td>').text(pray_daily),
+                //             $('<td>').text(b_study),   
+                //             ).appendTo('#score-table');
+                //         // console.log($tr.wrap('<p>').html());
+                //            if (i === 0) {
+                //             $tr.addClass('sticky-row');
+                //         }
+                //     });
+                // });
+
+                // you can use the toFixed method after assigning the values to the td elements.
+                // This way, you apply toFixed after assigning the values to the td elements.
+                // because before initialization their value was undefined
                 $(function() {
                     $.each(sheet_arrayObject, function(i, item) {
-                      if (item.Total==0)
-                      { return;} //show only those who are participating
-                           var total = (item.Total).toFixed(2);
-                           var fruit = (item.totalFruits).toFixed(2);
-                           var preach = (item.totalPreach).toFixed(2);
-                           var sign = (item.totalSign).toFixed(2);        
-                           var evaluat = (item.chap_complete).toFixed(2);
-                           var edulms = (item.edulms).toFixed(2); 
-                           var meeting = (item.meeting).toFixed(2); 
-                           var pray_daily = (item.prayDaily).toFixed(2); 
-                           var visit = (item.totalApp_visit).toFixed(2); 
-                           var b_study = (item.b_study).toFixed(2); 
-  
+                        if (item.Total == 0) {
+                            return; //show only those who are participating
+                        }
+
                         var $tr = $('<tr>').append(
                             $('<td class="sticky-col">').text(item.Participant),
-                            $('<td>').text(total),
-                            $('<td>').text(preach),
-                            $('<td>').text(fruit),
-                            $('<td>').text(visit),
-                            $('<td>').text(sign),        
-                            $('<td>').text(evaluat),
-                            $('<td>').text(edulms),  
-                            $('<td>').text(meeting), 
-                            $('<td>').text(pray_daily),
-                            $('<td>').text(b_study),   
-                            ).appendTo('#score-table');
-                        // console.log($tr.wrap('<p>').html());
-                           if (i === 0) {
+                            $('<td>').text(item.Total),
+                            $('<td>').text(item.totalPreach),
+                            $('<td>').text(item.totalFruits),
+                            $('<td>').text(item.totalApp_visit),
+                            $('<td>').text(item.totalSign),
+                            $('<td>').text(item.chap_complete),
+                            $('<td>').text(item.edulms),
+                            $('<td>').text(item.meeting),
+                            $('<td>').text(item.prayDaily),
+                            $('<td>').text(item.b_study)
+                        ).appendTo('#score-table');
+
+                        // Apply toFixed after assigning values
+                        $tr.find('td:gt(0)').each(function() {
+                            var originalValue = parseFloat($(this).text());
+                            if (!isNaN(originalValue)) {
+                                $(this).text(originalValue.toFixed(2));
+                            }
+                        });
+
+                        if (i === 0) {
                             $tr.addClass('sticky-row');
                         }
                     });

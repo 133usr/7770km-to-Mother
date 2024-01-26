@@ -1358,10 +1358,10 @@ function choose_model_assetID (ageGrp)
 function choose_model_filename (ageGrp)
 {
           switch (true) {
-            case ageGrp.includes('Isaac')||ageGrp.includes('Adult Brothers G1')||ageGrp.includes('Adult Brothers G2')||ageGrp.includes('Adult Brothers G3'):
+            case ageGrp.includes('Isaac')||ageGrp.includes('Adult Brothers G1')||ageGrp.includes('Adult Brothers G3'):
                   return './models/glb/low-size/cartoon_plane_adult_br.glb';  
              
-            case ageGrp.includes('Immanuel'):
+            case ageGrp.includes('Immanuel')||ageGrp.includes('Adult Brothers G2'):
               return './models/glb/low-size/cartoon_plane_adult_br.glb'; 
             
             case ageGrp.includes('Ruth')||ageGrp.includes('Adult Sisters G1')||ageGrp.includes('Adult Sisters G2')||ageGrp.includes('Adult Sisters G3')||ageGrp.includes('Adult Sisters G4')||ageGrp.includes('Adult Sisters G5'):
@@ -1374,10 +1374,10 @@ function choose_model_filename (ageGrp)
               return './models/glb/low-size/cartoon_Plane_white_ad_sis.glb'; 
               
             case ageGrp.includes('Y & St. Brother')||ageGrp.includes('Youth Brothers G1'):
-              return './models/glb/low-size/cartoon_plane_youthbrs.glb'; 
+              return './models/glb/low-size/cartoon_Plane_youthbrs.glb'; 
 
             case ageGrp.includes('Y & St. Sister')||ageGrp.includes('Youth Sisters G1'):
-              return './models/glb/low-size/cartoon_plane_pink_ytsis.glb'; 
+              return './models/glb/low-size/cartoon_Plane_pink_ytsis.glb'; 
 
             case ageGrp.includes('Pandesra')||ageGrp.includes('Branch'):
               return './models/glb/low-size/cartoon_plane_adult_br.glb'; 
