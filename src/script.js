@@ -16,12 +16,34 @@ import PatternLock from 'pattern-lock-js';
 
 import scoreData from './scoredata.json';
 import Hammer from 'hammerjs'; 
+import Noty from 'noty';
+import 'noty/lib/noty.css';
+import 'noty/lib/themes/semanticui.css';
+
+new Noty({
+  theme:'semanticui',
+  type: 'warning',
+  text: 'Please wait While Loading...',
+  timeout: 7000, // Set the duration for the notification
+  layout: 'bottomCenter', // Adjust the position as needed
+ 
+}).show();
 // Use scoreData in your code
 var jashoda = 2589;
-var adajan = 2586;
+var jashodasis = 25896;
+
+var adajanbr = 2586;
+var adajansis = 25863;
+
 var dindoli = 3578;
+var dindolisis = 35789;
+
 var vadodara = 32569;
+var vadodarasis = 325698;
+
 var vyara = 6547;
+var vyarasis = 65478;
+
 var ahwa = 3214;
 var naranpura = 35789;
 var rajkot = 1258;
@@ -60,9 +82,19 @@ function sleepAsync(milliseconds) {
                   startLoading("jashoda");
                   hideLock();
                   break;
+
+                case jashodasis:
+                  startLoading("jashodasis");
+                  hideLock();
+                  break;
               
-                case adajan:
-                  startLoading("adajan");
+                case adajanbr:
+                  startLoading("adajanbr");
+                  hideLock();
+                  break;
+
+                case adajansis:
+                  startLoading("adajansis");
                   hideLock();
                   break;
                     
@@ -109,7 +141,10 @@ function sleepAsync(milliseconds) {
           document.querySelector('#lock').style.display = 'none';
         }
       })();
-
+// if (window.location.href.includes('localhost') || window.location.port === '8081') {
+//   alert("Website is running in development mode!");
+//   startLoading("dindoli");
+// }
 function showSpinner() {
   document.querySelector('.spinner-container').style.display = 'flex';
 }
@@ -141,6 +176,12 @@ var testingCommunication;
   return urlParams.get(name);
 }
 
+
+
+
+
+
+
 // Get the value of the "data" parameter
 const receivedData = getQueryParam('data');
 if (receivedData!=null)
@@ -157,12 +198,12 @@ if (receivedData!=null)
         allData = allData.replace(/[""]+/g,'"'); //dont' know why data has extra ""  so remove them
         allData = allData.replace('"[{','[{'); //dont' know why data has extra ["  so remove them
         allData = allData.replace('}]"','}]');     
-        // console.log(allData); 
+        console.log(allData); 
         var sheet_arrayObject;
         try 
         { sheet_arrayObject = JSON.parse(allData);  }
         catch{
-          alert("Error in Data:4591. \nPlease contact Manager.")
+          alert("Error in Data:4591.  Please contact Manager.")
         }
         var participants = Object.keys(sheet_arrayObject).length;
         
@@ -173,23 +214,36 @@ if (receivedData!=null)
                 const forLoop = async _ => {
                 console.log("Start");
                   
-                  
+                console.log(" "+church); 
                  for (let index = 0; index < participants; index++) {
                   var tempsheetObject = sheet_arrayObject[index]
                   let groupType = sheet_arrayObject[index].group;
-           
+                 
                   if (groupType != "Group")
                  
                    { if(tempsheetObject.Total>0) // only load model and list the names ******* if the score is not 0
-                      { 
-                        loadmemberModels(tempsheetObject);
+                      { if (church=="adajansis")
+                        {
+                          if (groupType=='Ruth'||groupType=='Esther'||groupType=='Sarah'||groupType.includes('Sist')||groupType=='Pandesra')
+                          {loadmemberModels(tempsheetObject);}
+                        }
+                        else if (church=="adajanbr")
+                        {console.log("entered "+groupType);
+                          if (groupType=='Isaac'||groupType=='Immanuel'||groupType.includes('Br')||groupType=='Pandesra')
+                          {loadmemberModels(tempsheetObject);}
+                        }
+                        else
+                        {
+                          loadmemberModels(tempsheetObject);
+                        }
                       }
                   }
                   
                    if (groupType == "Group")
                    {//only run for Group score
                     if(tempsheetObject.Total>0) // only load model and list the names ******* if the score is not 0
-                      { 
+                      {
+                        
                     loadGroupModels(tempsheetObject);  //****************very important Uncomment this to run */
                       }
                     }
@@ -391,8 +445,51 @@ if (receivedData!=null)
 
         }
         hideCesiuminfo();
+        var locations = [
+          { name: 'Surat', coordinates: [72.7412, 21.1140] },
+          { name: 'Ahmedabad', coordinates: [72.6212, 23.0762] },
+          { name: 'Delhi', coordinates: [77.1001, 28.5663] },
+          { name: 'Korea', coordinates: [126.4376, 37.4602] },
+          { name: 'Kathmandu', coordinates: [85.3590, 27.6982] },
+          { name: 'Hong Kong', coordinates: [113.9144, 22.3080] },
+          { name: 'Quanzhou', coordinates: [118.5899, 24.7969] },
+          { name: 'Changzhou', coordinates: [119.6602, 31.9193] },
+          { name: 'Hangzhou', coordinates: [120.4403, 30.2350] },
+          { name: 'Jeju', coordinates: [126.4920, 33.5104] },
+          { name: 'Gwangju', coordinates: [126.8125, 35.1778] },
+          { name: 'Seoul', coordinates: [126.4505, 37.4692] }
+      ];
+      
+      for (var i = 0; i < locations.length; i++) {
+          var location = locations[i];
+          var color = Cesium.Color.fromRandom({ alpha: 0.7 });
+      
+          viewer.entities.add({
+              position: Cesium.Cartesian3.fromDegrees(location.coordinates[0], location.coordinates[1], 25000.0),
+              cylinder: {
+                  length: 70000.0,
+                  topRadius: 1000.0,
+                  bottomRadius: 1000.0,
+                  stRotation: Cesium.Math.toRadians(45),
+                  material: color,
+              },
+              label: {
+                  text: location.name,
+                  font: '16px sans-serif',
+                  fillColor: Cesium.Color.WHITE,
+                  outlineColor: Cesium.Color.BLACK,
+                  outlineWidth: 4,
+                  style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+                  pixelOffset: new Cesium.Cartesian2(0, -50),
+                  eyeOffset: new Cesium.Cartesian3(0, 0, -5000)
+              }
+          });
+      }
+      
+      
+      
 
-
+        
 let path = loadSkyBox_bytime();
 
 const skyboxPaths = {
@@ -479,14 +576,6 @@ const skyboxPaths = {
                     // Assign an ID to the loaded model entity
                     loadedModels[id] = airplaneEntity;
                 
-                      // Fetch and parse animation data
-                      // const response = await fetch(resource);
-                      // const blob = await response.blob();
-                      // const animationSet = await AnimationParser.parseAnimationSetFromFile(blob);
-                      // const animationPlayer = new AnimationPlayer(animationSet, airplaneEntity, 30);
-                      // animationPlayer.loop_type = LOOP_TYPE.LOOP;
-                      // animationPlayer.play();
-                      // animationPlayer.speed = 2.0;
                     };
                                                   
                                                       
@@ -511,6 +600,24 @@ const skyboxPaths = {
                           }).catch((error) => {console.error('Error:', error.message);});
                         }).catch((error) => {console.error('Error:', error.message);});
                         console.log(`Camera focused on model with ID: ${tempsheetObject.Id}`);
+                        var rem_percent = (tempsheetObject.remain_nxt*100).toFixed(2);
+                        
+                        new Noty({
+                          type: 'warning',
+                          
+                          text: 'अगला एयरपोर्ट '+(tempsheetObject.remain_nxt_nme),
+                          timeout: 4000, // Set the duration for the notification
+                          layout: 'bottomCenter', // Adjust the position as needed
+                          theme:'semanticui'
+                        }).show();
+                        new Noty({
+                          type: 'alert',
+                          text: (tempsheetObject.remain_nxt_nme)+ ' के लिए : '+rem_percent+'% बाकी! ANIMO~!⚡',
+                          timeout: 10000, // Set the duration for the notification
+                          layout: 'bottomCenter', // Adjust the position as needed
+                          theme:'semanticui'
+                        }).show();
+
                       } else {
                         console.log(`Model with ID ${tempsheetObject.Id} not found.`);
                       }
@@ -670,6 +777,23 @@ const loadedModelsGrp = {};
                           }).catch((error) => {console.error('Error:', error.message);});
                         }).catch((error) => {console.error('Error:', error.message);});
                         console.log(`Camera focused on model with ID: ${tempsheetObject.Id}`);
+
+                        var rem_percent = (tempsheetObject.remain_nxt*100).toFixed(2);
+                        
+                        new Noty({
+                          type: 'success',
+                          text: 'अगला एयरपोर्ट '+(tempsheetObject.remain_nxt_nme),
+                          timeout: 4000, // Set the duration for the notification
+                          layout: 'bottomCenter', // Adjust the position as needed
+                          theme:'semanticui',
+                        }).show();
+                        new Noty({
+                          type: 'alert',
+                          text: (tempsheetObject.remain_nxt_nme)+ ' के लिए : '+rem_percent+'% बाकी! ANIMO~!⚡',
+                          timeout: 10000, // Set the duration for the notification
+                          layout: 'bottomCenter', // Adjust the position as needed
+                          theme:'semanticui'
+                        }).show(); 
                       } else {
                         console.log(`Model with ID ${tempsheetObject.Id} not found.`);
                       }
@@ -813,6 +937,12 @@ function flyToModel(entity) {
 // Function to animate the model along flight data using Tween.js
 function animateModel(modelEntity,totalScoreOfModel,height_by_group) {
   return new Promise((resolve, reject) => {
+    if(totalScoreOfModel>4)
+      {
+        totalScoreOfModel = totalScoreOfModel/2.5;
+        totalScoreOfModel= Math.round(totalScoreOfModel);
+      }
+
   let currentIndex = 0;
   const duration = 10000; // Assuming a fixed duration of 2000 milliseconds for each transition
   let flightData_of_thisModel = [];
@@ -886,60 +1016,61 @@ function calculate_height_by_group(ageGroup,totalScore){
 
           if(church.includes('adajan')){
                     if (ageGroup === 'Isaac') 
-                        { minim = 130; max = 140;}
+                        { minim = 13; max = 14;}
                     else if(ageGroup==='Immanuel')
-                        { minim = 130; max = 140;}
+                        { minim = 13; max = 14;}
 
                     else if(ageGroup==='Ruth')
-                        { minim = 90; max = 100;}
+                        { minim = 19; max = 22;}
 
                     else if(ageGroup==='Sarah')
-                        { minim = 80; max = 90;}
+                        { minim = 8; max = 9;}
 
                     else if(ageGroup==='Esther')
-                        { minim = 70; max = 80;}
+                        { minim = 7; max = 8;}
 
                     else if(ageGroup==='Y & St. Brother')
-                        { minim = 130; max = 140;}
+                        { minim = 13; max = 14;}
                     
                     else if(ageGroup==='Y & St. Sister')
-                        { minim = 30; max = 20;}
+                        { minim = 23; max = 18;}
 
                     else if(ageGroup==='Pandesra')
-                        { minim = 80; max =70;}
+                        { minim = 8; max =7;}
           }else{
                       if (ageGroup === 'Adult Brothers G1')
-                          { minim = 130; max = 140;}
+                          { minim = 13; max = 14;}
                       else if(ageGroup === 'Adult Brothers G2')
-                          { minim = 130; max = 140;}
+                          { minim = 13; max = 14;}
                       else if(ageGroup === 'Adult Brothers G3')
-                          { minim = 130; max = 140;}
+                          { minim = 13; max = 14;}
                       else if(ageGroup === 'Adult Sisters G1')
-                          { minim = 90; max = 100;}
+                          { minim = 9; max = 10;}
                       else if(ageGroup === 'Adult Sisters G2')
-                          { minim = 90; max = 100;}
+                          { minim = 9; max = 10;}
                       else if(ageGroup === 'Adult Sisters G3')
-                          { minim = 80; max = 90;}
+                          { minim = 8; max = 9;}
                       else if(ageGroup === 'Adult Sisters G4')
-                          { minim = 70; max = 80;}
+                          { minim = 7; max = 8;}
                       else if(ageGroup === 'Adult Sisters G5')
-                          { minim = 70; max = 80;}
+                          { minim = 7; max = 8;}
                       else if(ageGroup === 'Youth Brothers G1')
-                          { minim = 130; max = 140;}
+                          { minim = 13; max = 14;}
                       else if(ageGroup === 'Youth Sisters G1')
-                          { minim = 30; max = 20;}
+                          { minim = 3; max = 2;}
                       else if(ageGroup === 'Branch')
-                          { minim = 130; max = 140;}
+                          { minim = 13; max = 14;}
 
           }
 
-
-
-
               minim = parseFloat(minim);
               max = parseFloat(max);
-              minim = totalScore * minim;
-              max =  totalScore * max;  
+              if(totalScore>2000 && totalScore<4000){
+                minim = 5.5 * minim * totalScore;
+                max =  5.5 * max * totalScore;  
+              } else{
+                  minim = totalScore * minim;
+                  max =  totalScore * max;  }
   return Math.floor(Math.random() * (max - minim + 1)) + minim;
 }
 
@@ -1004,6 +1135,11 @@ function calculate_height_forGroupModels(ageGroup,totalScore){
 
               minim = parseFloat(minim);
               max = parseFloat(max);
+              if(totalScore>2000 && totalScore<4000){
+                minim = 5.5 * minim;
+                max =  5.5 * max;  
+              }
+             
              
         return Math.floor(Math.random() * (max - minim + 1)) + minim;
 }
@@ -1139,7 +1275,7 @@ function color_style_box(tempsheetObject){
   switch (true) {
     case age_group.includes('Isaac')||age_group.includes('Adult Brothers G1')||age_group.includes('Adult Brothers G3'):
           color_scheme = {
-            text: tempsheetObject.Participant + '\n' + tempsheetObject.Total + 'Km', // Text with multiple lines
+            text: tempsheetObject.Participant + ' ' + tempsheetObject.Total + 'Km', // Text with multiple lines
             font: 'italic bold 16px Georgia', // Italic, bold, and larger font with a serif typeface
             fillColor: Cesium.Color.fromBytes(128, 128, 0), // Olive green text color
             outlineColor: Cesium.Color.WHITE, // White outline color
@@ -1155,7 +1291,7 @@ function color_style_box(tempsheetObject){
     
     case age_group.includes('Immanuel')||age_group.includes('Adult Brothers G2')||age_group.includes('Adult Brothers G4'):
           color_scheme = {
-            text: tempsheetObject.Participant + '\n' + tempsheetObject.Total + 'Km', // Text with multiple lines
+            text: tempsheetObject.Participant + '   ' + tempsheetObject.Total + 'Km', // Text with multiple lines
             font: 'italic bold 16px Georgia', // Italic, bold, and larger font with a serif typeface
             fillColor: Cesium.Color.fromBytes(0, 0, 128), // Navy blue text color
             outlineColor: Cesium.Color.WHITE, // White outline color
@@ -1171,7 +1307,7 @@ function color_style_box(tempsheetObject){
 
     case age_group.includes('Ruth')||age_group.includes('Adult Sisters G1')||age_group.includes('Adult Sisters G4'):
           color_scheme = {
-            text: tempsheetObject.Participant + '\n' + tempsheetObject.Total + 'Km', // Text with multiple lines
+            text: tempsheetObject.Participant + ' ' + tempsheetObject.Total + 'Km', // Text with multiple lines
             font: 'italic bold 16px Georgia', // Italic, bold, and larger font with a serif typeface
             fillColor: Cesium.Color.fromBytes(64, 79, 107), // Dark blue text color
             outlineColor: Cesium.Color.WHITE, // White outline color
@@ -1187,7 +1323,7 @@ function color_style_box(tempsheetObject){
     
     case age_group.includes('Sarah')||age_group.includes('Adult Sisters G2'):
          color_scheme = {
-          text: tempsheetObject.Participant + '\n' + tempsheetObject.Total + 'Km', // Text with multiple lines
+          text: tempsheetObject.Participant + ' ' + tempsheetObject.Total + 'Km', // Text with multiple lines
           font: 'italic bold 16px Georgia', // Italic, bold, and larger font with a serif typeface
           fillColor: Cesium.Color.fromBytes(139, 0, 0), // Deep red text color
           outlineColor: Cesium.Color.WHITE, // White outline color
@@ -1203,7 +1339,7 @@ function color_style_box(tempsheetObject){
     
     case age_group.includes('Esther')||age_group.includes('Adult Sisters G3'):
           color_scheme = {
-            text: tempsheetObject.Participant + '\n' + tempsheetObject.Total + 'Km', // Text with multiple lines
+            text: tempsheetObject.Participant + ' ' + tempsheetObject.Total + 'Km', // Text with multiple lines
             font: 'italic bold 16px Georgia', // Italic, bold, and larger font with a serif typeface
             fillColor: Cesium.Color.fromBytes(0, 128, 128), // Dark teal text color
             outlineColor: Cesium.Color.WHITE, // White outline color
@@ -1219,7 +1355,7 @@ function color_style_box(tempsheetObject){
     
     case age_group.includes('Y & St. Brother')||age_group.includes('Youth Brothers G1'):
           color_scheme = {
-            text: tempsheetObject.Participant + '\n' + tempsheetObject.Total + 'Km', // Text with multiple lines
+            text: tempsheetObject.Participant + ' ' + tempsheetObject.Total + 'Km', // Text with multiple lines
             font: 'italic bold 16px Georgia', // Italic, bold, and larger font with a serif typeface
             fillColor: Cesium.Color.fromBytes(64, 79, 107), // Dark blue text color
             outlineColor: Cesium.Color.WHITE, // White outline color
@@ -1235,7 +1371,7 @@ function color_style_box(tempsheetObject){
 
     case age_group.includes('Y & St. Sister')||age_group.includes('Youth Sisters G1'):
           color_scheme = {
-            text: tempsheetObject.Participant + '\n' + tempsheetObject.Total + 'Km', // Text with multiple lines
+            text: tempsheetObject.Participant + ' ' + tempsheetObject.Total + 'Km', // Text with multiple lines
             font: 'italic bold 16px Georgia', // Italic, bold, and larger font with a serif typeface
             fillColor: Cesium.Color.fromBytes(128, 0, 128), // Dark purple text color
             outlineColor: Cesium.Color.WHITE, // White outline color
@@ -1251,7 +1387,7 @@ function color_style_box(tempsheetObject){
     
     case age_group.includes('Pandesra')||age_group.includes('Branch'):
           color_scheme = {
-            text: tempsheetObject.Participant + '\n' + tempsheetObject.Total + 'Km', // Text with multiple lines
+            text: tempsheetObject.Participant + ' ' + tempsheetObject.Total + 'Km', // Text with multiple lines
             font: 'italic bold 16px Georgia', // Italic, bold, and larger font with a serif typeface
             fillColor: Cesium.Color.fromBytes(64, 79, 107), // Dark blue text color
             outlineColor: Cesium.Color.WHITE, // White outline color
@@ -1267,7 +1403,7 @@ function color_style_box(tempsheetObject){
   
     default:
           color_scheme = {
-            text: tempsheetObject.Participant + '\n' + tempsheetObject.Total + 'Km', // Text with multiple lines
+            text: tempsheetObject.Participant + ' ' + tempsheetObject.Total + 'Km', // Text with multiple lines
             font: 'italic bold 16px Georgia', // Italic, bold, and larger font with a serif typeface
             fillColor: Cesium.Color.fromBytes(64, 79, 107), // Dark blue text color
             outlineColor: Cesium.Color.WHITE, // White outline color
@@ -1551,11 +1687,14 @@ function loadSkyBox_bytime(){
 
 async function fetchData(church) {
   try {
-    let url;
+    let url; console.log(" "+church);
     switch (church) {
-      case "adajan":
+      case "adajansis":
          url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ7Zx1Vnsdizp-ee3wroRGSME9hyu8bUvXWBQWiWf0zNWMJ7z5Wtj0lN52ibU_jg8PEsEWG53VFZ8ee/pub?gid=1246387545&single=true&output=csv&range=C3";
          break;
+      case "adajanbr":
+        url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ7Zx1Vnsdizp-ee3wroRGSME9hyu8bUvXWBQWiWf0zNWMJ7z5Wtj0lN52ibU_jg8PEsEWG53VFZ8ee/pub?gid=1246387545&single=true&output=csv&range=C3";
+        break;
       case "jashoda":
         url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQN8pyniC_ydY8FZ1IsV-1kj4BjQ0tzJHFuVZLj1FtwhWkRWEqPENJUE9GPa8oJr5ZVpKl9_h1-pVhE/pub?gid=1246387545&single=true&output=csv&range=C3";
         break;

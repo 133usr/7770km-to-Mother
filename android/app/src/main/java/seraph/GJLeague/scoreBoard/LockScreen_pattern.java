@@ -79,25 +79,50 @@ public class LockScreen_pattern extends AppCompatActivity {
 //                                                                                                                    var naranpura = 35789;
 //                                                                                                                    var rajkot = 1258;
             if (patternString.equals("1475")) {
-                Paper.book().write("church","adajan");
+                Paper.book().write("church","adajanbr");
                 startMain();
             }
+            else if (patternString.equals("14752")) {
+                Paper.book().write("church","adajansis");
+                startMain();
+            }
+
             else if (patternString.equals("1478")) {
-                Paper.book().write("church","jashoda");
+                Paper.book().write("church","jashodabr");
                 startMain();
             }
+            else if (patternString.equals("14785")) {
+                Paper.book().write("church","jashodasis");
+                startMain();
+            }
+
             else if (patternString.equals("2467")) {
-                Paper.book().write("church","dindoli");
+                Paper.book().write("church","dindolibr");
                 startMain();
             }
+            else if (patternString.equals("24678")) {
+                Paper.book().write("church","dindolisis");
+                startMain();
+            }
+
             else if (patternString.equals("5436")) {
-                Paper.book().write("church","vyara");
+                Paper.book().write("church","vyarabr");
                 startMain();
             }
+            else if (patternString.equals("54367")) {
+                Paper.book().write("church","vyarasis");
+                startMain();
+            }
+
             else if (patternString.equals("43678")) {
-                Paper.book().write("church","vadodara");
+                Paper.book().write("church","vadodarabr");
                 startMain();
             }
+            else if (patternString.equals("436787")) {
+                Paper.book().write("church","vadodarasis");
+                startMain();
+            }
+
             else if (patternString.equals("0147")) {
                 Paper.book().write("church","rajkot");
                 startMain();

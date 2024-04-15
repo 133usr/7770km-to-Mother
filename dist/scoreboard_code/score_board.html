@@ -206,7 +206,7 @@ function getBaseUrl() {
       allData = allData.replace(/[""]+/g,'"'); //dont' know why data has extra ""  so remove them
       allData = allData.replace('"[{','[{'); //dont' know why data has extra ["  so remove them
       allData = allData.replace('}]"','}]');     
-      console.log(allData);  
+      // console.log(allData);  
       var sheet_arrayObject = JSON.parse(allData);  
       var participants = Object.keys(sheet_arrayObject).length;
      
@@ -313,9 +313,12 @@ function getBaseUrl() {
    
     let url;
     switch (church) {
-      case "adajan":
+      case "adajansis":
          url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ7Zx1Vnsdizp-ee3wroRGSME9hyu8bUvXWBQWiWf0zNWMJ7z5Wtj0lN52ibU_jg8PEsEWG53VFZ8ee/pub?gid=1246387545&single=true&output=csv&range=C3";
          break;
+      case "adajanbr":
+        url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ7Zx1Vnsdizp-ee3wroRGSME9hyu8bUvXWBQWiWf0zNWMJ7z5Wtj0lN52ibU_jg8PEsEWG53VFZ8ee/pub?gid=1246387545&single=true&output=csv&range=C3";
+        break;
       case "jashoda":
         url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQN8pyniC_ydY8FZ1IsV-1kj4BjQ0tzJHFuVZLj1FtwhWkRWEqPENJUE9GPa8oJr5ZVpKl9_h1-pVhE/pub?gid=1246387545&single=true&output=csv&range=C3";
         break;
