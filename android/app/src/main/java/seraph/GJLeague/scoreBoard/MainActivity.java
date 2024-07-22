@@ -43,6 +43,7 @@ public class MainActivity extends BridgeActivity {
             @Override
             public void run() {
                 String churchName = Paper.book().read("church");
+                Toast.makeText(MainActivity.this, churchName, Toast.LENGTH_SHORT).show();
                 bridge.triggerWindowJSEvent("Church_name", "{\"value\":\""+churchName+"\"}");
             }
         }, 1000);

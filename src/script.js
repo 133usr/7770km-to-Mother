@@ -224,7 +224,7 @@ if (receivedData!=null)
                    { if(tempsheetObject.Total>0) // only load model and list the names ******* if the score is not 0
                       { if (church=="adajansis")
                         {
-                          if (groupType=='Ruth'||groupType=='Esther'||groupType=='Sarah'||groupType.includes('Sist')||groupType=='Pandesra')
+                          if (groupType=='Ruth'||groupType=='Esther'||groupType=='Sarah'||groupType.includes('Sist')||groupType=='Pandesra'||groupType=='Rebecca')
                           {loadmemberModels(tempsheetObject);}
                         }
                         else if (church=="adajanbr")
@@ -298,6 +298,7 @@ if (receivedData!=null)
                     a_sis_folder_group1 = a_sis_folder.addFolder('रूत');
                     a_sis_folder_group2 = a_sis_folder.addFolder('सराह');
                     a_sis_folder_group3 = a_sis_folder.addFolder('एस्तेर');
+                    a_sis_folder_group4 = a_sis_folder.addFolder('रिबका');
                   }
                   else if (church.includes('jashoda'))
                   {
@@ -643,6 +644,9 @@ const skyboxPaths = {
 
                             else if(age_group==='Esther')
                             a_sis_folder_group3.add(camerOnClick, name_participant);
+                            
+                            else if(age_group==='Rebecca')
+                            a_sis_folder_group4.add(camerOnClick, name_participant);
 
                             else if(age_group==='Y & St. Brother')
                             y_br_folder.add(camerOnClick, name_participant);
@@ -819,6 +823,9 @@ const loadedModelsGrp = {};
                         else if(age_group_participant==='ग्रुप: एस्तेर ')
                         by_group.add(camerOnClickGroup, age_group_participant);
 
+                        else if(age_group_participant==='ग्रुप: रिबका ')
+                        by_group.add(camerOnClickGroup, age_group_participant);
+
                         else if(age_group_participant==='ग्रुप: युवा/छात्र भाई ')
                         by_group.add(camerOnClickGroup, age_group_participant);
                         
@@ -886,6 +893,7 @@ const loadedModelsGrp = {};
       }
     });
 
+    
 
 
 
@@ -1028,6 +1036,9 @@ function calculate_height_by_group(ageGroup,totalScore){
 
                     else if(ageGroup==='Esther')
                         { minim = 7; max = 8;}
+                        
+                    else if(ageGroup==='Rebecca')
+                    { minim = 7; max = 8;}    
 
                     else if(ageGroup==='Y & St. Brother')
                         { minim = 13; max = 14;}
@@ -1095,6 +1106,9 @@ function calculate_height_forGroupModels(ageGroup,totalScore){
 
                   else if(ageGroup==='ग्रुप: एस्तेर ')
                       { minim = 9000; max = 11000;}
+
+                  else if(ageGroup==='ग्रुप: रिबका ')
+                  { minim = 9000; max = 11000;}
 
                   else if(ageGroup==='ग्रुप: युवा/छात्र भाई ')
                       { minim = 11000; max = 12000;}
@@ -1305,7 +1319,7 @@ function color_style_box(tempsheetObject){
           };              
     break;
 
-    case age_group.includes('Ruth')||age_group.includes('Adult Sisters G1')||age_group.includes('Adult Sisters G4'):
+    case age_group.includes('Ruth')||age_group.includes('Adult Sisters G1')||age_group.includes('Adult Sisters G4')||age_group.includes('Rebecca'):
           color_scheme = {
             text: tempsheetObject.Participant + ' ' + tempsheetObject.Total + 'Km', // Text with multiple lines
             font: 'italic bold 16px Georgia', // Italic, bold, and larger font with a serif typeface
@@ -1436,6 +1450,9 @@ function choose_model_assetID (ageGrp)
                 
                 case ageGrp.includes('Esther'):
                     return '2408886';  
+
+                case ageGrp.includes('Rebecca'):
+                return '2408886'; 
                   
                 case ageGrp.includes('Y & St. Brother'):
                     return '2408887';  
@@ -1500,7 +1517,7 @@ function choose_model_filename (ageGrp)
             case ageGrp.includes('Immanuel')||ageGrp.includes('Adult Brothers G2'):
               return './models/glb/low-size/cartoon_plane_adult_br.glb'; 
             
-            case ageGrp.includes('Ruth')||ageGrp.includes('Adult Sisters G1')||ageGrp.includes('Adult Sisters G2')||ageGrp.includes('Adult Sisters G3')||ageGrp.includes('Adult Sisters G4')||ageGrp.includes('Adult Sisters G5'):
+            case ageGrp.includes('Ruth')||ageGrp.includes('Adult Sisters G1')||ageGrp.includes('Adult Sisters G2')||ageGrp.includes('Adult Sisters G3')||ageGrp.includes('Adult Sisters G4')||ageGrp.includes('Adult Sisters G5')||ageGrp.includes('Rebecca'):
               return './models/glb/low-size/cartoon_Plane_white_ad_sis.glb'; 
               
             case ageGrp.includes('Sarah'):
@@ -1528,7 +1545,7 @@ function choose_model_filename (ageGrp)
 function  choose_model_filename_Group (ageGrp)
 {   
           switch (true) {
-            case ageGrp.includes('ग्रुप: रूत')||ageGrp.includes('ग्रुप: वि.बहन 1')||ageGrp.includes('ग्रुप: वि.बहन 3'):
+            case ageGrp.includes('ग्रुप: रूत')||ageGrp.includes('ग्रुप: वि.बहन 1')||ageGrp.includes('ग्रुप: वि.बहन 3')||ageGrp.includes('ग्रुप: रिबका'):
               console.log(" load ruth");
               return './models/glb/low-size/group_Plane_ruth.glb';   
              
@@ -1570,6 +1587,9 @@ function choose_model_assetID_Group (ageGrp)
             case ageGrp.includes('ग्रुप: एस्तेर'):
                  return '2414144';  
               
+            case ageGrp.includes('ग्रुप: रिबका'):
+                 return '2414145';  
+
             case ageGrp.includes('ग्रुप: इसहाक'):
                 return '2414143';  
             
@@ -1590,6 +1610,90 @@ function choose_model_assetID_Group (ageGrp)
               
           }
 }
+
+
+
+
+
+
+
+const nearSound = document.createElement('audio');
+nearSound.src = './models/mp3/propeller.mp3'; // Replace with your audio source
+nearSound.loop = true; // Optional: Set to true for continuous playback
+
+const farSound = document.createElement('audio');
+farSound.src = './models/mp3/propeller.mp3'; // Replace with your audio source
+farSound.loop = true; // Optional: Set to true for continuous playback
+
+function getDistance(model, viewer) {
+  if (!model || !viewer) return Infinity; // Handle undefined model or viewer
+  const modelPosition = model.position;
+  const viewerPosition = viewer.positionWC;
+  if (!modelPosition || !viewerPosition) return Infinity; // Handle undefined positions
+  return Cesium.Cartesian3.distance(modelPosition, viewerPosition);
+}
+
+function updateAudio(distance) {
+  const maxDistance = 1000.0; // Adjust based on your desired audio range
+
+  // Normalize distance between 0 and 1
+  const normalizedDistance = Math.min(distance / maxDistance, 1.0);
+
+  // Control volume and playback based on normalized distance
+  nearSound.volume = 100;
+  farSound.volume = normalizedDistance;
+
+  if (normalizedDistance > 0.1) { // Adjust threshold for smooth transition
+    nearSound.play();
+  } else {
+    nearSound.pause();
+  }
+
+  if (normalizedDistance < 0.9) { // Adjust threshold for smooth transition
+    farSound.play();
+  } else {
+    farSound.pause();
+  }
+}
+
+let closestModel;
+let closestDistance;
+function updateGlobalAudio(viewer) {
+  let closestModel;
+  let closestDistance = Infinity;
+
+  // Iterate through primitives (models) using a loop
+  const scene = viewer.scene;
+  for (let i = 0; i < scene.primitives.length; i++) {
+      const model = scene.primitives.get(i);
+      const distance = getDistance(model, viewer);
+      if (distance < closestDistance) {
+          closestModel = model;
+          closestDistance = distance;
+      }
+  }
+
+  if (closestModel) {
+      updateAudio(closestDistance);
+  } else {
+      // Handle no models case (pause both sounds or play a default sound)
+      nearSound.pause();
+      farSound.pause();
+  }
+}
+
+viewer.scene.preRender.addEventListener(function() {
+  // const models = viewer.scene.primitives; // Get all primitives (models)
+  updateGlobalAudio( viewer);
+});
+
+
+
+
+
+
+
+
 
 
 

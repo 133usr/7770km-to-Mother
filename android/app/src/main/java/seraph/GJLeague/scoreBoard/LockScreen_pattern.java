@@ -97,29 +97,29 @@ public class LockScreen_pattern extends AppCompatActivity {
             }
 
             else if (patternString.equals("2467")) {
-                Paper.book().write("church","dindolibr");
+                Paper.book().write("church","dindoli");
                 startMain();
             }
             else if (patternString.equals("24678")) {
-                Paper.book().write("church","dindolisis");
+                Paper.book().write("church","dindoli");
                 startMain();
             }
 
             else if (patternString.equals("5436")) {
-                Paper.book().write("church","vyarabr");
+                Paper.book().write("church","vyara");
                 startMain();
             }
             else if (patternString.equals("54367")) {
-                Paper.book().write("church","vyarasis");
+                Paper.book().write("church","vyara");
                 startMain();
             }
 
             else if (patternString.equals("43678")) {
-                Paper.book().write("church","vadodarabr");
+                Paper.book().write("church","vadodara");
                 startMain();
             }
             else if (patternString.equals("436787")) {
-                Paper.book().write("church","vadodarasis");
+                Paper.book().write("church","vadodara");
                 startMain();
             }
 
