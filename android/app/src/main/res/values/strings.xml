@@ -1,7 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">7770km to Mother</string>
-    <string name="title_activity_main">7770km-to-Mother</string>
+    <string name="app_name">GJ Scoreboard</string>
+    <string name="title_activity_main">GJ Scoreboard</string>
     <string name="package_name">seraph.GJLeague.scoreBoard</string>
     <string name="custom_url_scheme">seraph.GJLeague.scoreBoard</string>
+    <string name="update_available">Update Available</string>
+    <string name="update_available_message">A new version of the app is available. Please update to continue enjoying the latest features!</string>
+    <string name="update_now">Update Now!</string>
 </resources>

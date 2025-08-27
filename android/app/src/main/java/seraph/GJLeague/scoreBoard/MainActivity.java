@@ -10,51 +10,96 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
-import com.getcapacitor.Bridge;
-import com.getcapacitor.BridgeActivity;
-import com.getcapacitor.JSObject;
-import com.getcapacitor.Plugin;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.play.core.appupdate.AppUpdateInfo;
 import com.google.android.play.core.appupdate.AppUpdateManager;
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
 import com.google.android.play.core.install.model.AppUpdateType;
 import com.google.android.play.core.install.model.UpdateAvailability;
-import com.google.android.play.core.tasks.OnSuccessListener;
-import com.google.android.play.core.tasks.Task;
+
 
 import java.util.ArrayList;
 
 import io.paperdb.Paper;
+import seraph.GJLeague.scoreBoard.Utils.ChromeClient_with_Progress;
 
-public class MainActivity extends BridgeActivity {
+public class MainActivity extends AppCompatActivity {
     private AppUpdateManager mAppUpdateManager;
+    ProgressBar progressBar;
+    RelativeLayout relativeLayout;
+    private WebView wv;
+
     private static final int RC_APP_UPDATE=100;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Paper.init(getApplicationContext());
+        setContentView(R.layout.activity_main);
+        wv = findViewById(R.id.manager_watv_wv);
+        progressBar = findViewById(R.id.manager_watvProgressBar);
+        relativeLayout = findViewById(R.id.manager_watvRelatLayout);
+        progressBar.setMax(100);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                String churchName = Paper.book().read("church");
-                Toast.makeText(MainActivity.this, churchName, Toast.LENGTH_SHORT).show();
-                bridge.triggerWindowJSEvent("Church_name", "{\"value\":\""+churchName+"\"}");
+// Enable JS and DOM storage
+        WebSettings webSettings = wv.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        webSettings.setDomStorageEnabled(true);
+        webSettings.setUseWideViewPort(true);
+        webSettings.setLoadWithOverviewMode(true);
+
+// Handle back button in WebView
+        wv.setOnKeyListener((v, keyCode, event) -> {
+            if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_BACK) {
+                if (wv.canGoBack()) {
+                    wv.goBack();
+                    return true;
+                }
             }
-        }, 1000);
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                Toast.makeText(MainActivity.this, "Loading...", Toast.LENGTH_LONG).show();
+            return false;
+        });
+        String userType = getIntent().getStringExtra("userType");
+        String url_of_GAS ="https://133usr.github.io/7770km-to-Mother/";
+        if (userType != null) {
+            if (userType.contains("Play_Console_Test")) {
+                url_of_GAS = "https://133usr.github.io/7770km-to-Mother/";
+                Toast.makeText(this, "This is a Heavy Scoreboard", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Please wait atleast 10 Seconds...", Toast.LENGTH_LONG).show();
+            }else if (userType.contains("ZionUser")) {
+                url_of_GAS = "https://script.google.com/macros/s/AKfycbweQNldHXfX09V-1X1-dq89w4NoVIBnQv7cjdJchqKVV_U0Ic3M31PLWVPsRGPC08zh9Q/exec";
             }
-        }, 2000);
+        }
+
+            Log.d("URL_", "Received: " + url_of_GAS);
+
+            wv.setWebViewClient(new WebViewClient() {
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                    view.loadUrl(url);
+                    return true;
+                }
+
+                @Override
+                public void onPageFinished(WebView view, String url) {
+                    // JS to hide #warning
+                    wv.loadUrl("javascript:(function(){setTimeout(function(){try{document.querySelector('#warning').style.display='none';}catch(e){}}, 1000);})();");
+                }
+            });
+
+            ChromeClient_with_Progress chromeClient_with_progress = new ChromeClient_with_Progress(progressBar, this);
+            wv.setWebChromeClient(chromeClient_with_progress);
+
+            wv.loadUrl(url_of_GAS);
 
 
 
@@ -79,13 +124,7 @@ public class MainActivity extends BridgeActivity {
             }
         });
         // Set an OnKeyListener to capture the back key press
-        findViewById(android.R.id.content).setOnKeyListener((v, keyCode, event) -> {
-            if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                finishAffinity();
-                return true; // Consume the event
-            }
-            return false; // Let the system handle other key events
-        });
+
     }
 
 

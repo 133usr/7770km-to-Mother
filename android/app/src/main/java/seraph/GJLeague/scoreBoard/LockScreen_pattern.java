@@ -1,5 +1,7 @@
 package seraph.GJLeague.scoreBoard;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -12,9 +14,10 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.andrognito.patternlockview.PatternLockView;
-import com.andrognito.patternlockview.listener.PatternLockViewListener;
-import com.andrognito.patternlockview.utils.PatternLockUtils;
+
+import com.andrognito.pinlockview.IndicatorDots;
+import com.andrognito.pinlockview.PinLockListener;
+import com.andrognito.pinlockview.PinLockView;
 
 import java.util.List;
 
@@ -22,7 +25,9 @@ import io.paperdb.Paper;
 
 public class LockScreen_pattern extends AppCompatActivity {
     private ImageView profileimage;
-    private PatternLockView mPatternLockView;
+
+    private PinLockView mPinLockView;
+    private IndicatorDots mIndicatorDots;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,8 +44,53 @@ public class LockScreen_pattern extends AppCompatActivity {
             profileimage.setImageResource(R.drawable.flight);
         else if (randomImage ==4)
             profileimage.setImageResource(R.drawable.flight2);
-        mPatternLockView = (PatternLockView) findViewById(R.id.patter_lock_view);
-        mPatternLockView.addPatternLockListener(mPatternLockViewListener);
+
+        mPinLockView = (PinLockView) findViewById(R.id.pin_lock_view);
+        mIndicatorDots = findViewById(R.id.indicator_dots);
+
+        mPinLockView.attachIndicatorDots(mIndicatorDots);
+        mPinLockView.setPinLength(4);
+
+        mPinLockView.setPinLockListener(new PinLockListener() {
+            @Override
+            public void onComplete(String pin) {
+                Log.d(TAG, "lock code: " + pin);
+                if (pin.equals("2025")) {
+                    Intent intent = new Intent(LockScreen_pattern.this, MainActivity.class);
+                    intent.putExtra("userType", "Play_Console_Test");
+                    startActivity(intent);
+                    finish();
+                }
+                else if (pin.equals("1955")) {
+                    Intent intent = new Intent(LockScreen_pattern.this, MainActivity.class);
+                    intent.putExtra("userType", "ZionUser");
+                    startActivity(intent);
+                    finish();
+                } else  {
+                    Toast.makeText(LockScreen_pattern.this, "Invalid Password", Toast.LENGTH_SHORT).show();
+                    mPinLockView.resetPinLockView();
+                }
+            }
+
+            @Override
+            public void onEmpty() {
+                Log.d(TAG, "Please enter Password!");
+            }
+
+            @Override
+            public void onPinChange(int pinLength, String intermediatePin) {
+                Vibrator vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    vibe.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE));
+                } else {
+                    vibe.vibrate(100); // deprecated after Android 8.0
+                }
+
+                Log.d(TAG, "Pin changed, new length " + pinLength + " with intermediate pin " + intermediatePin);
+            }
+        });
+
+
 
     }
     public int randomGenerator(int max ){
@@ -50,127 +100,6 @@ public class LockScreen_pattern extends AppCompatActivity {
 
 
 
-    private PatternLockViewListener mPatternLockViewListener = new PatternLockViewListener() {
-        @Override
-        public void onStarted() {
-            Log.d(getClass().getName(), "Pattern drawing started");
-        }
-
-        @Override
-        public void onProgress(List<PatternLockView.Dot> progressPattern) {
-            Log.d(getClass().getName(), "Pattern progress: " +
-                    PatternLockUtils.patternToString(mPatternLockView, progressPattern));
-        }
-
-        @Override
-        public void onComplete(List<PatternLockView.Dot> pattern) {
-            Log.d(getClass().getName(), "Pattern complete: " +
-                    PatternLockUtils.patternToString(mPatternLockView, pattern));
-
-            // Convert the pattern to a string for comparison
-            String patternString = PatternLockUtils.patternToString(mPatternLockView, pattern);
-            Paper.init(getApplicationContext());
-//                                                                                                                    var jashoda = 2589;
-//                                                                                                                    var adajan = 2586;
-//                                                                                                                    var dindoli = 3578;
-//                                                                                                                    var vadodara = 32569;
-//                                                                                                                    var vyara = 6547;
-//                                                                                                                    var ahwa = 3214;
-//                                                                                                                    var naranpura = 35789;
-//                                                                                                                    var rajkot = 1258;
-            if (patternString.equals("1475")) {
-                Paper.book().write("church","adajanbr");
-                startMain();
-            }
-            else if (patternString.equals("14752")) {
-                Paper.book().write("church","adajansis");
-                startMain();
-            }
-
-            else if (patternString.equals("1478")) {
-                Paper.book().write("church","jashodabr");
-                startMain();
-            }
-            else if (patternString.equals("14785")) {
-                Paper.book().write("church","jashodasis");
-                startMain();
-            }
-
-            else if (patternString.equals("2467")) {
-                Paper.book().write("church","dindoli");
-                startMain();
-            }
-            else if (patternString.equals("24678")) {
-                Paper.book().write("church","dindoli");
-                startMain();
-            }
-
-            else if (patternString.equals("5436")) {
-                Paper.book().write("church","vyara");
-                startMain();
-            }
-            else if (patternString.equals("54367")) {
-                Paper.book().write("church","vyara");
-                startMain();
-            }
-
-            else if (patternString.equals("43678")) {
-                Paper.book().write("church","vadodara");
-                startMain();
-            }
-            else if (patternString.equals("436787")) {
-                Paper.book().write("church","vadodara");
-                startMain();
-            }
-
-            else if (patternString.equals("0147")) {
-                Paper.book().write("church","rajkot");
-                startMain();
-            }
-//            else if (patternString.equals("3642")) {
-//                Paper.book().write("church","naroda");
-//                startMain();
-//            }
-
-            else if (patternString.equals("2103")) {
-                Paper.book().write("church","ahwa");
-                startMain();
-            }
-            else if (patternString.equals("24678")) {
-                Paper.book().write("church","naranpura");
-                startMain();
-            }
 
 
-
-            else {
-                Vibrator vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-
-                // Vibrate pattern: { delay, vibrate, pause, vibrate, pause, vibrate }
-                long[] vibepattern = {0, 50, 100, 50, 100,50}; // Adjust timings as needed
-
-                if (vibe.hasVibrator()) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        vibe.vibrate(VibrationEffect.createWaveform(vibepattern, -1));
-                    }else {
-                        vibe.vibrate(200);
-                    }
-                }
-                Toast.makeText(LockScreen_pattern.this, "Wrong Pattern", Toast.LENGTH_SHORT).show();
-                mPatternLockView.clearPattern();
-            }
-            mPatternLockView.clearPattern();
-        }
-
-        public void startMain(){
-            Intent openMainActivity = new Intent(getApplicationContext(), MainActivity.class);
-            openMainActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(openMainActivity);
-        }
-
-        @Override
-        public void onCleared() {
-            Log.d(getClass().getName(), "Pattern has been cleared");
-        }
-    };
 }

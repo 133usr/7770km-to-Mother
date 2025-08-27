@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "407825014759",
-    "project_id": "fly-7770km-to-mother",
-    "storage_bucket": "fly-7770km-to-mother.appspot.com"
+    "project_number": "452418198697",
+    "project_id": "gjleague-scoreboard",
+    "storage_bucket": "gjleague-scoreboard.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:407825014759:android:12ebcfc9b0f688a7dfa742",
+        "mobilesdk_app_id": "1:452418198697:android:ffcdcd85c6a91e896bddb8",
         "android_client_info": {
           "package_name": "seraph.GJLeague.scoreBoard"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCSWSVyLL-mRMQsUpESYBsw9JTMmWn0-Vs"
+          "current_key": "AIzaSyBeGbZkUsiJfYnYj1G5jiSjKr-gJ1JsK3g"
         }
       ],
       "services": {

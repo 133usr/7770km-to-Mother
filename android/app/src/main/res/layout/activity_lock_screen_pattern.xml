@@ -25,19 +25,40 @@
 
         android:gravity="center"
         android:maxLines="1"
-        android:text="7770km to Mother"
+        android:text="GJ Scoreboard"
         android:textColor="@color/white"
         android:textSize="34sp"/>
 
-    <com.andrognito.patternlockview.PatternLockView
-        android:id="@+id/patter_lock_view"
-        android:layout_width="280dp"
-        android:layout_height="280dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"
-        app:aspectRatio="square"
-        app:aspectRatioEnabled="true"
-        app:dotAnimationDuration="150"
-        app:dotCount="3"/>
+    <com.andrognito.pinlockview.IndicatorDots
+        android:id="@+id/indicator_dots"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@id/profile_name"
+        android:layout_marginTop="14dp"
+        android:gravity="center"
+        app:dotDiameter="22dp"
+        app:indicatorType="fillWithAnimation"
+
+        />
+    <com.andrognito.pinlockview.PinLockView
+        android:id="@+id/pin_lock_view"
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+        android:layout_below="@id/indicator_dots"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:hapticFeedbackEnabled="true"
+        app:dotEmptyBackground="@drawable/dot_empty"
+        app:dotFilledBackground="@drawable/dot_filled"
+        app:indicatorType="fillWithAnimation"
+        app:keypadButtonSize="60dp"
+        app:keypadDeleteButtonPressedColor="#F86666"
+        app:keypadShowDeleteButton="true"
+        app:keypadTextColor="#787878"
+        app:keypadTextSize="35dp" />
+
 
 </LinearLayout>

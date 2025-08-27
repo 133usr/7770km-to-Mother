@@ -1,12 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:orientation="vertical"
+    tools:context=".Activities.SpecialActivitiesSeraph.Manage_watv_member">
+
+
+    <RelativeLayout
+        android:id="@+id/manager_watvRelatLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ProgressBar
+            android:id="@+id/manager_watvProgressBar"
+
+            style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:indeterminateTintMode="src_atop"
+            android:max="3"
+            android:progress="100"
+            android:progressTint="#1271FF" />
+
+    </RelativeLayout>
 
     <WebView
+        android:id="@+id/manager_watv_wv"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</LinearLayout>

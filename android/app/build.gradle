@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 android {
     namespace "seraph.GJLeague.scoreBoard"
@@ -9,9 +10,9 @@ android {
         applicationId "seraph.GJLeague.scoreBoard"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 23
+        versionCode 24
         versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
              // Default: https://android.googlesource.com/platform/frameworks/base/+/282e181b58cf72b6ca770dc7ca5f91f135444502/tools/aapt/AaptAssets.cpp#61
@@ -24,6 +25,15 @@ android {
             debuggable false
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    configurations.configureEach {
+        // Force the use of specific versions for the play-core and play-review libraries
+        resolutionStrategy {
+            force 'com.google.android.play:core:1.10.1'
+            force 'com.google.android.play:review:2.0.1'
         }
     }
 }
@@ -39,22 +49,28 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
     implementation "androidx.coordinatorlayout:coordinatorlayout:$androidxCoordinatorLayoutVersion"
     implementation "androidx.core:core-splashscreen:$coreSplashScreenVersion"
-    implementation project(':capacitor-android')
-    testImplementation "junit:junit:$junitVersion"
-    androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
-    implementation 'com.google.android.play:core:1.10.3'
-    implementation 'com.andrognito.patternlockview:patternlockview:1.0.0'  //pattern lock view
+    implementation "androidx.recyclerview:recyclerview:1.3.2"
+
+    implementation 'com.google.android.play:app-update:2.1.0'
+//    implementation 'com.andrognito.patternlockview:patternlockview:1.0.0'  //pattern lock view
+    implementation project(':libraries:pinlockview')
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.23'
 
     implementation platform('com.google.firebase:firebase-bom:32.7.0')
-    implementation 'com.google.firebase:firebase-analytics'
 
+
+// ✅ Firebase services (no version needed with BoM)
+    implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.firebase:firebase-database'
+    implementation 'com.google.firebase:firebase-storage'
+    implementation 'com.google.firebase:firebase-messaging'
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-crashlytics'
     implementation 'io.github.pilgr:paperdb:2.7.2'
 
 }
 
-apply from: 'capacitor.build.gradle'
+
 
 try {
     def servicesJSON = file('google-services.json')
