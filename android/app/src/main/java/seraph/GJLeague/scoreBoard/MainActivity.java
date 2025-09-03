@@ -4,11 +4,14 @@ import android.accounts.AccountManager;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -84,6 +87,10 @@ public class MainActivity extends AppCompatActivity {
 
             wv.setWebViewClient(new WebViewClient() {
                 @Override
+                public void onPageStarted(WebView view, String url, @Nullable Bitmap favicon) {
+                    wv.setVisibility(View.GONE);
+                }
+                @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
                     view.loadUrl(url);
                     return true;
@@ -92,7 +99,11 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onPageFinished(WebView view, String url) {
                     // JS to hide #warning
-                    wv.loadUrl("javascript:(function(){setTimeout(function(){try{document.querySelector('#warning').style.display='none';}catch(e){}}, 1000);})();");
+                    wv.loadUrl("javascript:(function(){setTimeout(function(){try{document.querySelector('#warning').style.display='none';}catch(e){}}, 300);})();");
+                    // Delay visibility by 1 second
+                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                        wv.setVisibility(View.VISIBLE);
+                    }, 1000); // 1000 ms = 1 second
                 }
             });
 
