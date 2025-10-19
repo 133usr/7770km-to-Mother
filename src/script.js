@@ -201,7 +201,7 @@ if (receivedData!=null)
         allData = allData.replace(/[""]+/g,'"'); //dont' know why data has extra ""  so remove them
         allData = allData.replace('"[{','[{'); //dont' know why data has extra ["  so remove them
         allData = allData.replace('}]"','}]');     
-        console.log(allData); 
+        // // console.log(allData); 
         var sheet_arrayObject;
         try 
         { sheet_arrayObject = JSON.parse(allData);  }
@@ -210,14 +210,14 @@ if (receivedData!=null)
         }
         var participants = Object.keys(sheet_arrayObject).length;
         
-        // console.log(s);
+        // // console.log(s);
       
 
         function onComplete(sheet_arrayObject){ // When the code completes, do this
                 const forLoop = async _ => {
-                console.log("Start");
+                // console.log("Start");
                   
-                console.log(" "+church); 
+                // console.log(" "+church); 
                  for (let index = 0; index < participants; index++) {
                   var tempsheetObject = sheet_arrayObject[index]
                   let groupType = sheet_arrayObject[index].group;
@@ -231,7 +231,7 @@ if (receivedData!=null)
                           {loadmemberModels(tempsheetObject);}
                         }
                         else if (church=="adajanbr")
-                        {console.log("entered "+groupType);
+                        {// console.log("entered "+groupType);
                           if (groupType=='Isaac'||groupType=='Immanuel'||groupType.includes('Br')||groupType=='Pandesra')
                           {loadmemberModels(tempsheetObject);}
                         }
@@ -253,7 +253,7 @@ if (receivedData!=null)
                   
                   }
                   
-                 console.log("End");
+                 // console.log("End");
                  
                  };
                  forLoop();
@@ -570,7 +570,7 @@ const skyboxPaths = {
                       animateModel(airplaneEntity,tempsheetObject.Total,height_by_group)
                       .then(() => {
                         // Code to execute after the animation has completed
-                        console.log('Animation completed!');
+                        // console.log('Animation completed!');
                         upDownYOYO(airplaneEntity);
                       })
                       .catch((error) => {
@@ -603,7 +603,7 @@ const skyboxPaths = {
                             viewer.trackedEntity = entity;
                           }).catch((error) => {console.error('Error:', error.message);});
                         }).catch((error) => {console.error('Error:', error.message);});
-                        console.log(`Camera focused on model with ID: ${tempsheetObject.Id}`);
+                        // console.log(`Camera focused on model with ID: ${tempsheetObject.Id}`);
                         var rem_percent = (tempsheetObject.remain_nxt*100).toFixed(2);
                         
                         new Noty({
@@ -623,7 +623,7 @@ const skyboxPaths = {
                         }).show();
 
                       } else {
-                        console.log(`Model with ID ${tempsheetObject.Id} not found.`);
+                        // console.log(`Model with ID ${tempsheetObject.Id} not found.`);
                       }
                     }
                   };
@@ -742,7 +742,7 @@ const loadedModelsGrp = {};
                       animateModel(airplaneEntity,tempsheetObject.Total,height_by_group)
                       .then(() => {
                         // Code to execute after the animation has completed
-                        console.log('Animation completed!');
+                        // console.log('Animation completed!');
                         upDownYOYO(airplaneEntity);
                       })
                       .catch((error) => {
@@ -783,7 +783,7 @@ const loadedModelsGrp = {};
                             viewer.trackedEntity = entity;
                           }).catch((error) => {console.error('Error:', error.message);});
                         }).catch((error) => {console.error('Error:', error.message);});
-                        console.log(`Camera focused on model with ID: ${tempsheetObject.Id}`);
+                        // console.log(`Camera focused on model with ID: ${tempsheetObject.Id}`);
 
                         var rem_percent = (tempsheetObject.remain_nxt*100).toFixed(2);
                         
@@ -802,7 +802,7 @@ const loadedModelsGrp = {};
                           theme:'semanticui'
                         }).show(); 
                       } else {
-                        console.log(`Model with ID ${tempsheetObject.Id} not found.`);
+                        // console.log(`Model with ID ${tempsheetObject.Id} not found.`);
                       }
                     }
                   };
@@ -892,7 +892,7 @@ const loadedModelsGrp = {};
      viewer.selectedEntityChanged.addEventListener(function () {
       const selectedEntity = viewer.selectedEntity;
       if (selectedEntity) {
-        console.log(" "+selectedEntity.id);
+        // console.log(" "+selectedEntity.id);
       }
     });
 
@@ -929,7 +929,7 @@ function flyToModel(entity) {
         duration: flightDuration,
         complete: function () {
           // Optionally, you can perform actions once the flight animation is complete
-          console.log('Camera flight animation complete!');
+          // console.log('Camera flight animation complete!');
        
           resolve(); // Resolve the promise when animation is complete
         },
@@ -1549,11 +1549,11 @@ function  choose_model_filename_Group (ageGrp)
 {   
           switch (true) {
             case ageGrp.includes('ग्रुप: रूत')||ageGrp.includes('ग्रुप: वि.बहन 1')||ageGrp.includes('ग्रुप: वि.बहन 3')||ageGrp.includes('ग्रुप: रिबका'):
-              console.log(" load ruth");
+              // console.log(" load ruth");
               return './models/glb/low-size/group_Plane_ruth.glb';   
              
             case ageGrp.includes('ग्रुप: सराह')||ageGrp.includes('ग्रुप: वि.बहन 2')||ageGrp.includes('ग्रुप: वि.बहन 4'):
-              console.log(" load sarah");
+              // console.log(" load sarah");
               return './models/glb/low-size/group_Plane_sarah.glb';   
             
             case ageGrp.includes('ग्रुप: एस्तेर')||ageGrp.includes('ग्रुप: वि.बहन 3'):
@@ -1715,7 +1715,7 @@ function handleDoubleTap(event) {
     // Check if it's a double tap event
     if (event.tapCount === 2) {
         // Handle the double tap action here
-        console.log('Double tap detected!');
+        // console.log('Double tap detected!');
         viewer.trackedEntity = undefined;
     }
 }
@@ -1794,7 +1794,7 @@ function loadSkyBox_bytime(){
 
 async function fetchData(church) {
   try {
-    let url; console.log(" "+church);
+    let url; // console.log(" "+church);
     switch (church) {
       case "adajansis":
          url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ7Zx1Vnsdizp-ee3wroRGSME9hyu8bUvXWBQWiWf0zNWMJ7z5Wtj0lN52ibU_jg8PEsEWG53VFZ8ee/pub?gid=1246387545&single=true&output=csv&range=C3";
@@ -1908,7 +1908,7 @@ function startLoading(church) {
 //         allData = allData.replace('}]"','}]'); 
         
 //             var myobje = JSON.parse(allData);
-//             console.log(myobje[1].Id);
-//             // myobje.map(x => console.log(x.Id)); to loop it through                     
+//             // console.log(myobje[1].Id);
+//             // myobje.map(x => // console.log(x.Id)); to loop it through                     
             
 //         }    
