@@ -118,6 +118,8 @@ h2 {
   z-index: 10;
 }
 
+
+
 @keyframes glowing-animation {
   0% {
     text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #ffb300, 0 0 20px #ffb300, 0 0 25px #ffb300, 0 0 30px #ffb300, 0 0 35px #ffb300;
